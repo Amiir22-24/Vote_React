@@ -1,5 +1,11 @@
+import { CandidatCreate } from "./CandidatCreate";
+
 export default function CandidatPage() {
   return (
-    <div>CandidatPage</div>
+    <section>
+      <button onClick={CandidatCreate}>click moi</button>
+      {CandidatCreate && <CandidatCreate />}
+      
+    </section>
   )
 }

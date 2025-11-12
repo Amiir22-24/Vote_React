@@ -1,0 +1,114 @@
+
+.cc-form-container {
+    max-width: 600px;
+    margin: 2rem auto; /* Centre le formulaire */
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+/* -- Titre -- */
+.cc-form-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #3498db;
+}
+
+/* -- Formulaire et Espacement -- */
+.cc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Remplace space-y-4 */
+}
+
+/* -- Labels -- */
+.cc-label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    color: #34495e;
+}
+
+/* -- Inputs et Textarea -- */
+.cc-input,
+.cc-textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-sm */
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.cc-input:focus,
+.cc-textarea:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* -- Messages de Feedback -- */
+.cc-alert {
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.cc-alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.cc-alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* -- Bouton de Soumission -- */
+.cc-submit-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    background-color: #3498db; /* Bleu */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cc-submit-button:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.cc-submit-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Style pour l'input EventId en lecture seule */
+.cc-input-readonly {
+    background-color: #f5f5f5;
+    cursor: default;
+}
+
+/* Petit texte sous le champ URL */
+.cc-small-text {
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: #7f8c8d;
+}
