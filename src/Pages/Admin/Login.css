@@ -1,0 +1,114 @@
+/* Login.css */
+
+/* body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #faf5ff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.container {
+  background: white;
+  width: 360px;
+  padding: 40px 32px 32px 32px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgb(78 79 105 / 10%);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.iconWrapper {
+  background: #f3e8ff;
+  border-radius: 50%;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 22px;
+  margin: 8px 0 8px 0;
+  color: #000;
+}
+
+p {
+  font-weight: 400;
+  font-size: 14px;
+  color: #5b5b5b;
+  margin: 0 0 24px 0;
+  text-align: center;
+  max-width: 280px;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1b1b1b;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1.2px solid #d3d3d3;
+  font-size: 14px;
+  outline: none;
+  margin-bottom: 20px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #9b51e0;
+  box-shadow: 0 0 0 3px rgba(155, 81, 224, 0.2);
+}
+
+.btn {
+  background: linear-gradient(90deg, #7b1fa2 0%, #d81b60 100%);
+  color: white;
+  padding: 14px 0;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: linear-gradient(90deg, #9c27b0, #e91e63);
+}
+
+.demoText {
+  font-size: 12px;
+  margin-top: 12px;
+  color: #8a8a8a;
+  text-align: center;
+}
+
+/* Style message d'erreur (si vous souhaitez l'utiliser) */
+.error {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: 8px;
+  text-align: center;
+}
