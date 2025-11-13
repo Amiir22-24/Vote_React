@@ -1,4 +1,4 @@
-import { CandidatCreate } from "./CandidatCreate";
+import { CandidatCreate } from "./Admin/CandidatCreate";
 
 export default function CandidatPage() {
   return (

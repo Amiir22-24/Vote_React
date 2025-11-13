@@ -7,6 +7,14 @@ export interface Candidate {
   votes: number;
   category?: CategoryType;
 }
+export interface CandidateData {
+  firstname: string;
+  lastname: string
+  description: string;
+  photo?: string;
+  votes?: number;
+  category?: CategoryType;
+}
 
 export type CategoryType =
   | "Miss"

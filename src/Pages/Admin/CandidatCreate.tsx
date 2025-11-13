@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, type FormEvent } from "react";
 import "./CandidatCreate.css"; 
+import { Link } from "react-router";
 
 
 interface CandidateData {
@@ -33,7 +34,7 @@ export const CandidatCreate: React.FC = () => {
       [name]: name === 'eventId' ? Number(value) : value,
     }));
   };
-
+   
   
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -158,6 +159,7 @@ export const CandidatCreate: React.FC = () => {
         >
           {loading ? 'Création en cours...' : 'Créer le Candidat'}
         </button>
+        <Link to="./Admin/login">Connexion</Link>
       </form>
     </div>
   );
