@@ -10,6 +10,6 @@ export interface adminData{
 export interface AuthResponse{
     success: boolean;
     message: String;
-    admin?: admin [];
+    admin?: admin;
     token?: string;
 }

@@ -5,6 +5,7 @@ import Login from "../Pages/Admin/Login"
 import Candidats from "../Pages/Admin/Candidats"
 import Dashboard from "../Pages/Admin/Dashboard"
 import Votant from "../Pages/Admin/Votant"
+import SideBar from "../Pages/Admin/SideBar"
 
 const router = createBrowserRouter([
     
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "tableau-de-bord",
-                element: <Dashboard />
+                element: <SideBar />
             },
             {
                 path: "candidats",

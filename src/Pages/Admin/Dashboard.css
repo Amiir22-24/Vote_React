@@ -78,7 +78,7 @@
 /* ----- MAIN CONTENT ----- */
 .dashboard-main {
   grid-area: main;
-  padding: 2rem;
+  padding: 0 16px;
   overflow-y: auto;
 }
 

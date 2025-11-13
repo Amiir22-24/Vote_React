@@ -1,5 +1,7 @@
 export default function Candidats() {
   return (
-    <div>Candidats</div>
+    <main className="dashboard-main" aria-label="Contenu principal">
+      <div>Candidats</div>
+    </main>
   )
 }

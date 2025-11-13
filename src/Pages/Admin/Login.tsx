@@ -28,8 +28,10 @@ const Login: React.FC = () => {
       const response = await CandidatApi.Login(formdata);
       
       if (response.success) {
+        console.log("Login successful:", response);
         // Stocker les informations d'authentification
         localStorage.setItem("authToken", response.token || "authenticated");
+        localStorage.setItem("authname", response.admin!.name || "authenticated");
         
         setError("");
         navigate("/admin/tableau-de-bord");
@@ -61,7 +63,6 @@ const Login: React.FC = () => {
 
   return (
     <div className="container">
-      <div className="card">
         <div className="iconWrapper" aria-label="Icône utilisateur">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +120,6 @@ const Login: React.FC = () => {
           {error && <p className="error">{error}</p>}
         </form>
       </div>
-    </div>
   );
 };
 
