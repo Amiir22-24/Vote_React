@@ -1,109 +1,101 @@
-import axios from "axios";
 import { useState, type FormEvent } from "react";
-import "./CandidatCreate.css"; 
-import { Link } from "react-router";
+import { candidateApi } from "../../Api/candidates/candidatApi";
+import "./CandidatCreate.css";
 
-
-interface CandidateData {
-  name: string;
-  nickname: string;
-  photo_url: string;
-  details: string;
-  eventId: number; 
+interface CandidateFormData {
+  firstname: string;
+  lastname: string;
+  description: string;
+  photo?: File;
+  category?: string;
+  matricule: string;
 }
 
 export const CandidatCreate: React.FC = () => {
-  
-  const [formData, setFormData] = useState<CandidateData>({
-    name: '',
-    nickname: '',
-    photo_url: '',
-    details: '',
-    eventId: 1, 
+  const [formData, setFormData] = useState<CandidateFormData>({
+    firstname: "",
+    lastname: "",
+    description: "",
+    photo: undefined,
+    category: "",
+    matricule: "",
   });
-  
+
   const [loading, setLoading] = useState(false);
-  
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: name === 'eventId' ? Number(value) : value,
-    }));
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, files } = e.target as HTMLInputElement;
+    if (files && files[0]) {
+      setFormData((prev) => ({ ...prev, [name]: files[0] }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
-   
-  
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setMessage('');
+    setMessage("");
     setIsSuccess(false);
+    const formdata = {
+      firstname: formData.firstname,
+      lastname: formData.lastname,
+      description: formData.description,
+      photo: formData.photo,
+      category: formData.category,
+      matricule: formData.matricule,
+    };
 
     try {
-      
-      const response = await axios.post('VOTRE_URL_API/api/candidates', formData, {});
-
-      console.log('Candidat créé avec succès:', response.data);
-      setMessage('Candidat créé avec succès !');
+      const response = await candidateApi.create(formdata);
+      console.log("Candidat créé avec succès:", response);
+      setMessage("Candidat créé avec succès !");
       setIsSuccess(true);
-      
-      
-      setFormData({
-        name: '',
-        nickname: '',
-        photo_url: '',
-        details: '',
-        eventId: formData.eventId, 
-      });
 
+      // Reset du formulaire
+      setFormData({
+        firstname: "",
+        lastname: "",
+        description: "",
+        photo: undefined,
+        category: "",
+        matricule: "",
+      });
     } catch (error) {
-      console.error('Erreur lors de la création du candidat:', error);
-      setMessage(`Erreur: La création du candidat a échoué. ${error instanceof Error ? error.message : ''}`);
-      setIsSuccess(false); // Statut Erreur
+      console.error("Erreur lors de la création du candidat:", error);
+      setMessage(
+        `Erreur: La création du candidat a échoué. ${
+          error instanceof Error ? error.message : ""
+        }`
+      );
+      setIsSuccess(false);
     } finally {
       setLoading(false);
     }
   };
 
- 
   return (
     <div className="cc-form-container">
       <h2 className="cc-form-title">Ajouter un Nouveau Candidat</h2>
-      
-      {/* Affichage du message de retour avec classes CSS dynamiques */}
+
       {message && (
-        <p className={`cc-alert ${isSuccess ? 'cc-alert-success' : 'cc-alert-error'}`}>
+        <p className={`cc-alert ${isSuccess ? "cc-alert-success" : "cc-alert-error"}`}>
           {message}
         </p>
       )}
 
       <form onSubmit={handleSubmit} className="cc-form">
-        
-        {/* Champ Nom et Prénom */}
         <div>
-          <label htmlFor="name" className="cc-label">Nom et Prénom</label>
+          <label htmlFor="firstname" className="cc-label">Prénom</label>
           <input
             type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="cc-input"
-          />
-        </div>
-
-        
-        <div>
-          <label htmlFor="nickname" className="cc-label">Surnom ou Numéro de Candidat</label>
-          <input
-            type="text"
-            id="nickname"
-            name="nickname"
-            value={formData.nickname}
+            id="firstname"
+            name="firstname"
+            value={formData.firstname}
             onChange={handleChange}
             required
             className="cc-input"
@@ -111,55 +103,70 @@ export const CandidatCreate: React.FC = () => {
         </div>
 
         <div>
-          <label htmlFor="photo_url" className="cc-label">URL de la Photo</label>
-          <input 
-            type="url"
-            id="photo_url"
-            name="photo_url"
-            value={formData.photo_url}
+          <label htmlFor="lastname" className="cc-label">Nom</label>
+          <input
+            type="text"
+            id="lastname"
+            name="lastname"
+            value={formData.lastname}
             onChange={handleChange}
+            required
             className="cc-input"
           />
-          <p className="cc-small-text">Pour le moment, entrez le lien de l'image. La gestion des uploads de fichiers peut être ajoutée plus tard.</p>
         </div>
 
-        {/* Champ Détails/Biographie */}
         <div>
-          <label htmlFor="details" className="cc-label">Biographie/Détails</label>
+          <label htmlFor="matricule" className="cc-label">Matricule</label>
+          <input
+            type="text"
+            id="matricule"
+            name="matricule"
+            value={formData.matricule}
+            onChange={handleChange}
+            required
+            className="cc-input"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="description" className="cc-label">Biographie / Description</label>
           <textarea
-            id="details"
-            name="details"
-            value={formData.details}
+            id="description"
+            name="description"
+            value={formData.description}
             onChange={handleChange}
             rows={4}
             className="cc-textarea"
           />
         </div>
 
-        
         <div>
-          <label htmlFor="eventId" className="cc-label">ID de l'Événement</label>
+          <label htmlFor="photo" className="cc-label">Photo</label>
           <input
-            type="number"
-            id="eventId"
-            name="eventId"
-            value={formData.eventId}
+            type="file"
+            id="photo"
+            name="photo"
+            accept="image/*"
             onChange={handleChange}
-            required
-            readOnly 
-            className="cc-input cc-input-readonly"
+            className="cc-input"
           />
         </div>
 
-        {/* Bouton de Soumission */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="cc-submit-button"
-        >
-          {loading ? 'Création en cours...' : 'Créer le Candidat'}
+        <div>
+          <label htmlFor="category" className="cc-label">Catégorie</label>
+          <input
+            type="text"
+            id="category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="cc-input"
+          />
+        </div>
+
+        <button type="submit" disabled={loading} className="cc-submit-button">
+          {loading ? "Création en cours..." : "Créer le Candidat"}
         </button>
-        <Link to="./Admin/login">Connexion</Link>
       </form>
     </div>
   );
