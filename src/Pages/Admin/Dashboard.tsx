@@ -3,56 +3,6 @@ import "./Dashboard.css";
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="dashboard">
-      {/* Header */}
-      <header className="dashboard-header">
-        <button className="back-button" aria-label="Retour au vote">
-          ← Retour au vote
-        </button>
-        <h1>Administration</h1>
-        <div className="user-profile" title="Administrateur">
-          <span className="user-icon" aria-hidden="true">👤</span>
-          <span className="user-name">{localStorage.getItem("adminData")}</span>
-        </div>
-      </header>
-
-      {/* Sidebar */}
-      <nav className="dashboard-sidebar" aria-label="Menu de navigation">
-        <ul>
-          <li className="active">
-            <button>
-              <span className="icon" aria-hidden="true">📊</span>
-              Vue d&apos;ensemble
-            </button>
-          </li>
-          <li>
-            <button>
-              <span className="icon" aria-hidden="true">🏆</span>
-              Concours
-            </button>
-          </li>
-          <li>
-            <button>
-              <span className="icon" aria-hidden="true">👥</span>
-              Candidats
-            </button>
-          </li>
-          <li>
-            <button>
-              <span className="icon" aria-hidden="true">📈</span>
-              Statistiques
-            </button>
-          </li>
-          <li>
-            <button>
-              <span className="icon" aria-hidden="true">💰</span>
-              Transactions
-            </button>
-          </li>
-        </ul>
-      </nav>
-
-      {/* Main Content */}
       <main className="dashboard-main" aria-label="Contenu principal">
         <section>
           <h2>Vue d&apos;ensemble</h2>
@@ -119,7 +69,6 @@ const Dashboard: React.FC = () => {
           </ul>
         </section>
       </main>
-    </div>
   );
 };
 
