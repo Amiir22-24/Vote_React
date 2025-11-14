@@ -133,3 +133,33 @@
   color: #888;
   font-size: 0.85rem;
 }
+
+.dashboard-main {
+  padding: 20px;
+}
+
+.candidats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #45a049;
+}
+
+.candidats-list {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f8f8f8;
+  border-radius: 8px;
+}
