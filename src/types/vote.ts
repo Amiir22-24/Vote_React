@@ -5,6 +5,13 @@ export interface vote{
     echeance: Date;
     statuts: voteType;
 }
+export interface voteData{
+    id: number;
+    name:string;
+    date:Date;
+    echeance: Date;
+    statuts: voteType;
+}
 
 export type voteType =
   | "En cours"
