@@ -3,13 +3,13 @@ export interface vote{
     name:string;
     date:Date;
     echeance: Date;
-    statuts: voteType;
+    statuts: voteStatus;
 }
 export interface voteData{
     name:string;
     date:Date;
     echeance: Date;
-    statuts: voteType;
+    statuts?: voteStatus;
 }
 export interface voteDataResponse{
     success: boolean;
@@ -18,8 +18,14 @@ export interface voteDataResponse{
     data?: vote;
     error?: string;
 }
+export interface voteAllResponse{
+    success: boolean;
+    message: string;
+    data: vote[];
+    
+}
 
-export type voteType =
+export type voteStatus =
   | "en cours"
   | "PASSE"
-  | "à venir "
+  | "à venir"

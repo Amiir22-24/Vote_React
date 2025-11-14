@@ -6,6 +6,7 @@ export interface Candidate {
   photo: File;
   votes: number;
   categorie?: CategoryType;
+  vote_id: number,
 }
 export interface CandidateData {
   firstname: string;
@@ -15,6 +16,7 @@ export interface CandidateData {
   photo?: File;
   votes?: number;
   categorie?: string;
+  vote_id: number;
 }
 export interface CandidateCreateResponse{
   success: boolean,

@@ -1,7 +1,9 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, useEffect } from "react";
 import { candidateApi } from "../../Api/candidates/candidatApi";
 import "./CandidatCreate.css";
 import type { CandidateData } from "../../types/candidat";
+import { VoteApi } from "../../Api/Admin/actionAdmin";
+import type { voteAllResponse } from "../../types/vote";
 
 
 
@@ -13,14 +15,20 @@ export const CandidatCreate: React.FC = () => {
     photo: undefined,
     categorie: "",
     matricule: "",
+    vote_id: 0,
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Liste des concours de vote
+  type Contest = { id: string; name: string };
+  const [contests, setContests] = useState<Contest[]>([]);
+  const [selectedContestId, setSelectedContestId] = useState<string>("");
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value, files } = e.target as HTMLInputElement;
     if (files && files[0]) {
@@ -29,6 +37,27 @@ export const CandidatCreate: React.FC = () => {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await VoteApi.getAll();
+        if (!mounted) return;
+
+        const votes = (res as voteAllResponse).data ?? [];
+        const data = votes.map((v) => ({ id: String(v.id), name: v.name }));
+        setContests(data);
+        if (data.length) setSelectedContestId(data[0].id);
+      } catch (err) {
+        console.error("Impossible de charger les concours:", err);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -42,19 +71,20 @@ export const CandidatCreate: React.FC = () => {
       photo: formData.photo,
       categorie: formData.categorie,
       matricule: formData.matricule,
+      vote_id: parseInt(selectedContestId),
     };
 
     try {
       const response = await candidateApi.create(formdata);
 
-      if (response.success) {
+      if (response) {
+        setIsSuccess(true);
+        setMessage("Candidat créé avec succès !");
 
         console.log("Candidat créé avec succès:", response);
-        setMessage("Candidat créé avec succès !");
-        setIsSuccess(true);
       }
       else 
-        throw new Error(response.message);
+        throw new Error(response as string || "La réponse du serveur est invalide.");
       
 
 
@@ -66,12 +96,13 @@ export const CandidatCreate: React.FC = () => {
         photo: undefined,
         categorie: "",
         matricule: "",
+        vote_id: 0
       });
+      setSelectedContestId("");
     } catch (error) {
       console.error("Erreur lors de la création du candidat:", error);
       setMessage(
-        `Erreur: La création du candidat a échoué. ${error instanceof Error ? error.message : ""
-        }`
+        `Erreur: La création du candidat a échoué. ${error}`
       );
       setIsSuccess(false);
     } finally {
@@ -154,6 +185,23 @@ export const CandidatCreate: React.FC = () => {
         </div>
 
         <div>
+          <label htmlFor="contest" className="cc-label">Concours de vote</label>
+          <select
+            id="contest"
+            name="contest"
+            value={selectedContestId}
+            onChange={(e) => setSelectedContestId(e.target.value)}
+            className="cc-input"
+            required
+          >
+            <option value="" disabled>-- Sélectionner un concours --</option>
+            {contests.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
           <label htmlFor="categorie" className="cc-label">Catégorie</label>
           <input
             type="text"
@@ -164,6 +212,8 @@ export const CandidatCreate: React.FC = () => {
             required
             className="cc-input"
           />
+
+        
         </div>
 
         <button type="submit" disabled={loading} className="cc-submit-button">
