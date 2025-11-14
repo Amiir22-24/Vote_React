@@ -6,8 +6,16 @@ import { useState } from "react";
 
 export default function Candidats() {
   const navigate = useNavigate();
-  type ActiveComponent = "candidatList" | "candidatCreate" | "concours" | "statistiques" | "transactions";
+
+  type ActiveComponent =
+    | "candidatList"
+    | "candidatCreate"
+    | "concours"
+    | "statistiques"
+    | "transactions";
+
   const [activeComponent, setActiveComponent] = useState<ActiveComponent>("candidatList");
+
   const renderActiveComponent = () => {
     switch (activeComponent) {
       case "candidatList":
@@ -25,19 +33,19 @@ export default function Candidats() {
     }
   };
 
-  const handleNavigationClick = (component: ActiveComponent) => {
-    setActiveComponent(component);
+  const handleNavigationClick = () => {
+    setActiveComponent((prev) =>
+      prev === "candidatList" ? "candidatCreate" : "candidatList"
+    );
   };
-
 
   return (
     <main className="dashboard-main" aria-label="Contenu principal">
       <div className="candidats-header">
         <h2>Liste des candidats</h2>
 
-        <button onClick={() => handleNavigationClick("candidatCreate")} className="cc-button-primary">
-
-          Ajouter un candidat
+        <button onClick={handleNavigationClick} className="cc-button-primary">
+          {activeComponent === "candidatList" ? "Ajouter un candidat" : "Retour à la liste"}
         </button>
       </div>
 
