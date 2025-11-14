@@ -6,6 +6,7 @@ import Candidats from "../Pages/Admin/Candidats"
 import Dashboard from "../Pages/Admin/Dashboard"
 import Votant from "../Pages/Admin/Votant"
 import SideBar from "../Pages/Admin/SideBar"
+import CandidatList from "../Pages/CandidatList"
 
 const router = createBrowserRouter([
     
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <CandidatPage />
+                element: <CandidatList />
             },
             {
                 path: "vote",

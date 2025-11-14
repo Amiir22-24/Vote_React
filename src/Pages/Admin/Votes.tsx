@@ -1,7 +1,7 @@
 import { useState } from "react";
 import VoteList from "../VoteList";
 import { VoteCreate } from "../Admin/VoteCreate";
-
+import "./VoteCreate.css"
 export default function Concours() {
   type ActiveComponent = "voteList" | "voteCreate";
   const [activeComponent, setActiveComponent] = useState<ActiveComponent>("voteList");
