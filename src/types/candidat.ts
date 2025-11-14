@@ -23,6 +23,11 @@ export interface CandidateCreateResponse{
   message: string,
   data: Candidate,
 } 
+export interface CandidateListeResponse{
+  success: boolean,
+  message: string,
+  data: Candidate[],
+} 
 
 export type CategoryType =
   | "Miss"
