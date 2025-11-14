@@ -9,11 +9,11 @@ export const CandidatApi = {
     return response.data;
     },
     getAll: async (): Promise<Candidate [] > => {
-    const response = await axiosInstance.get('/candidates');
+    const response = await axiosInstance.get('/candidats');
     return response.data;
     },
     create: async (data: FormData) => {
-    return axiosInstance.post("/candidates", data, {
+    return axiosInstance.post("/candidats", data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -33,6 +33,40 @@ export const CandidatApi = {
     },
     read: async (id: number): Promise<Candidate> => {
     const response = await axiosInstance.get(`/candidates/${id}`);
+    return  response.data;
+    },
+}
+
+export const VoteApi = {
+    Login: async (formData: adminData): Promise<AuthResponse> => {
+    const response = await axiosInstance.post('/login', formData);
+    return response.data;
+    },
+    getAll: async (): Promise<Candidate [] > => {
+    const response = await axiosInstance.get('/votes');
+    return response.data;
+    },
+    create: async (data: FormData) => {
+    return axiosInstance.post("/votes", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    },
+    destroy: async (id: number): Promise<Candidate [] > => {
+    const response = await axiosInstance.delete(`/votes/${id}`);
+    return  response.data;
+    },
+    update: async (id: number, formData:FormData): Promise<Candidate [] > => {
+    const response = await axiosInstance.put(`/votes/${id}`, formData);
+    return  response.data;
+    },
+    getById: async (id: number): Promise<Candidate> => {
+    const response = await axiosInstance.get(`/votes/${id}`);
+    return response.data;
+    },
+    read: async (id: number): Promise<Candidate> => {
+    const response = await axiosInstance.get(`/votes/${id}`);
     return  response.data;
     },
 }
