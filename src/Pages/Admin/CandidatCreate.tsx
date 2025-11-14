@@ -154,13 +154,14 @@ export const CandidatCreate: React.FC = () => {
         </div>
 
         <div>
-          <label htmlFor="category" className="cc-label">Catégorie</label>
+          <label htmlFor="categorie" className="cc-label">Catégorie</label>
           <input
             type="text"
-            id="category"
-            name="category"
+            id="categorie"
+            name="categorie"
             value={formData.categorie}
             onChange={handleChange}
+            required
             className="cc-input"
           />
         </div>
