@@ -1,5 +1,6 @@
 import type { adminData, AuthResponse } from "../../types/admin";
 import type { Candidate } from "../../types/candidat";
+import type { voteDataResponse } from "../../types/vote";
 import axiosInstance from "../axios_instance";
 
 
@@ -46,7 +47,7 @@ export const VoteApi = {
     const response = await axiosInstance.get('/votes');
     return response.data;
     },
-    create: async (data: FormData) => {
+    create: async (data: FormData): Promise<voteDataResponse> => {
     return axiosInstance.post("/votes", data, {
       headers: {
         "Content-Type": "multipart/form-data",
