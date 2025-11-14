@@ -1,9 +1,9 @@
-import type { Candidate, CandidateCreateResponse, CandidateData } from "../../types/candidat";
+import type { Candidate, CandidateCreateResponse, CandidateData, CandidateListeResponse } from "../../types/candidat";
 import axiosInstance from "../axios_instance";
 
 export const candidateApi = {
-    getAll: async (): Promise<Candidate[]> => {
-        const response = await axiosInstance.get('/candidates');
+    getAll: async (): Promise<CandidateListeResponse> => {
+        const response = await axiosInstance.get('/candidats');
         return response.data;
     },
     create: async (data: CandidateData): Promise<CandidateCreateResponse> => {

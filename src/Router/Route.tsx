@@ -7,6 +7,7 @@ import Dashboard from "../Pages/Admin/Dashboard"
 import Votant from "../Pages/Admin/Votant"
 import SideBar from "../Pages/Admin/SideBar"
 import CandidatList from "../Pages/CandidatList"
+import { CandidatUpdate } from "../Pages/Admin/CandidatUpdate"
 
 const router = createBrowserRouter([
     
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
             {
                 path: "candidats",
                 element: <Candidats />
+            },
+            {
+                path: "candidats/:id/edit",
+                element: <CandidatUpdate />
             },
             {
                 path: "votants",
