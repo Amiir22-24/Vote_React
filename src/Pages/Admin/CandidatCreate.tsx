@@ -204,7 +204,7 @@ export const CandidatCreate: React.FC = () => {
             required
             className="cc-input"
           />
-        
+
         
         </div>
 
