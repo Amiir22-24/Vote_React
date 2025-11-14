@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Dashboard from "./Dashboard";
 import Candidats from "./Candidats";
+import Concours from "./Votes";
 
 type ActiveComponent = "dashboard" | "candidats" | "concours" | "statistiques" | "transactions";
 
@@ -14,7 +15,7 @@ const SideBar: React.FC = () => {
       case "candidats":
         return <Candidats />;
       case "concours":
-        return <div>Contenu Concours</div>;
+        return <Concours />;
       case "statistiques":
         return <div>Contenu Statistiques</div>;
       case "transactions":

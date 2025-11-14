@@ -6,14 +6,20 @@ export interface vote{
     statuts: voteType;
 }
 export interface voteData{
-    id: number;
     name:string;
     date:Date;
     echeance: Date;
     statuts: voteType;
 }
+export interface voteDataResponse{
+    success: boolean;
+    status?: string;
+    message: string;
+    data?: vote;
+    error?: string;
+}
 
 export type voteType =
-  | "En cours"
-  | "Expiré"
-  | "A venir "
+  | "en cours"
+  | "PASSE"
+  | "à venir "
