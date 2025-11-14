@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, useEffect } from "react";
 import { candidateApi } from "../../Api/candidates/candidatApi";
 import "./CandidatCreate.css";
 import type { CandidateData } from "../../types/candidat";
@@ -19,8 +19,13 @@ export const CandidatCreate: React.FC = () => {
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Liste des concours de vote
+  type Contest = { id: string; name: string };
+  const [contests, setContests] = useState<Contest[]>([]);
+  const [selectedContestId, setSelectedContestId] = useState<string>("");
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value, files } = e.target as HTMLInputElement;
     if (files && files[0]) {
@@ -29,6 +34,22 @@ export const CandidatCreate: React.FC = () => {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
+
+  useEffect(() => {
+    // Remplace l'URL par ton endpoint réel pour récupérer les concours
+    fetch("/api/concours")
+      .then((res) => {
+        if (!res.ok) throw new Error("Erreur récupération concours");
+        return res.json();
+      })
+      .then((data: Contest[]) => {
+        setContests(data);
+        if (data.length) setSelectedContestId(data[0].id);
+      })
+      .catch((err) => {
+        console.error("Impossible de charger les concours:", err);
+      });
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -42,6 +63,7 @@ export const CandidatCreate: React.FC = () => {
       photo: formData.photo,
       categorie: formData.categorie,
       matricule: formData.matricule,
+      contestId: selectedContestId, // <-- liaison au concours
     };
 
     try {
@@ -67,6 +89,7 @@ export const CandidatCreate: React.FC = () => {
         categorie: "",
         matricule: "",
       });
+      setSelectedContestId("");
     } catch (error) {
       console.error("Erreur lors de la création du candidat:", error);
       setMessage(
@@ -154,6 +177,23 @@ export const CandidatCreate: React.FC = () => {
         </div>
 
         <div>
+          <label htmlFor="contest" className="cc-label">Concours de vote</label>
+          <select
+            id="contest"
+            name="contest"
+            value={selectedContestId}
+            onChange={(e) => setSelectedContestId(e.target.value)}
+            className="cc-input"
+            required
+          >
+            <option value="" disabled>-- Sélectionner un concours --</option>
+            {contests.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
           <label htmlFor="categorie" className="cc-label">Catégorie</label>
           <input
             type="text"
@@ -164,6 +204,8 @@ export const CandidatCreate: React.FC = () => {
             required
             className="cc-input"
           />
+
+        
         </div>
 
         <button type="submit" disabled={loading} className="cc-submit-button">
