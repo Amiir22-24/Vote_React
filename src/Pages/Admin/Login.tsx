@@ -30,8 +30,8 @@ const Login: React.FC = () => {
       if (response.success) {
         console.log("Login successful:", response);
         // Stocker les informations d'authentification
-        localStorage.setItem("authToken", response.token || "authenticated");
-        localStorage.setItem("authname", response.admin!.name || "authenticated");
+        localStorage.setItem("authToken", response.token || "");
+        localStorage.setItem("authname", response.admin!.name || "");
         
         setError("");
         navigate("/admin/tableau-de-bord");

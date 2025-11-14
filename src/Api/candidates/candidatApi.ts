@@ -1,4 +1,4 @@
-import type { Candidate, CandidateData } from "../../types/candidat";
+import type { Candidate, CandidateCreateResponse, CandidateData } from "../../types/candidat";
 import axiosInstance from "../axios_instance";
 
 export const candidateApi = {
@@ -6,10 +6,11 @@ export const candidateApi = {
         const response = await axiosInstance.get('/candidates');
         return response.data;
     },
-    create: async (data: CandidateData): Promise<Candidate[]> => {
-        return axiosInstance.post("/candidates", data, {
+    create: async (data: CandidateData): Promise<CandidateCreateResponse> => {
+        return axiosInstance.post("/candidats", data, {
             headers: {
                 "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
             },
         });
     },
@@ -36,7 +37,7 @@ export const candidateApi = {
         formData.append("firstname", candidate.firstname);
         formData.append("lastname", candidate.lastname);
         formData.append("matricule", candidate.matricule ?? "");
-        formData.append("categorie", candidate.category ?? "");
+        formData.append("categorie", candidate.categorie ?? "");
         formData.append("description", candidate.description);
         if (candidate.photo) {
             formData.append("photo", candidate.photo); // File accepté par FormData

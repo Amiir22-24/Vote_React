@@ -5,20 +5,21 @@ export interface Candidate {
   description: string;
   photo: File;
   votes: number;
-  category?: CategoryType;
+  categorie?: CategoryType;
 }
 export interface CandidateData {
   firstname: string;
   lastname: string
   description: string;
+  matricule: string;
   photo?: File;
   votes?: number;
-  category?: string;
+  categorie?: string;
 }
 export interface CandidateCreateResponse{
   success: boolean,
   message: string,
-  data: Candidate[],
+  data: Candidate,
 } 
 
 export type CategoryType =
