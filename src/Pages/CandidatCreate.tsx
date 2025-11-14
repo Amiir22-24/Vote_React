@@ -97,7 +97,7 @@ export const CandidatCreate: React.FC = () => {
 
         
         <div>
-          <label htmlFor="nickname" className="cc-label">Surnom ou Numéro de Candidat</label>
+          <label htmlFor="nickname" className="cc-label">Numéro de Candidat</label>
           <input
             type="text"
             id="nickname"
@@ -149,6 +149,7 @@ export const CandidatCreate: React.FC = () => {
             className="cc-input cc-input-readonly"
           />
         </div>
+        
 
         {/* Bouton de Soumission */}
         <button
