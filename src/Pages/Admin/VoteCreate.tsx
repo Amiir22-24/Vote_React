@@ -5,11 +5,10 @@ import type { voteData, voteType } from "../../types/vote";
 
 export const VoteCreate: React.FC = () => {
   const [formData, setFormData] = useState<voteData>({
-    id: 0,
     name: "",
     date: new Date(),
     echeance: new Date(),
-    statuts: "A venir ",
+    statuts: "à venir ",
   });
 
   const [loading, setLoading] = useState(false);
@@ -35,30 +34,27 @@ export const VoteCreate: React.FC = () => {
 
     try {
       const formDataObj = new FormData();
-      formDataObj.append("id", formData.id.toString());
       formDataObj.append("name", formData.name);
       formDataObj.append("date", formData.date.toISOString());
       formDataObj.append("echeance", formData.echeance.toISOString());
       formDataObj.append("statuts", formData.statuts);
 
       const response = await VoteApi.create(formDataObj); // appel à ton API
-      const data = (response as any).data as { success?: boolean; message?: string };
 
-      if (data?.success) {
-        console.log("Vote créé avec succès:", data);
+      if (response?.success) {
+        console.log("Vote créé avec succès:", response.data);
         setMessage("Vote créé avec succès !");
         setIsSuccess(true);
 
         // Reset du formulaire
         setFormData({
-          id: 0,
           name: "",
           date: new Date(),
           echeance: new Date(),
-          statuts: "A venir ",
+          statuts: "à venir ",
         });
       } else {
-        throw new Error(data?.message || "La réponse du serveur est invalide.");
+        throw new Error(response?.error || "La réponse du serveur est invalide.");
       }
     } catch (error) {
       console.error("Erreur lors de la création du vote:", error);
@@ -132,9 +128,10 @@ export const VoteCreate: React.FC = () => {
             onChange={handleChange}
             className="vc-select"
           >
-            <option value="En cours">En cours</option>
-            <option value="Expiré">Expiré</option>
-            <option value="A venir ">A venir</option>
+            <option value=""></option>
+            <option value="en cours">En cours</option>
+            <option value="PASSE">Passé</option>
+            <option value="à venir ">A venir</option>
           </select>
         </div>
 
