@@ -1,23 +1,17 @@
 import { useState, type FormEvent } from "react";
 import { candidateApi } from "../../Api/candidates/candidatApi";
 import "./CandidatCreate.css";
+import type { CandidateData } from "../../types/candidat";
 
-interface CandidateFormData {
-  firstname: string;
-  lastname: string;
-  description: string;
-  photo?: File;
-  category?: string;
-  matricule: string;
-}
+
 
 export const CandidatCreate: React.FC = () => {
-  const [formData, setFormData] = useState<CandidateFormData>({
+  const [formData, setFormData] = useState<CandidateData>({
     firstname: "",
     lastname: "",
     description: "",
     photo: undefined,
-    category: "",
+    categorie: "",
     matricule: "",
   });
 
@@ -46,15 +40,23 @@ export const CandidatCreate: React.FC = () => {
       lastname: formData.lastname,
       description: formData.description,
       photo: formData.photo,
-      category: formData.category,
+      categorie: formData.categorie,
       matricule: formData.matricule,
     };
 
     try {
       const response = await candidateApi.create(formdata);
-      console.log("Candidat créé avec succès:", response);
-      setMessage("Candidat créé avec succès !");
-      setIsSuccess(true);
+
+      if (response.success) {
+
+        console.log("Candidat créé avec succès:", response);
+        setMessage("Candidat créé avec succès !");
+        setIsSuccess(true);
+      }
+      else 
+        throw new Error(response.message);
+      
+
 
       // Reset du formulaire
       setFormData({
@@ -62,14 +64,13 @@ export const CandidatCreate: React.FC = () => {
         lastname: "",
         description: "",
         photo: undefined,
-        category: "",
+        categorie: "",
         matricule: "",
       });
     } catch (error) {
       console.error("Erreur lors de la création du candidat:", error);
       setMessage(
-        `Erreur: La création du candidat a échoué. ${
-          error instanceof Error ? error.message : ""
+        `Erreur: La création du candidat a échoué. ${error instanceof Error ? error.message : ""
         }`
       );
       setIsSuccess(false);
@@ -158,7 +159,7 @@ export const CandidatCreate: React.FC = () => {
             type="text"
             id="category"
             name="category"
-            value={formData.category}
+            value={formData.categorie}
             onChange={handleChange}
             className="cc-input"
           />
