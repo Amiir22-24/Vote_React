@@ -1,14 +1,15 @@
 import { useState, type FormEvent } from "react";
-import { VoteApi } from "../../Api/Admin/actionAdmin"; // ton API pour votes
+import { VoteApi } from "../../Api/Admin/actionAdmin"; // API votes
 import "./VoteCreate.css";
-import type { voteData, voteType } from "../../types/vote";
+import type { voteData,  } from "../../types/vote";
 
 export const VoteCreate: React.FC = () => {
+  // Un nom d'état cohérent: formData / setFormData
   const [formData, setFormData] = useState<voteData>({
     name: "",
     date: new Date(),
     echeance: new Date(),
-    statuts: "à venir ",
+    statuts: "à venir",
   });
 
   const [loading, setLoading] = useState(false);
@@ -18,12 +19,12 @@ export const VoteCreate: React.FC = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target as HTMLInputElement;
 
     setFormData((prev) => ({
       ...prev,
       [name]: name === "date" || name === "echeance" ? new Date(value) : value,
-    }));
+    } as unknown as voteData));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -33,16 +34,11 @@ export const VoteCreate: React.FC = () => {
     setIsSuccess(false);
 
     try {
-      const formDataObj = new FormData();
-      formDataObj.append("name", formData.name);
-      formDataObj.append("date", formData.date.toISOString());
-      formDataObj.append("echeance", formData.echeance.toISOString());
-      formDataObj.append("statuts", formData.statuts);
+      const response = await VoteApi.create(formData);
 
-      const response = await VoteApi.create(formDataObj); // appel à ton API
-
-      if (response?.success) {
-        console.log("Vote créé avec succès:", response.data);
+      // VoteApi.create est maintenant censé retourner response.data (voir actionAdmin)
+      if (response) {
+        console.log("Vote créé avec succès:", (response.data));
         setMessage("Vote créé avec succès !");
         setIsSuccess(true);
 
@@ -51,17 +47,15 @@ export const VoteCreate: React.FC = () => {
           name: "",
           date: new Date(),
           echeance: new Date(),
-          statuts: "à venir ",
+          statuts: "à venir",
         });
       } else {
-        throw new Error(response?.error || "La réponse du serveur est invalide.");
+        throw new Error((response as string) || "La réponse du serveur est invalide.");
       }
     } catch (error) {
       console.error("Erreur lors de la création du vote:", error);
       setMessage(
-        `Erreur: La création du vote a échoué. ${
-          error instanceof Error ? error.message : ""
-        }`
+        `Erreur: La création du vote a échoué. ${error}`
       );
       setIsSuccess(false);
     } finally {
@@ -130,7 +124,7 @@ export const VoteCreate: React.FC = () => {
           >
             <option value=""></option>
             <option value="en cours">En cours</option>
-            <option value="PASSE">Passé</option>
+            <option value="passé">Passé</option>
             <option value="à venir ">A venir</option>
           </select>
         </div>

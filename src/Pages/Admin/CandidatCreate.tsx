@@ -2,6 +2,8 @@ import { useState, type FormEvent, useEffect } from "react";
 import { candidateApi } from "../../Api/candidates/candidatApi";
 import "./CandidatCreate.css";
 import type { CandidateData } from "../../types/candidat";
+import { VoteApi } from "../../Api/Admin/actionAdmin";
+import type { voteAllResponse } from "../../types/vote";
 
 
 
@@ -13,6 +15,7 @@ export const CandidatCreate: React.FC = () => {
     photo: undefined,
     categorie: "",
     matricule: "",
+    vote_id: 0,
   });
 
   const [loading, setLoading] = useState(false);
@@ -36,19 +39,24 @@ export const CandidatCreate: React.FC = () => {
   };
 
   useEffect(() => {
-    // Remplace l'URL par ton endpoint réel pour récupérer les concours
-    fetch("/api/concours")
-      .then((res) => {
-        if (!res.ok) throw new Error("Erreur récupération concours");
-        return res.json();
-      })
-      .then((data: Contest[]) => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await VoteApi.getAll();
+        if (!mounted) return;
+
+        const votes = (res as voteAllResponse).data ?? [];
+        const data = votes.map((v) => ({ id: String(v.id), name: v.name }));
         setContests(data);
         if (data.length) setSelectedContestId(data[0].id);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Impossible de charger les concours:", err);
-      });
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -63,20 +71,20 @@ export const CandidatCreate: React.FC = () => {
       photo: formData.photo,
       categorie: formData.categorie,
       matricule: formData.matricule,
-      contestId: selectedContestId, // <-- liaison au concours
+      vote_id: parseInt(selectedContestId),
     };
 
     try {
       const response = await candidateApi.create(formdata);
 
-      if (response.success) {
+      if (response) {
+        setIsSuccess(true);
+        setMessage("Candidat créé avec succès !");
 
         console.log("Candidat créé avec succès:", response);
-        setMessage("Candidat créé avec succès !");
-        setIsSuccess(true);
       }
       else 
-        throw new Error(response.message);
+        throw new Error(response as string || "La réponse du serveur est invalide.");
       
 
 
@@ -88,13 +96,13 @@ export const CandidatCreate: React.FC = () => {
         photo: undefined,
         categorie: "",
         matricule: "",
+        vote_id: 0
       });
       setSelectedContestId("");
     } catch (error) {
       console.error("Erreur lors de la création du candidat:", error);
       setMessage(
-        `Erreur: La création du candidat a échoué. ${error instanceof Error ? error.message : ""
-        }`
+        `Erreur: La création du candidat a échoué. ${error}`
       );
       setIsSuccess(false);
     } finally {
