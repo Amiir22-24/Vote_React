@@ -37,38 +37,38 @@ const CandidatListPage: React.FC = () => {
 
   // Récupération depuis l'API
   useEffect(() => {
-      const fetchCandidats = async () => {
-        try {
-          setLoading(true);
-          // candidateApi.getAll() est censé retourner directement un tableau de candidats
-          const response = await candidateApi.getAll();
-          // Debug: afficher la réponse brute pour diagnostiquer les formats inattendus
-          console.debug("Candidats API response:", response);
+    const fetchCandidats = async () => {
+      try {
+        setLoading(true);
+        // candidateApi.getAll() est censé retourner directement un tableau de candidats
+        const response = await candidateApi.getAll();
+        // Debug: afficher la réponse brute pour diagnostiquer les formats inattendus
+        console.debug("Candidats API response:", response);
 
-          let list: any[] = [];
-          if (Array.isArray(response)) {
-            list = response;
-          } else if (response && Array.isArray((response as any).data)) {
-            list = (response as any).data;
-          } else if (response && Array.isArray((response as any).candidats)) {
-            list = (response as any).candidats;
-          } else {
-            // essayer de transformer un objet en tableau si besoin
-            try {
-              const maybeArray = Object.keys(response || {}).map((k) => (response as any)[k]);
-              if (Array.isArray(maybeArray) && maybeArray.length && typeof maybeArray[0] === "object") {
-                list = maybeArray;
-              }
-            } catch (err) {
-              // ignore
+        let list: any[] = [];
+        if (Array.isArray(response)) {
+          list = response;
+        } else if (response && Array.isArray((response as any).data)) {
+          list = (response as any).data;
+        } else if (response && Array.isArray((response as any).candidats)) {
+          list = (response as any).candidats;
+        } else {
+          // essayer de transformer un objet en tableau si besoin
+          try {
+            const maybeArray = Object.keys(response || {}).map((k) => (response as any)[k]);
+            if (Array.isArray(maybeArray) && maybeArray.length && typeof maybeArray[0] === "object") {
+              list = maybeArray;
             }
+          } catch (err) {
+            // ignore
           }
+        }
 
-          if (!Array.isArray(list)) {
-            throw new Error("Format de réponse inattendu pour la liste des candidats");
-          }
+        if (!Array.isArray(list)) {
+          throw new Error("Format de réponse inattendu pour la liste des candidats");
+        }
 
-          setCandidats(list as Candidate[]);
+        setCandidats(list as Candidate[]);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Une erreur est survenue");
         console.error("Erreur récupération candidats :", err);
@@ -100,7 +100,7 @@ const CandidatListPage: React.FC = () => {
           <div className="error-icon">⚠️</div>
           <h3>Erreur de chargement</h3>
           <p>{error}</p>
-          <button 
+          <button
             className="retry-button"
             onClick={() => window.location.reload()}
           >
@@ -114,7 +114,7 @@ const CandidatListPage: React.FC = () => {
   return (
     <div className="candidat-list-page">
       <Navbar />
-      
+
       <div className="candidat-list-container">
         <header className="page-header">
           <h1 className="page-title">Liste des Candidats</h1>
@@ -152,7 +152,16 @@ const CandidatListPage: React.FC = () => {
           )}
         </main>
       </div>
+      {/* FOOTER */}
+      <footer className="candidat-footer">
+        <p>
+          <Link to="../Admin/Login" className="admin-link">
+            🔑 Espace Administrateur
+          </Link>
+        </p>
+      </footer>
     </div>
+
   );
 };
 
