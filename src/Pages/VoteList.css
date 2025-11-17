@@ -1,0 +1,224 @@
+/* ----------------------
+  Navbar
+------------------------*/
+.navbar {
+  background-color: #007bff;
+  padding: 12px 20px;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo h2 {
+  color: white;
+  margin: 0;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-link.active {
+  background-color: rgba(255,255,255,0.3);
+}
+
+/* ----------------------
+  Page header
+------------------------*/
+.page-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.page-subtitle {
+  font-size: 16px;
+  color: #555;
+}
+
+.stats-badge {
+  margin-top: 10px;
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ----------------------
+  Loading & Error
+------------------------*/
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+  color: #555;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #ddd;
+  border-top-color: #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.retry-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.retry-button:hover {
+  background-color: #005fcc;
+}
+
+/* ----------------------
+  Empty State
+------------------------*/
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  color: #555;
+}
+
+.empty-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+/* ----------------------
+  Vote grid
+------------------------*/
+.vote-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 0 20px;
+  margin-bottom: 40px;
+}
+
+/* ----------------------
+  Vote Card
+------------------------*/
+.vote-card {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.vote-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+
+.vote-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.vote-card p {
+  font-size: 14px;
+  margin: 0;
+  color: #444;
+}
+
+.vote-status {
+  display: inline-block;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.vote-button {
+  margin-top: 10px;
+  width: 100%;
+  background: #007bff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.vote-button:hover {
+  background: #005fcc;
+}
+
+/* ----------------------
+  Responsive
+------------------------*/
+@media (max-width: 600px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .vote-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -256,3 +256,20 @@
     font-size: 1.75rem;
   }
 }
+.candidat-footer {
+  text-align: center;
+  padding: 1rem 0;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+  margin-top: 2rem;
+}
+
+.candidat-footer .admin-link {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.candidat-footer .admin-link:hover {
+  text-decoration: underline;
+}
