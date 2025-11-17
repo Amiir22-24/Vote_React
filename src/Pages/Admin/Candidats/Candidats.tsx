@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import "./Dashboard.css";
-import CandidatList from "../CandidatList";
+import "../Dashboard.css";
+import CandidatList from "../../Users/CandidatList";
 import { CandidatCreate } from "./CandidatCreate";
 import { useState } from "react";
+import Concours from "../Concours/Concours";
 
 export default function Candidats() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function Candidats() {
       case "candidatCreate":
         return <CandidatCreate />;
       case "concours":
-        return <div>Contenu Concours</div>;
+        return <Concours />;
       case "statistiques":
         return <div>Contenu Statistiques</div>;
       case "transactions":

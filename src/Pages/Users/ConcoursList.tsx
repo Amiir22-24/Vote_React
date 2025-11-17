@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router";
-import "./VoteList.css";
-import { VoteApi } from "../Api/Admin/actionAdmin";
-import type { vote, voteAllResponse } from "../types/vote";
+import "./concours.css";
+import { VoteApi } from "../../Api/Admin/actionAdmin";
+import type { Concours as ConcoursList, ConcorsAllResponse } from "../../types/Concours";
 
 // VoteCard local
-const VoteCard: React.FC<{ vote: vote; onOpen: (id: number) => void }> = ({ vote, onOpen }) => {
-  const getStatusColor = (status: vote["statuts"]) => {
+const ConcoursCard: React.FC<{ vote: ConcoursList; onOpen: (id: number) => void }> = ({ vote, onOpen }) => {
+  const getStatusColor = (status: ConcoursList["statuts"]) => {
     switch (status) {
       case "en cours": return "#28a745";   // vert
       case "à venir": return "#ffc107";    // jaune
@@ -31,26 +30,9 @@ const VoteCard: React.FC<{ vote: vote; onOpen: (id: number) => void }> = ({ vote
 };
 
 // Navbar locale
-const Navbar: React.FC = () => (
-  <nav className="navbar">
-    <div className="nav-container">
-      <div className="nav-logo">
-        <h2>Concours</h2>
-      </div>
-      <ul className="nav-links">
-        <li>
-          <Link to="/candidats" className="nav-link">👥 Candidats</Link>
-        </li>
-        <li>
-          <Link to="/vote" className="nav-link active">🏆 Concours</Link>
-        </li>
-      </ul>
-    </div>
-  </nav>
-);
 
-const VoteListPage: React.FC = () => {
-  const [votes, setVotes] = useState<vote[]>([]);
+const ConcoursList: React.FC = () => {
+  const [votes, setVotes] = useState<ConcoursList[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -58,7 +40,7 @@ const VoteListPage: React.FC = () => {
     const fetchVotes = async () => {
       try {
         setLoading(true);
-        const response: voteAllResponse = await VoteApi.getAll(); // fetch API
+        const response: ConcorsAllResponse = await VoteApi.getAll(); // fetch API
         setVotes(response.data || []);
       } catch (err: any) {
         console.error(err);
@@ -73,7 +55,6 @@ const VoteListPage: React.FC = () => {
 
   if (loading) return (
     <div>
-      <Navbar />
       <div className="loading-container">
         <div className="loading-spinner"></div>
         <p>Chargement des votes...</p>
@@ -83,7 +64,6 @@ const VoteListPage: React.FC = () => {
 
   if (error) return (
     <div>
-      <Navbar />
       <div className="error-container">
         <div className="error-icon">⚠️</div>
         <h3>Erreur de chargement</h3>
@@ -95,7 +75,6 @@ const VoteListPage: React.FC = () => {
 
   return (
     <div className="vote-list-page">
-      <Navbar />
 
       <div className="vote-list-container">
         <header className="page-header">
@@ -116,7 +95,7 @@ const VoteListPage: React.FC = () => {
           ) : (
             <div className="vote-grid">
               {votes.map((v) => (
-                <VoteCard
+                <ConcoursCard
                   key={v.id}
                   vote={v}
                   onOpen={(id) => alert(`Ouvrir vote ${id}`)}
@@ -130,4 +109,4 @@ const VoteListPage: React.FC = () => {
   );
 };
 
-export default VoteListPage;
+export default ConcoursList;

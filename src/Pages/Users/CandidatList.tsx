@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import CandidatCard from "../Components/CandidatCard";
+import CandidatCard from "../../Components/CandidatCard";
 
 import "./CandidatList.css";
-import { candidateApi } from "../Api/candidates/candidatApi";
-import type { Candidate } from "../types/candidat";
 import { Link } from "react-router";
+import type { Candidate } from "../../types/candidat";
+import { candidateApi } from "../../Api/candidates/candidatApi";
 
 // Navbar stylisée
 

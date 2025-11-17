@@ -1,12 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router"
-import Votepage from "../Pages/Votepage"
-import Login from "../Pages/Admin/Login"
-import Candidats from "../Pages/Admin/Candidats"
+import Login from "../Pages/Admin/auth/Login"
+import Candidats from "../Pages/Admin/Candidats/Candidats"
 import Votant from "../Pages/Admin/Votant"
 import SideBar from "../Pages/Admin/SideBar"
-import CandidatList from "../Pages/CandidatList"
-import { CandidatUpdate } from "../Pages/Admin/CandidatUpdate"
-import UserPage from "../Pages/UserPage"
+import { CandidatUpdate } from "../Pages/Admin/Candidats/CandidatUpdate"
+import UserPage from "../Pages/Users/UserPage"
 
 const router = createBrowserRouter([
     
@@ -16,11 +14,7 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <UserPage />
-            },
-            {
-                path: "vote",
-                element: <Votepage />
-            },
+            }
         ]
     },
     {

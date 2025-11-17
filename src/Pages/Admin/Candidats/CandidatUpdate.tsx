@@ -1,13 +1,16 @@
 import { useState, type FormEvent, useEffect } from "react";
-import { candidateApi } from "../../Api/candidates/candidatApi";
+import { useParams, useNavigate } from "react-router-dom";
+import { candidateApi } from "../../../Api/candidates/candidatApi";
 import "./CandidatCreate.css";
-import type { CandidateData } from "../../types/candidat";
-import { VoteApi } from "../../Api/Admin/actionAdmin";
-import type { voteAllResponse } from "../../types/vote";
+import type { CandidateData } from "../../../types/candidat";
+import { VoteApi } from "../../../Api/Admin/actionAdmin";
+import type { ConcorsAllResponse } from "../../../types/Concours";
 
 
 
-export const CandidatCreate: React.FC = () => {
+export const CandidatUpdate: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<CandidateData>({
     firstname: "",
     lastname: "",
@@ -42,67 +45,91 @@ export const CandidatCreate: React.FC = () => {
     let mounted = true;
     (async () => {
       try {
+        // Charger les concours
         const res = await VoteApi.getAll();
         if (!mounted) return;
 
-        const votes = (res as voteAllResponse).data ?? [];
+        const votes = (res as ConcorsAllResponse).data ?? [];
         const data = votes.map((v) => ({ id: String(v.id), name: v.name }));
         setContests(data);
-        if (data.length) setSelectedContestId(data[0].id);
+
+        // Charger les données du candidat à modifier
+        if (!id) {
+          setMessage("ID du candidat manquant");
+          return;
+        }
+
+        const candidate = await candidateApi.getById(parseInt(id));
+        if (!mounted) return;
+
+        // Remplir le formulaire avec les données du candidat
+        setFormData({
+          firstname: candidate.firstname,
+          lastname: candidate.lastname,
+          description: candidate.description,
+          photo: undefined, // on n'affiche pas l'image existante dans le file input
+          categorie: typeof candidate.categorie === 'string' ? candidate.categorie : (candidate.categorie as unknown as string) ?? "",
+          matricule: "",
+          vote_id: candidate.vote_id ?? 0,
+        });
+
+        // Pré-sélectionner le concours du candidat
+        setSelectedContestId(String(candidate.vote_id ?? 0));
       } catch (err) {
-        console.error("Impossible de charger les concours:", err);
+        console.error("Impossible de charger les données:", err);
+        setMessage("Erreur lors du chargement des données du candidat");
       }
     })();
 
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [id]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
     setIsSuccess(false);
-    const formdata = {
-      firstname: formData.firstname,
-      lastname: formData.lastname,
-      description: formData.description,
-      photo: formData.photo,
-      categorie: formData.categorie,
-      matricule: formData.matricule,
-      vote_id: parseInt(selectedContestId),
-    };
+
+    if (!id) {
+      setMessage("ID du candidat manquant");
+      setLoading(false);
+      return;
+    }
+
+    const formdata = new FormData();
+    formdata.append("firstname", formData.firstname);
+    formdata.append("lastname", formData.lastname);
+    formdata.append("description", formData.description);
+    formdata.append("categorie", formData.categorie ?? "");
+    formdata.append("matricule", formData.matricule);
+    formdata.append("vote_id", String(parseInt(selectedContestId)));
+    
+    // Ajouter la photo uniquement si une nouvelle a été sélectionnée
+    if (formData.photo) {
+      formdata.append("photo", formData.photo);
+    }
 
     try {
-      const response = await candidateApi.create(formdata);
+      const response = await candidateApi.update(parseInt(id), formdata);
 
       if (response) {
         setIsSuccess(true);
-        setMessage("Candidat créé avec succès !");
-
-        console.log("Candidat créé avec succès:", response);
+        setMessage("Candidat mis à jour avec succès !");
+        console.log("Candidat mis à jour avec succès:", response);
+        
+        // Rediriger vers la liste après 2 secondes
+        setTimeout(() => {
+          navigate("/admin/candidats");
+        }, 2000);
+      } else {
+        throw new Error("La réponse du serveur est invalide.");
       }
-      else 
-        throw new Error(response as string || "La réponse du serveur est invalide.");
-      
-
-
-      // Reset du formulaire
-      setFormData({
-        firstname: "",
-        lastname: "",
-        description: "",
-        photo: undefined,
-        categorie: "",
-        matricule: "",
-        vote_id: 0
-      });
-      setSelectedContestId("");
     } catch (error) {
-      console.error("Erreur lors de la création du candidat:", error);
+      console.error("Erreur lors de la mise à jour du candidat:", error);
       setMessage(
-        `Erreur: La création du candidat a échoué. ${error}`
+        `Erreur: La mise à jour du candidat a échoué. ${error instanceof Error ? error.message : ""}`
       );
       setIsSuccess(false);
     } finally {
@@ -112,7 +139,7 @@ export const CandidatCreate: React.FC = () => {
 
   return (
     <div className="cc-form-container">
-      <h2 className="cc-form-title">Ajouter un Nouveau Candidat</h2>
+      <h2 className="cc-form-title">Mettre à jour le Candidat</h2>
 
       {message && (
         <p className={`cc-alert ${isSuccess ? "cc-alert-success" : "cc-alert-error"}`}>

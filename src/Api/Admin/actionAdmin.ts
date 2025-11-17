@@ -1,6 +1,6 @@
 import type { adminData, AuthResponse } from "../../types/admin";
 import type { Candidate } from "../../types/candidat";
-import type { voteAllResponse, voteData, voteDataResponse } from "../../types/vote";
+import type { ConcorsAllResponse, voteData, ConcoursDataResponse } from "../../types/Concours";
 import axiosInstance from "../axios_instance";
 
 
@@ -39,11 +39,11 @@ export const AdminApi = {
 }
 
 export const VoteApi = {
-    getAll: async (): Promise<voteAllResponse> => {
+    getAll: async (): Promise<ConcorsAllResponse> => {
     const response = await axiosInstance.get('/votes');
     return response.data;
     },
-    create: async (data: voteData): Promise<voteDataResponse> => {
+    create: async (data: voteData): Promise<ConcoursDataResponse> => {
     const response = await axiosInstance.post("/votes", data, {
       headers: {
         "Content-Type": "multipart/form-data",

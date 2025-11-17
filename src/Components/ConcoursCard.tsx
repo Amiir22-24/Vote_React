@@ -1,13 +1,13 @@
-import type { vote, voteStatus } from "../types/vote";
+import type { Concours, ConcourStatus } from "../types/Concours";
 import "../Pages/VoteList.css"
 
-export interface VoteCardProps {
-  vote: vote;
+export interface ConcoursCardProps {
+  vote: Concours;
   onOpen: (id: number) => void;
 }
 
-export default function VoteCard({ vote, onOpen }: VoteCardProps) {
-  const getStatusColor = (status: voteStatus) => {
+export default function ConcoursCard({ vote, onOpen }: ConcoursCardProps) {
+  const getStatusColor = (status: ConcourStatus) => {
     switch (status) {
       case "en cours": return "green";
       case "à venir": return "orange";
