@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ConcoursCreate } from "./ConcoursCreate";
 import "./ConcoursCreate.css"
+import ConcoursList from "../../Users/ConcoursList";
 export default function Concours() {
   type ActiveComponent = "ConcoursList" | "ConcoursCreate";
   const [activeComponent, setActiveComponent] = useState<ActiveComponent>("ConcoursList");
@@ -8,11 +9,11 @@ export default function Concours() {
   const renderActiveComponent = () => {
     switch (activeComponent) {
       case "ConcoursList":
-        return <Concours />;
+        return <ConcoursList />;
       case "ConcoursCreate":
         return <ConcoursCreate />;
       default:
-        return <Concours />;
+        return <ConcoursList />;
     }
   };
 

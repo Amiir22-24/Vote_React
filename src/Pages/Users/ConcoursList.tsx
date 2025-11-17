@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./concours.css";
 import { VoteApi } from "../../Api/Admin/actionAdmin";
-import type { Concours, ConcorsAllResponse } from "../../types/Concours";
+import type { Concours as ConcoursList, ConcorsAllResponse } from "../../types/Concours";
 
 // VoteCard local
-const VoteCard: React.FC<{ vote: Concours; onOpen: (id: number) => void }> = ({ vote, onOpen }) => {
-  const getStatusColor = (status: Concours["statuts"]) => {
+const ConcoursCard: React.FC<{ vote: ConcoursList; onOpen: (id: number) => void }> = ({ vote, onOpen }) => {
+  const getStatusColor = (status: ConcoursList["statuts"]) => {
     switch (status) {
       case "en cours": return "#28a745";   // vert
       case "à venir": return "#ffc107";    // jaune
@@ -30,9 +30,8 @@ const VoteCard: React.FC<{ vote: Concours; onOpen: (id: number) => void }> = ({ 
 };
 
 // Navbar locale
-
-const VoteListPage: React.FC = () => {
-  const [votes, setVotes] = useState<Concours[]>([]);
+function ConcoursList() {
+  const [votes, setVotes] = useState<ConcoursList[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -95,7 +94,7 @@ const VoteListPage: React.FC = () => {
           ) : (
             <div className="vote-grid">
               {votes.map((v) => (
-                <VoteCard
+                <ConcoursCard
                   key={v.id}
                   vote={v}
                   onOpen={(id) => alert(`Ouvrir vote ${id}`)}
@@ -109,4 +108,4 @@ const VoteListPage: React.FC = () => {
   );
 };
 
-export default VoteListPage;
+export default ConcoursList;
