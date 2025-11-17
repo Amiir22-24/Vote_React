@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./concours.css";
 import { VoteApi } from "../../Api/Admin/actionAdmin";
-import type { Concours as ConcoursList, ConcorsAllResponse } from "../../types/Concours";
+import type { Concours as ConcoursList, ConcorsAllResponse, Concours } from "../../types/Concours";
+import { useNavigate } from "react-router";
 
 // VoteCard local
 const ConcoursCard: React.FC<{ vote: ConcoursList; onOpen: (id: number) => void }> = ({ vote, onOpen }) => {
@@ -32,19 +33,19 @@ const ConcoursCard: React.FC<{ vote: ConcoursList; onOpen: (id: number) => void 
 // Navbar locale
 
 const ConcoursList: React.FC = () => {
-  const [votes, setVotes] = useState<ConcoursList[]>([]);
+    const [votes, setVotes] = useState<Concours[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate(); // <- useNavigate au sommet
 
   useEffect(() => {
     const fetchVotes = async () => {
       try {
         setLoading(true);
-        const response: ConcorsAllResponse = await VoteApi.getAll(); // fetch API
+        const response: ConcorsAllResponse = await VoteApi.getAll();
         setVotes(response.data || []);
       } catch (err: any) {
-        console.error(err);
-        setError(err?.message || "Erreur lors du chargement des votes");
+        setError(err?.message ||  "Erreur lors du chargement des votes");
       } finally {
         setLoading(false);
       }
@@ -53,57 +54,20 @@ const ConcoursList: React.FC = () => {
     fetchVotes();
   }, []);
 
-  if (loading) return (
-    <div>
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Chargement des votes...</p>
-      </div>
-    </div>
-  );
-
-  if (error) return (
-    <div>
-      <div className="error-container">
-        <div className="error-icon">⚠️</div>
-        <h3>Erreur de chargement</h3>
-        <p>{error}</p>
-        <button onClick={() => window.location.reload()} className="retry-button">Réessayer</button>
-      </div>
-    </div>
-  );
+  if (loading) return <p>Chargement des votes...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
-    <div className="vote-list-page">
-
-      <div className="vote-list-container">
-        <header className="page-header">
-          <h1 className="page-title">Liste des Votes</h1>
-          <p className="page-subtitle">
-            Découvrez tous les concours en cours ou à venir
-          </p>
-          <div className="stats-badge">{votes.length} vote{votes.length > 1 ? 's' : ''}</div>
-        </header>
-
-        <main className="vote-list-main">
-          {votes.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-icon">🏆</div>
-              <h3>Aucun vote disponible</h3>
-              <p>Il n'y a pas de concours pour le moment.</p>
-            </div>
-          ) : (
-            <div className="vote-grid">
-              {votes.map((v) => (
-                <ConcoursCard
-                  key={v.id}
-                  vote={v}
-                  onOpen={(id) => alert(`Ouvrir vote ${id}`)}
-                />
-              ))}
-            </div>
-          )}
-        </main>
+    <div>
+      <h1>Liste des votes</h1>
+      <div className="vote-grid">
+        {votes.map(v => (
+          <ConcoursCard
+            key={v.id}
+            vote={v}
+            onOpen={(id) => navigate(`/concours/${id}/candidats`)} 
+          />
+        ))}
       </div>
     </div>
   );

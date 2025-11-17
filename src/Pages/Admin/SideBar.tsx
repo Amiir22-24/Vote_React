@@ -3,6 +3,7 @@ import Dashboard from "./Dashboard";
 import Candidats from "./Candidats/Candidats";
 import Concours from "./Concours/Concours";
 import Statistiques from "./Statistique";
+import { useNavigate } from "react-router";
 
 type ActiveComponent = "dashboard" | "candidats" | "concours" | "statistiques" | "transactions";
 
@@ -25,7 +26,7 @@ const SideBar: React.FC = () => {
         return <Dashboard />;
     }
   };
-
+  const navigate = useNavigate();
   const handleNavigationClick = (component: ActiveComponent) => {
     setActiveComponent(component);
   };
@@ -34,7 +35,11 @@ const SideBar: React.FC = () => {
     <div className="dashboard">
       {/* Header */}
       <header className="dashboard-header">
-        <button className="back-button" aria-label="Retour au vote">
+        <button
+          className="back-button"
+          aria-label="Retour au vote"
+          onClick={() => navigate("/")}
+        >
           ← Retour au vote
         </button>
         <h1>Administration</h1>

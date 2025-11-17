@@ -5,6 +5,7 @@ import Votant from "../Pages/Admin/Votant"
 import SideBar from "../Pages/Admin/SideBar"
 import { CandidatUpdate } from "../Pages/Admin/Candidats/CandidatUpdate"
 import UserPage from "../Pages/Users/UserPage"
+import ConcoursDetailPage from "../Pages/Users/Concoursdetails"
 
 const router = createBrowserRouter([
     
@@ -14,7 +15,8 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <UserPage />
-            }
+            },
+            { path: "concours/:id/candidats", element: <ConcoursDetailPage /> },
         ]
     },
     {
