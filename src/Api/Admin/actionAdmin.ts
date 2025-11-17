@@ -1,6 +1,6 @@
 import type { adminData, AuthResponse } from "../../types/admin";
-import type { Candidate, CandidateData } from "../../types/candidat";
-import type { vote, voteAllResponse, voteData, voteDataResponse } from "../../types/vote";
+import type { Candidate } from "../../types/candidat";
+import type { voteAllResponse, voteData, voteDataResponse } from "../../types/vote";
 import axiosInstance from "../axios_instance";
 
 
