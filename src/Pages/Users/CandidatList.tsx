@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import CandidatCard from "../../Components/CandidatCard";
 
 import "./CandidatList.css";
 import { Link } from "react-router";
 import type { Candidate } from "../../types/candidat";
 import { candidateApi } from "../../Api/candidates/candidatApi";
+import CandidatCard from "../../Components/CandidatCard";
 
 // Navbar stylisée
 
@@ -119,7 +119,7 @@ const CandidatListPage: React.FC = () => {
                   lastname={candidat.lastname}
                   description={candidat.description}
                   categorie={candidat.categorie ?? ""}
-                  pricePerVote={(candidat as any).pricePerVote}
+                  // pricePerVote={(candidat as any).pricePerVote}
                   votes={candidat.votes}
                   onVote={() => alert(`Vote enregistré pour ${candidat.firstname}`)}
                 />
