@@ -2,17 +2,8 @@ import React, { useEffect, useState } from "react";
 import CandidatCard from "../Components/CandidatCard";
 import { Link } from "react-router-dom";
 import "./CandidatList.css";
-
-interface Candidat {
-  id: number;
-  firstname: string;
-  lastname: string;
-  description: string;
-  categorie: string;
-  pricePerVote: string;
-  photo: string;
-  votes: number;
-}
+import { candidateApi } from "../Api/candidates/candidatApi";
+import type { Candidate } from "../types/candidat";
 
 // Navbar stylisée
 const Navbar: React.FC = () => {
@@ -40,21 +31,44 @@ const Navbar: React.FC = () => {
 };
 
 const CandidatListPage: React.FC = () => {
-  const [candidats, setCandidats] = useState<Candidat[]>([]);
+  const [candidats, setCandidats] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // Récupération depuis l'API
   useEffect(() => {
-    const fetchCandidats = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch("http://127.0.0.1:8000/apicandidats");
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des candidats");
-        }
-        const data = await response.json();
-        setCandidats(data);
+      const fetchCandidats = async () => {
+        try {
+          setLoading(true);
+          // candidateApi.getAll() est censé retourner directement un tableau de candidats
+          const response = await candidateApi.getAll();
+          // Debug: afficher la réponse brute pour diagnostiquer les formats inattendus
+          console.debug("Candidats API response:", response);
+
+          let list: any[] = [];
+          if (Array.isArray(response)) {
+            list = response;
+          } else if (response && Array.isArray((response as any).data)) {
+            list = (response as any).data;
+          } else if (response && Array.isArray((response as any).candidats)) {
+            list = (response as any).candidats;
+          } else {
+            // essayer de transformer un objet en tableau si besoin
+            try {
+              const maybeArray = Object.keys(response || {}).map((k) => (response as any)[k]);
+              if (Array.isArray(maybeArray) && maybeArray.length && typeof maybeArray[0] === "object") {
+                list = maybeArray;
+              }
+            } catch (err) {
+              // ignore
+            }
+          }
+
+          if (!Array.isArray(list)) {
+            throw new Error("Format de réponse inattendu pour la liste des candidats");
+          }
+
+          setCandidats(list as Candidate[]);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Une erreur est survenue");
         console.error("Erreur récupération candidats :", err);
@@ -128,8 +142,8 @@ const CandidatListPage: React.FC = () => {
                   firstname={candidat.firstname}
                   lastname={candidat.lastname}
                   description={candidat.description}
-                  categorie={candidat.categorie}
-                  pricePerVote={candidat.pricePerVote}
+                  categorie={candidat.categorie ?? ""}
+                  pricePerVote={(candidat as any).pricePerVote}
                   votes={candidat.votes}
                   onVote={() => alert(`Vote enregistré pour ${candidat.firstname}`)}
                 />

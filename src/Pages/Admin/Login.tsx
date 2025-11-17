@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate, useParams } from "react-router";
 import "./Login.css";
-import { CandidatApi } from "../../Api/Admin/actionAdmin";
+import { AdminApi } from "../../Api/Admin/actionAdmin";
 
 
 const Login: React.FC = () => {
@@ -25,7 +25,7 @@ const Login: React.FC = () => {
     };
 
     try {
-      const response = await CandidatApi.Login(formdata);
+      const response = await AdminApi.Login(formdata);
       
       if (response.success) {
         console.log("Login successful:", response);

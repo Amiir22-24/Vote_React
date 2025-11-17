@@ -1,7 +1,8 @@
+import React, { useEffect, useState } from "react";
 import "./CandidatCard.css";
 
 export interface CandidatCardProps {
-  photo: string;
+  photo: File | string;
   firstname: string;
   lastname: string;
   description: string;
@@ -21,10 +22,31 @@ export default function CandidatCard({
   votes,
   onVote,
 }: CandidatCardProps) {
+  const [imageSrc, setImageSrc] = useState<string>("");
+
+  useEffect(() => {
+    let url: string | undefined;
+
+    if (typeof photo === "string") {
+      setImageSrc(photo);
+    } else if (photo instanceof File) {
+      url = URL.createObjectURL(photo);
+      setImageSrc(url);
+    } else {
+      setImageSrc("");
+    }
+
+    return () => {
+      if (url) {
+        URL.revokeObjectURL(url);
+      }
+    };
+  }, [photo]);
+
   return (
     <div className="c-card">
       <div className="c-card-image-wrapper">
-        <img src={photo} alt={`${firstname} ${lastname}`} className="c-card-image" />
+        <img src={imageSrc} alt={`${firstname} ${lastname}`} className="c-card-image" />
         <div className="c-card-votes">
           <span>❤️</span> {votes}
         </div>

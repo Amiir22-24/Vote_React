@@ -4,7 +4,7 @@ import type { vote, voteAllResponse, voteData, voteDataResponse } from "../../ty
 import axiosInstance from "../axios_instance";
 
 
-export const CandidatApi = {
+export const AdminApi = {
     Login: async (formData: adminData): Promise<AuthResponse> => {
     const response = await axiosInstance.post('/login', formData);
     return response.data;
