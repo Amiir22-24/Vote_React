@@ -8,6 +8,7 @@ import Votant from "../Pages/Admin/Votant"
 import SideBar from "../Pages/Admin/SideBar"
 import CandidatList from "../Pages/CandidatList"
 import { CandidatUpdate } from "../Pages/Admin/CandidatUpdate"
+// import VoteListPage from "../Pages/VoteList"
 
 const router = createBrowserRouter([
     
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <CandidatList />
+            },
+            {
+                index: true,
+                // element: <VoteListPage />
             },
             {
                 path: "vote",

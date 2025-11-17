@@ -1,0 +1,66 @@
+.vote-card {
+  width: 270px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.vote-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+
+.vote-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.vote-card p {
+  font-size: 14px;
+  margin: 0;
+  color: #444;
+}
+
+.vote-status {
+  display: inline-block;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+/* Bouton principal */
+.vote-card button {
+  margin-top: 10px;
+  width: 100%;
+  background: #007bff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.vote-card button:hover {
+  background: #005fcc;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .vote-card {
+    width: 100%;
+  }
+}
