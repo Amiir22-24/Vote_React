@@ -1,34 +1,12 @@
 import React, { useEffect, useState } from "react";
 import CandidatCard from "../Components/CandidatCard";
-import { Link } from "react-router-dom";
+
 import "./CandidatList.css";
 import { candidateApi } from "../Api/candidates/candidatApi";
 import type { Candidate } from "../types/candidat";
 
 // Navbar stylisée
-const Navbar: React.FC = () => {
-  return (
-    <nav className="navbar">
-      <div className="nav-container">
-        <div className="nav-logo">
-          <h2>Concours</h2>
-        </div>
-        <ul className="nav-links">
-          <li>
-            <Link to="/candidats" className="nav-link active">
-              👥 Candidats
-            </Link>
-          </li>
-          <li>
-            <Link to="/vote" className="nav-link">
-              🏆 Concours
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  );
-};
+
 
 const CandidatListPage: React.FC = () => {
   const [candidats, setCandidats] = useState<Candidate[]>([]);
@@ -83,7 +61,6 @@ const CandidatListPage: React.FC = () => {
   if (loading) {
     return (
       <div>
-        <Navbar />
         <div className="loading-container">
           <div className="loading-spinner"></div>
           <p>Chargement des candidats...</p>
@@ -95,7 +72,6 @@ const CandidatListPage: React.FC = () => {
   if (error) {
     return (
       <div>
-        <Navbar />
         <div className="error-container">
           <div className="error-icon">⚠️</div>
           <h3>Erreur de chargement</h3>
@@ -113,7 +89,6 @@ const CandidatListPage: React.FC = () => {
 
   return (
     <div className="candidat-list-page">
-      <Navbar />
       
       <div className="candidat-list-container">
         <header className="page-header">
