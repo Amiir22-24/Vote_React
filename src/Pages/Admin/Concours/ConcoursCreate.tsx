@@ -1,9 +1,9 @@
 import { useState, type FormEvent } from "react";
-import { VoteApi } from "../../Api/Admin/actionAdmin"; // API votes
-import "./VoteCreate.css";
-import type { voteData,  } from "../../types/vote";
+import { VoteApi } from "../../../Api/Admin/actionAdmin"; // API votes
+import "./ConcoursCreate.css";
+import type { voteData,  } from "../../../types/Concours";
 
-export const VoteCreate: React.FC = () => {
+export const ConcoursCreate: React.FC = () => {
   // Un nom d'état cohérent: formData / setFormData
   const [formData, setFormData] = useState<voteData>({
     name: "",

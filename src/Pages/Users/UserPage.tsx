@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Candidats from "./CandidatList";
-import Concours from "./Votepage";
+import Concours from "../Admin/Concours/Concours";
 
 
 type ActiveComponent = "candidats" | "concours";

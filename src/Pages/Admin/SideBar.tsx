@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Dashboard from "./Dashboard";
-import Candidats from "./Candidats";
-import Concours from "./Votes";
+import Candidats from "./Candidats/Candidats";
+import Concours from "./Concours/Concours";
 import Statistiques from "./Statistique";
 
 type ActiveComponent = "dashboard" | "candidats" | "concours" | "statistiques" | "transactions";
