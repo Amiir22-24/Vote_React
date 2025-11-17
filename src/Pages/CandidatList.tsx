@@ -4,6 +4,7 @@ import CandidatCard from "../Components/CandidatCard";
 import "./CandidatList.css";
 import { candidateApi } from "../Api/candidates/candidatApi";
 import type { Candidate } from "../types/candidat";
+import { Link } from "react-router";
 
 // Navbar stylisée
 
