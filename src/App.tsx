@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import LoginPage from './Pages/Auth/LoginPage';
+import AdminLayout from './Components/Layout/AdminLayout';
+import DashboardPage from './Pages/Dashboard/DashboardPage';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Pages
+// Placeholders pour les autres pages
+const CompetitionsPage = () => <div style={{ padding: '30px' }}><h1>Gestion des Concours</h1><p>Implémentation à faire ici (CRUD).</p></div>;
+const CandidatesPage = () => <div style={{ padding: '30px' }}><h1>Gestion des Candidats</h1><p>Implémentation à faire ici (CRUD).</p></div>;
+const TransactionsPage = () => <div style={{ padding: '30px' }}><h1>Gestion des Transactions</h1><p>Historique complet des transactions.</p></div>;
+const ResultsPage = () => <div style={{ padding: '30px' }}><h1>Résultats des Concours</h1><p>Affichage des résultats et classements.</p></div>;
 
+
+// Layout
+
+// Composant de protection de route
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const isAuthenticated = !!localStorage.getItem('admin_token');
+  
+  if (!isAuthenticated) {
+    // Si non authentifié, redirige vers la page de connexion
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <>{children}</>;
+};
+
+const App: React.FC = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        {/* Route pour la connexion */}
+        <Route path="/login" element={<LoginPage />} />
+        
+        {/* Routes d'administration protégées avec le Layout */}
+        <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
+          {/* Routes enfants qui s'affichent dans l'Outlet d'AdminLayout */}
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="competitions" element={<CompetitionsPage />} />
+          <Route path="candidates" element={<CandidatesPage />} />
+          <Route path="results" element={<ResultsPage />} />
+          <Route path="transactions" element={<TransactionsPage />} />
+          {/* Redirection par défaut si /admin est atteint */}
+          <Route index element={<Navigate to="dashboard" replace />} />
+        </Route>
 
-export default App
+        {/* Redirection de la racine vers /login ou /admin/dashboard */}
+        <Route path="*" element={<Navigate to={localStorage.getItem('admin_token') ? "/admin/dashboard" : "/login"} replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;
