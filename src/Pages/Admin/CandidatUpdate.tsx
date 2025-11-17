@@ -29,7 +29,6 @@ export const CandidatUpdate: React.FC = () => {
   type Contest = { id: string; name: string };
   const [contests, setContests] = useState<Contest[]>([]);
   const [selectedContestId, setSelectedContestId] = useState<string>("");
-  const [loadingCandidates, setLoadingCandidates] = useState(true);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { FormEvent } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import "./Login.css";
 import { AdminApi } from "../../Api/Admin/actionAdmin";
 
