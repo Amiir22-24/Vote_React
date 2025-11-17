@@ -7,7 +7,7 @@ export interface CandidatCardProps {
   lastname: string;
   description: string;
   categorie: string;
-  pricePerVote: string;
+  // pricePerVote: string;
   votes: number;
   onVote: () => void;
 }
@@ -18,7 +18,7 @@ export default function CandidatCard({
   lastname,
   description,
   categorie,
-  pricePerVote,
+  // pricePerVote,
   votes,
   onVote,
 }: CandidatCardProps) {
@@ -57,7 +57,7 @@ export default function CandidatCard({
         <p className="c-card-description">{description}</p>
         <div className="c-card-info">
           <span>🏆 {categorie}</span>
-          <span>{pricePerVote}</span>
+          {/* <span>{pricePerVote}</span> */}
         </div>
         <button className="c-card-button" onClick={onVote}>
           Votez maintenant

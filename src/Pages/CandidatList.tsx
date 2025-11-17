@@ -4,6 +4,7 @@ import CandidatCard from "../Components/CandidatCard";
 import "./CandidatList.css";
 import { candidateApi } from "../Api/candidates/candidatApi";
 import type { Candidate } from "../types/candidat";
+import { Link } from "react-router";
 
 // Navbar stylisée
 
@@ -118,7 +119,7 @@ const CandidatListPage: React.FC = () => {
                   lastname={candidat.lastname}
                   description={candidat.description}
                   categorie={candidat.categorie ?? ""}
-                  pricePerVote={(candidat as any).pricePerVote}
+                  // pricePerVote={(candidat as any).pricePerVote}
                   votes={candidat.votes}
                   onVote={() => alert(`Vote enregistré pour ${candidat.firstname}`)}
                 />

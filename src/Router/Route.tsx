@@ -1,60 +1,35 @@
-import { createBrowserRouter, RouterProvider } from "react-router"
-import Votepage from "../Pages/Votepage"
-import Login from "../Pages/Admin/Login"
-import Candidats from "../Pages/Admin/Candidats"
-import Votant from "../Pages/Admin/Votant"
-import SideBar from "../Pages/Admin/SideBar"
-import CandidatList from "../Pages/CandidatList"
-import { CandidatUpdate } from "../Pages/Admin/CandidatUpdate"
-import UserPage from "../Pages/UserPage"
+import { createBrowserRouter, RouterProvider } from "react-router";
+import Votepage from "../Pages/Votepage";
+import ConcoursDetailPage from "../Pages/Admin/Concoursdetails";
+import Login from "../Pages/Admin/Login";
+import Candidats from "../Pages/Admin/Candidats";
+import Votant from "../Pages/Admin/Votant";
+import SideBar from "../Pages/Admin/SideBar";
+import CandidatList from "../Pages/CandidatList";
+import { CandidatUpdate } from "../Pages/Admin/CandidatUpdate";
+import UserPage from "../Pages/UserPage";
 
 const router = createBrowserRouter([
-    
     {
         path: "/",
         children: [
-            {
-                index: true,
-                element: <UserPage />
-            },
-            {
-                path: "vote",
-                element: <Votepage />
-            },
+            { index: true, element: <UserPage /> },
+            { path: "vote", element: <Votepage /> },
+            { path: "vote/:id", element: <ConcoursDetailPage /> }, // <-- détail
         ]
     },
     {
         path: "/admin",
         children: [
-            {
-                path: "login",
-                element: <Login />
-            },
-            {
-                path: "tableau-de-bord",
-                element: <SideBar />
-            },
-            {
-                path: "candidats",
-                element: <Candidats />
-            },
-            {
-                path: "candidats/:id/edit",
-                element: <CandidatUpdate />
-            },
-            {
-                path: "votants",
-                element: <Votant />
-            },
+            { path: "login", element: <Login /> },
+            { path: "tableau-de-bord", element: <SideBar /> },
+            { path: "candidats", element: <Candidats /> },
+            { path: "candidats/:id/edit", element: <CandidatUpdate /> },
+            { path: "votants", element: <Votant /> },
         ]
     }
+]);
 
-])
+const Router = () => <RouterProvider router={router} />;
 
-const Router = () => {
-    return (
-        <RouterProvider router={router} />
-    )
-}
-
-export default Router
+export default Router;
