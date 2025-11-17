@@ -30,7 +30,8 @@ const ConcoursCard: React.FC<{ vote: ConcoursList; onOpen: (id: number) => void 
 };
 
 // Navbar locale
-function ConcoursList() {
+
+const ConcoursList: React.FC = () => {
   const [votes, setVotes] = useState<ConcoursList[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
