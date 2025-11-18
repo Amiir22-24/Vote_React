@@ -3,12 +3,13 @@ import Dashboard from "./Dashboard";
 import Candidats from "./Candidats/Candidats";
 import Concours from "./Concours/Concours";
 import Statistiques from "./Statistique";
+import { useNavigate } from "react-router";
 
 type ActiveComponent = "dashboard" | "candidats" | "concours" | "statistiques" | "transactions";
 
 const SideBar: React.FC = () => {
   const [activeComponent, setActiveComponent] = useState<ActiveComponent>("dashboard");
-  const navigate = useNavigate(); // hook pour la navigation
+  const navigate = useNavigate();
 
   const menuItems: { key: ActiveComponent; label: string; icon: string }[] = [
     { key: "dashboard", label: "Vue d'ensemble", icon: "📊" },
