@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Candidats from "./Candidats/Candidats";
 import Concours from "./Concours/Concours";
@@ -36,7 +35,6 @@ const SideBar: React.FC = () => {
         return <Dashboard />;
     }
   };
-  const navigate = useNavigate();
   const handleNavigationClick = (component: ActiveComponent) => {
     setActiveComponent(component);
   };
