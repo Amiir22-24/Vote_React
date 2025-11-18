@@ -4,7 +4,7 @@ import { candidateApi } from "../../../Api/candidates/candidatApi";
 import "./CandidatCreate.css";
 import type { CandidateData } from "../../../types/candidat";
 import { AdminApi } from "../../../Api/Admin/actionAdmin";
-import type { ConcorsAllResponse } from "../../../types/Concours";
+import type { ConcoursAllResponse } from "../../../types/Concours";
 import { ConcoursApi } from "../../../Api/Concours/concoursApi";
 
 
@@ -50,7 +50,7 @@ export const CandidatUpdate: React.FC = () => {
         const res = await ConcoursApi.getAll();
         if (!mounted) return;
 
-        const votes = (res as ConcorsAllResponse).data ?? [];
+        const votes = (res as ConcoursAllResponse).data ?? [];
         const data = votes.map((v) => ({ id: String(v.id), name: v.name }));
         setContests(data);
 

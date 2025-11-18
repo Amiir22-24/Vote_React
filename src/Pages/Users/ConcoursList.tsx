@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./concours.css";
-import type { Concours as ConcoursList, ConcorsAllResponse, Concours } from "../../types/Concours";
+import type { Concours as ConcoursList, ConcoursAllResponse, Concours } from "../../types/Concours";
 import { useNavigate } from "react-router";
 import { ConcoursApi } from "../../Api/Concours/concoursApi";
 
@@ -42,7 +42,7 @@ const ConcoursList: React.FC = () => {
     const fetchVotes = async () => {
       try {
         setLoading(true);
-        const response: ConcorsAllResponse = await ConcoursApi.getAll();
+        const response: ConcoursAllResponse = await ConcoursApi.getAll();
         setVotes(response.data || []);
       } catch (err: any) {
         setError(err?.message ||  "Erreur lors du chargement des votes");
