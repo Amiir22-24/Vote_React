@@ -1,11 +1,11 @@
 import { useState, type FormEvent } from "react";
-import { VoteApi } from "../../Api/Admin/actionAdmin"; // API votes
-import "./VoteCreate.css";
-import type { voteData,  } from "../../types/vote";
+import "./ConcoursCreate.css";
+import type { ConcoursData,  } from "../../../types/Concours";
+import { AdminApi } from "../../../Api/Admin/actionAdmin";
 
-export const VoteCreate: React.FC = () => {
+export const ConcoursCreate: React.FC = () => {
   // Un nom d'état cohérent: formData / setFormData
-  const [formData, setFormData] = useState<voteData>({
+  const [formData, setFormData] = useState<ConcoursData>({
     name: "",
     date: new Date(),
     echeance: new Date(),
@@ -24,7 +24,7 @@ export const VoteCreate: React.FC = () => {
     setFormData((prev) => ({
       ...prev,
       [name]: name === "date" || name === "echeance" ? new Date(value) : value,
-    } as unknown as voteData));
+    } as unknown as ConcoursData));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -34,7 +34,7 @@ export const VoteCreate: React.FC = () => {
     setIsSuccess(false);
 
     try {
-      const response = await VoteApi.create(formData);
+      const response = await AdminApi.ConconrsCreate(formData);
 
       // VoteApi.create est maintenant censé retourner response.data (voir actionAdmin)
       if (response) {

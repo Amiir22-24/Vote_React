@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Candidats from "./CandidatList";
-import Concours from "./Votepage";
+import CandidatListPage from "./CandidatList";
+import ConcoursList from "./ConcoursList";
 
 
 type ActiveComponent = "candidats" | "concours";
@@ -12,12 +12,12 @@ const UserPage: React.FC = () => {
         switch (activeComponent) {
 
             case "candidats":
-                return <Candidats />;
+                return <CandidatListPage />;
             case "concours":
-                return <Concours />;
+                return <ConcoursList />;
 
             default:
-                return <Candidats />;
+                return <CandidatListPage />;
         }
 
 

@@ -1,31 +1,31 @@
-export interface vote{
+export interface Concours{
     id: number;
     name:string;
     date:Date;
     echeance: Date;
-    statuts: voteStatus;
+    statuts: ConcourStatus;
 }
-export interface voteData{
+export interface ConcoursData{
     name:string;
     date:Date;
     echeance: Date;
-    statuts?: voteStatus;
+    statuts?: ConcourStatus;
 }
-export interface voteDataResponse{
+export interface ConcoursDataResponse{
     success: boolean;
     status?: string;
     message: string;
-    data?: vote;
+    data?: Concours;
     error?: string;
 }
-export interface voteAllResponse{
+export interface ConcorsAllResponse{
     success: boolean;
     message: string;
-    data: vote[];
+    data: Concours[];
     
 }
 
-export type voteStatus =
+export type ConcourStatus =
   | "en cours"
   | "PASSE"
   | "à venir"

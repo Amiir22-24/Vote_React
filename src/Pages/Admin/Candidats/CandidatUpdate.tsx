@@ -1,10 +1,11 @@
 import { useState, type FormEvent, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { candidateApi } from "../../Api/candidates/candidatApi";
+import { candidateApi } from "../../../Api/candidates/candidatApi";
 import "./CandidatCreate.css";
-import type { CandidateData } from "../../types/candidat";
-import { VoteApi } from "../../Api/Admin/actionAdmin";
-import type { voteAllResponse } from "../../types/vote";
+import type { CandidateData } from "../../../types/candidat";
+import { AdminApi } from "../../../Api/Admin/actionAdmin";
+import type { ConcorsAllResponse } from "../../../types/Concours";
+import { ConcoursApi } from "../../../Api/Concours/concoursApi";
 
 
 
@@ -46,10 +47,10 @@ export const CandidatUpdate: React.FC = () => {
     (async () => {
       try {
         // Charger les concours
-        const res = await VoteApi.getAll();
+        const res = await ConcoursApi.getAll();
         if (!mounted) return;
 
-        const votes = (res as voteAllResponse).data ?? [];
+        const votes = (res as ConcorsAllResponse).data ?? [];
         const data = votes.map((v) => ({ id: String(v.id), name: v.name }));
         setContests(data);
 
@@ -112,7 +113,7 @@ export const CandidatUpdate: React.FC = () => {
     }
 
     try {
-      const response = await candidateApi.update(parseInt(id), formdata);
+      const response = await AdminApi.CandidatUpdate(parseInt(id), formdata);
 
       if (response) {
         setIsSuccess(true);

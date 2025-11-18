@@ -1,21 +1,21 @@
-import { createBrowserRouter, RouterProvider } from "react-router";
-import Votepage from "../Pages/Votepage";
-import ConcoursDetailPage from "../Pages/Admin/Concoursdetails";
-import Login from "../Pages/Admin/Login";
-import Candidats from "../Pages/Admin/Candidats";
-import Votant from "../Pages/Admin/Votant";
-import SideBar from "../Pages/Admin/SideBar";
-import CandidatList from "../Pages/CandidatList";
-import { CandidatUpdate } from "../Pages/Admin/CandidatUpdate";
-import UserPage from "../Pages/UserPage";
+import { createBrowserRouter, RouterProvider } from "react-router"
+import Login from "../Pages/Admin/auth/Login"
+import Candidats from "../Pages/Admin/Candidats/Candidats"
+import Votant from "../Pages/Admin/Votant"
+import SideBar from "../Pages/Admin/SideBar"
+import { CandidatUpdate } from "../Pages/Admin/Candidats/CandidatUpdate"
+import UserPage from "../Pages/Users/UserPage"
+import ConcoursDetailPage from "../Pages/Users/Concoursdetails"
 
 const router = createBrowserRouter([
     {
         path: "/",
         children: [
-            { index: true, element: <UserPage /> },
-            { path: "vote", element: <Votepage /> },
-            { path: "vote/:id", element: <ConcoursDetailPage /> }, // <-- détail
+            {
+                index: true,
+                element: <UserPage />
+            },
+            { path: "concours/:id/candidats", element: <ConcoursDetailPage /> },
         ]
     },
     {
