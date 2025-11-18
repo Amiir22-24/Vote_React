@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
-import { VoteApi } from "../../../Api/Admin/actionAdmin"; // API votes
 import "./ConcoursCreate.css";
 import type { voteData,  } from "../../../types/Concours";
+import { AdminApi } from "../../../Api/Admin/actionAdmin";
 
 export const ConcoursCreate: React.FC = () => {
   // Un nom d'état cohérent: formData / setFormData
@@ -34,7 +34,7 @@ export const ConcoursCreate: React.FC = () => {
     setIsSuccess(false);
 
     try {
-      const response = await VoteApi.create(formData);
+      const response = await AdminApi.ConconrsCreate(formData);
 
       // VoteApi.create est maintenant censé retourner response.data (voir actionAdmin)
       if (response) {

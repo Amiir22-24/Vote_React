@@ -1,9 +1,9 @@
 import { useState, type FormEvent, useEffect } from "react";
-import { candidateApi } from "../../../Api/candidates/candidatApi";
 import "./CandidatCreate.css";
 import type { CandidateData } from "../../../types/candidat";
-import { VoteApi } from "../../../Api/Admin/actionAdmin";
 import type { ConcorsAllResponse } from "../../../types/Concours";
+import { ConcoursApi } from "../../../Api/Concours/concoursApi";
+import { AdminApi } from "../../../Api/Admin/actionAdmin";
 
 
 
@@ -42,7 +42,7 @@ export const CandidatCreate: React.FC = () => {
     let mounted = true;
     (async () => {
       try {
-        const res = await VoteApi.getAll();
+        const res = await ConcoursApi.getAll();
         if (!mounted) return;
 
         const votes = (res as ConcorsAllResponse).data ?? [];
@@ -75,7 +75,7 @@ export const CandidatCreate: React.FC = () => {
     };
 
     try {
-      const response = await candidateApi.create(formdata);
+      const response = await AdminApi.Candidatcreate(formdata);
 
       if (response) {
         setIsSuccess(true);

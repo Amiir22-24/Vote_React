@@ -1,7 +1,6 @@
 /* CandidatList.css */
 .candidat-list-page {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #93a7ff 0%, #764ba2 100%);
 }
 
 /* Navbar Styles */
@@ -67,13 +66,12 @@
 .candidat-list-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px;
 }
 
 /* Page Header */
 .page-header {
   text-align: center;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   color: white;
 }
 
@@ -227,11 +225,11 @@
   }
 
   .candidat-list-container {
-    padding: 20px 15px;
+    /* padding: 20px 15px; */
   }
 
   .candidat-list-main {
-    padding: 20px;
+    /* padding: 20px; */
   }
 
   .candidat-grid {
