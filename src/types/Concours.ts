@@ -5,7 +5,7 @@ export interface Concours{
     echeance: Date;
     statuts: ConcourStatus;
 }
-export interface voteData{
+export interface ConcoursData{
     name:string;
     date:Date;
     echeance: Date;

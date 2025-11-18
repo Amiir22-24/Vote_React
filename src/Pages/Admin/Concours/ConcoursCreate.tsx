@@ -1,11 +1,11 @@
 import { useState, type FormEvent } from "react";
 import "./ConcoursCreate.css";
-import type { voteData,  } from "../../../types/Concours";
+import type { ConcoursData,  } from "../../../types/Concours";
 import { AdminApi } from "../../../Api/Admin/actionAdmin";
 
 export const ConcoursCreate: React.FC = () => {
   // Un nom d'état cohérent: formData / setFormData
-  const [formData, setFormData] = useState<voteData>({
+  const [formData, setFormData] = useState<ConcoursData>({
     name: "",
     date: new Date(),
     echeance: new Date(),
@@ -24,7 +24,7 @@ export const ConcoursCreate: React.FC = () => {
     setFormData((prev) => ({
       ...prev,
       [name]: name === "date" || name === "echeance" ? new Date(value) : value,
-    } as unknown as voteData));
+    } as unknown as ConcoursData));
   };
 
   const handleSubmit = async (e: FormEvent) => {
