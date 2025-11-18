@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import {  } from "../../Api/Admin/actionAdmin";
 import type { Candidate } from "../../types/candidat";
 import CandidatCard from "../../Components/CandidatCard";
-import { candidateApi } from "../../Api/candidates/candidatApi";
 import { ConcoursApi } from "../../Api/Concours/concoursApi";
 
 const ConcoursDetailPage: React.FC = () => {

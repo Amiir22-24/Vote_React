@@ -1,6 +1,6 @@
 import type { adminData, AuthResponse } from "../../types/admin";
 import type { Candidate, CandidateData } from "../../types/candidat";
-import type { ConcorsAllResponse, ConcoursData, ConcoursDataResponse } from "../../types/Concours";
+import type { ConcoursAllResponse, ConcoursData, ConcoursDataResponse } from "../../types/Concours";
 import axiosInstance from "../axios_instance";
 
 

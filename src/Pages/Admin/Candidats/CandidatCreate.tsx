@@ -1,7 +1,7 @@
 import { useState, type FormEvent, useEffect } from "react";
 import "./CandidatCreate.css";
 import type { CandidateData } from "../../../types/candidat";
-import type { ConcorsAllResponse } from "../../../types/Concours";
+import type { ConcoursAllResponse } from "../../../types/Concours";
 import { ConcoursApi } from "../../../Api/Concours/concoursApi";
 import { AdminApi } from "../../../Api/Admin/actionAdmin";
 
@@ -45,7 +45,7 @@ export const CandidatCreate: React.FC = () => {
         const res = await ConcoursApi.getAll();
         if (!mounted) return;
 
-        const votes = (res as ConcorsAllResponse).data ?? [];
+        const votes = (res as ConcoursAllResponse).data ?? [];
         const data = votes.map((v) => ({ id: String(v.id), name: v.name }));
         setContests(data);
         if (data.length) setSelectedContestId(data[0].id);
