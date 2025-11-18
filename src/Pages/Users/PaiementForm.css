@@ -1,0 +1,144 @@
+/* Container global du formulaire dans la modal */
+.payment-form-container {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  font-family: Arial, sans-serif;
+}
+
+/* Titre du formulaire */
+.payment-form-container h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+
+/* Formulaire */
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Champs input et select */
+.payment-form input,
+.payment-form select {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.payment-form input:focus,
+.payment-form select:focus {
+  border-color: #007bff;
+}
+
+/* Conteneur des boutons */
+.payment-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Bouton de paiement */
+.payment-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.payment-form button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  flex: 1;
+}
+
+.payment-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Bouton annuler */
+.cancel-btn {
+  background-color: #ccc;
+  color: #333;
+  flex: 1;
+}
+
+.cancel-btn:hover {
+  background-color: #999;
+  color: #fff;
+}
+
+/* Message de retour succès / erreur */
+.response {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Modal overlay */
+.payment-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 15px;
+}
+
+/* Contenu de la modal */
+.payment-modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Bouton de fermeture */
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+.close-modal:hover {
+  color: #007bff;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .payment-form-container {
+    padding: 20px;
+  }
+
+  .payment-buttons {
+    flex-direction: column;
+  }
+}
