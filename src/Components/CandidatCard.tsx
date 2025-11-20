@@ -47,7 +47,7 @@ useEffect(() => {
           setImageSrc(photo);
         } 
         else {
-          const apiImageUrl = `${API_BASE_URL}/storage/${photo.replace('storage/', '')}`;
+          const apiImageUrl = `${API_BASE_URL}storage/${photo.replace('storage/', '')}`;
           
           setImageSrc(apiImageUrl);
           
