@@ -35,3 +35,30 @@ export interface PaymentFormProps {
   candidat: Candidate;
   onClose: () => void;
 }
+export interface PaiementData {
+
+  id: number;
+  name: string;
+  email: string;
+  phone_number: string;
+  country: string;
+  description: string;
+  amount: number | string;
+  currency: string;
+  callback_url: string;
+  mode: PaymentMode;
+  customer: string
+};
+
+export interface TransactionResponse {
+  sussess: boolean;
+  transaction_id?: string;
+  message: string;
+  error: string;
+}
+
+export interface PaiementListeResponse{
+  success: boolean;
+  message: string;
+  data: PaiementData[]
+}
