@@ -37,7 +37,7 @@ const handleSubmit = async (e: FormEvent) => {
 
   try {
     const rawResponse = await AdminApi.Login(formdata);
-    console.log("Raw API response:", rawResponse);
+    console.log("Ligne API response:", rawResponse);
     
     let response;
     
