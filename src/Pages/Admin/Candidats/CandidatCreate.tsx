@@ -42,23 +42,23 @@ export const CandidatCreate: React.FC = () => {
       try {
         const rawResponse: ConcoursAllResponse = await ConcoursApi.getAll();
         console.log("Ligne API response:", rawResponse);
-    
-    let response;
-    
-    // Si la réponse est une string avec des commentaires HTML, les nettoyer
-    if (typeof rawResponse === 'string') {
-      const jsonString = rawResponse.replace(/<!--|-->/g, '').trim();
-      response = JSON.parse(jsonString);
-    } else {
-      response = rawResponse;
-    }
+
+        let response;
+
+        // Si la réponse est une string avec des commentaires HTML, les nettoyer
+        if (typeof rawResponse === 'string') {
+          const jsonString = (rawResponse as string).replace(/<!--|-->/g, '').trim();
+          response = JSON.parse(jsonString);
+        } else {
+          response = rawResponse;
+        }
         if (!mounted) return;
 
         console.log("API Response:", response); // Debug log
 
         // Gestion plus robuste de la réponse
         let contestsData: Concours[] = [];
-        
+
         if (Array.isArray(response)) {
           // Si la réponse est directement un tableau
           contestsData = response;
@@ -73,13 +73,13 @@ export const CandidatCreate: React.FC = () => {
           contestsData = response;
         }
 
-        const formattedContests = contestsData.map((c) => ({ 
-          id: c.id.toString(), 
-          name: c.name 
+        const formattedContests = contestsData.map((c) => ({
+          id: c.id.toString(),
+          name: c.name
         }));
-        
+
         setContests(formattedContests);
-        
+
         if (formattedContests.length > 0) {
           setSelectedContestId(formattedContests[0].id);
         }

@@ -9,7 +9,10 @@ export interface CandidatCardProps {
   categorie: string;
   // pricePerVote: string;
   votes: number;
+  isAdmin: boolean;
   onVote: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
 export default function CandidatCard({

@@ -8,7 +8,7 @@ export const PaiementApi = {
         return response.data;
     },
     inittransaction: async ( formdata: PaymentFormData): Promise<TransactionResponse> => {
-        const response = await axiosInstance.post(`/paiements/${formdata}`);
+        const response = await axiosInstance.post(`/paiements/${formdata.candidatId}`, formdata);
         return response.data;
     },
     

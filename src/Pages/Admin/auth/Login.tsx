@@ -4,19 +4,6 @@ import { useNavigate } from "react-router";
 import "./Login.css";
 import { AdminApi } from "../../../Api/Admin/actionAdmin";
 
-// Interface pour typer la réponse de l'API
-interface LoginResponse {
-  success: boolean;
-  message: string;
-  admin: {
-    id: number;
-    name: string;
-    // created_at: string;
-    // updated_at: string;
-  };
-  token: string;
-}
-
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -42,8 +29,8 @@ const handleSubmit = async (e: FormEvent) => {
     let response;
     
     // Si la réponse est une string avec des commentaires HTML, les nettoyer
-    if (typeof rawResponse === 'string') {
-      const jsonString = rawResponse.replace(/<!--|-->/g, '').trim();
+    if (typeof rawResponse === 'string' && rawResponse) {
+      const jsonString = (rawResponse as string).replace(/<!--|-->/g, '').trim();
       response = JSON.parse(jsonString);
     } else {
       response = rawResponse;
