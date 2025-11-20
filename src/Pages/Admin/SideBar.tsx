@@ -9,7 +9,7 @@ type ActiveComponent = "dashboard" | "candidats" | "concours" | "statistiques" |
 
 const SideBar: React.FC = () => {
   const [activeComponent, setActiveComponent] = useState<ActiveComponent>("dashboard");
-  const navigate = useNavigate(); // hook pour la navigation
+  const navigate = useNavigate();
 
   const menuItems: { key: ActiveComponent; label: string; icon: string }[] = [
     { key: "dashboard", label: "Vue d'ensemble", icon: "📊" },

@@ -1,9 +1,9 @@
 import type { Candidate } from "../../types/candidat";
-import type { ConcorsAllResponse } from "../../types/Concours";
+import type { ConcoursAllResponse } from "../../types/Concours";
 import axiosInstance from "../axios_instance";
 
 export const ConcoursApi = {
-  getAll: async (): Promise<ConcorsAllResponse> => {
+  getAll: async (): Promise<ConcoursAllResponse> => {
     const response = await axiosInstance.get('/concours');
     return response.data;
   },

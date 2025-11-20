@@ -1,11 +1,9 @@
 import { useState, type FormEvent, useEffect } from "react";
 import "./CandidatCreate.css";
 import type { CandidateData } from "../../../types/candidat";
-import type { ConcorsAllResponse } from "../../../types/Concours";
+import type { ConcoursAllResponse, Concours } from "../../../types/Concours";
 import { ConcoursApi } from "../../../Api/Concours/concoursApi";
 import { AdminApi } from "../../../Api/Admin/actionAdmin";
-
-
 
 export const CandidatCreate: React.FC = () => {
   const [formData, setFormData] = useState<CandidateData>({
@@ -42,15 +40,52 @@ export const CandidatCreate: React.FC = () => {
     let mounted = true;
     (async () => {
       try {
-        const res = await ConcoursApi.getAll();
+        const rawResponse: ConcoursAllResponse = await ConcoursApi.getAll();
+        console.log("Ligne API response:", rawResponse);
+    
+    let response;
+    
+    // Si la réponse est une string avec des commentaires HTML, les nettoyer
+    if (typeof rawResponse === 'string') {
+      const jsonString = rawResponse.replace(/<!--|-->/g, '').trim();
+      response = JSON.parse(jsonString);
+    } else {
+      response = rawResponse;
+    }
         if (!mounted) return;
 
-        const votes = (res as ConcorsAllResponse).data ?? [];
-        const data = votes.map((v) => ({ id: String(v.id), name: v.name }));
-        setContests(data);
-        if (data.length) setSelectedContestId(data[0].id);
+        console.log("API Response:", response); // Debug log
+
+        // Gestion plus robuste de la réponse
+        let contestsData: Concours[] = [];
+        
+        if (Array.isArray(response)) {
+          // Si la réponse est directement un tableau
+          contestsData = response;
+        } else if (response && Array.isArray(response.data)) {
+          // Si la réponse a une propriété data qui est un tableau
+          contestsData = response.data;
+        } else if (response && response.data && Array.isArray(response.data)) {
+          // Si la réponse a une propriété concours
+          contestsData = response.data;
+        } else if (response && response && Array.isArray(response)) {
+          // Si la réponse a une propriété results
+          contestsData = response;
+        }
+
+        const formattedContests = contestsData.map((c) => ({ 
+          id: c.id.toString(), 
+          name: c.name 
+        }));
+        
+        setContests(formattedContests);
+        
+        if (formattedContests.length > 0) {
+          setSelectedContestId(formattedContests[0].id);
+        }
       } catch (err) {
         console.error("Impossible de charger les concours:", err);
+        setMessage("Erreur lors du chargement des concours");
       }
     })();
 
@@ -64,7 +99,14 @@ export const CandidatCreate: React.FC = () => {
     setLoading(true);
     setMessage("");
     setIsSuccess(false);
-    const formdata = {
+
+    if (!selectedContestId) {
+      setMessage("Erreur: Veuillez sélectionner un concours");
+      setLoading(false);
+      return;
+    }
+
+    const submitData = {
       firstname: formData.firstname,
       lastname: formData.lastname,
       description: formData.description,
@@ -75,34 +117,33 @@ export const CandidatCreate: React.FC = () => {
     };
 
     try {
-      const response = await AdminApi.Candidatcreate(formdata);
+      const response = await AdminApi.Candidatcreate(submitData);
 
       if (response) {
         setIsSuccess(true);
         setMessage("Candidat créé avec succès !");
-
         console.log("Candidat créé avec succès:", response);
+
+        // Reset du formulaire
+        setFormData({
+          firstname: "",
+          lastname: "",
+          description: "",
+          photo: undefined,
+          categorie: "",
+          matricule: "",
+          vote_id: 0
+        });
+        if (contests.length > 0) {
+          setSelectedContestId(contests[0].id);
+        }
+      } else {
+        throw new Error("La réponse du serveur est invalide.");
       }
-      else 
-        throw new Error(response as string || "La réponse du serveur est invalide.");
-      
-
-
-      // Reset du formulaire
-      setFormData({
-        firstname: "",
-        lastname: "",
-        description: "",
-        photo: undefined,
-        categorie: "",
-        matricule: "",
-        vote_id: 0
-      });
-      setSelectedContestId("");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erreur lors de la création du candidat:", error);
       setMessage(
-        `Erreur: La création du candidat a échoué. ${error}`
+        `Erreur: La création du candidat a échoué. ${error.message || error}`
       );
       setIsSuccess(false);
     } finally {
@@ -212,8 +253,6 @@ export const CandidatCreate: React.FC = () => {
             required
             className="cc-input"
           />
-
-        
         </div>
 
         <button type="submit" disabled={loading} className="cc-submit-button">

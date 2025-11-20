@@ -1,15 +1,21 @@
-export interface admin{
-    id:number;
-    name:string;
-    password:string;
+export interface Admin {
+    id: number;
+    name: String;
+    password: String;
 }
-export interface adminData{
-    name:string;
-    password:string;
+export interface adminData {
+    name: String;
+    password: String;
 }
-export interface AuthResponse{
+export interface AuthResponse {
+
     success: boolean;
-    message: String;
-    admin: string;
+    message: string;
+    admin: {
+        id: number;
+        name: string;
+        // created_at: string;
+        // updated_at: string;
+    };
     token: string;
 }

@@ -18,7 +18,7 @@ export interface ConcoursDataResponse{
     data?: Concours;
     error?: string;
 }
-export interface ConcorsAllResponse{
+export interface ConcoursAllResponse{
     success: boolean;
     message: string;
     data: Concours[];

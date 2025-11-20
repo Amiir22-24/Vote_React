@@ -137,7 +137,8 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
           required
         />
 
-        <select name="currency" value={formData.currency} onChange={handleChange}>
+        <label htmlFor="currency">Devise</label>
+        <select id="currency" name="currency" value={formData.currency} onChange={handleChange}>
           <option value="XOF">XOF</option>
           <option value="XAF">XAF</option>
           <option value="GHS">GHS</option>
@@ -153,7 +154,8 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
           required
         />
 
-        <select name="mode" value={formData.mode} onChange={handleChange} required>
+        <label htmlFor="mode">Mode de paiement</label>
+        <select id="mode" name="mode" value={formData.mode} onChange={handleChange} required>
           <option value="">Sélectionner un Mobile Money</option>
           {mobileMoneyModes.map((m) => (
             <option key={m.value} value={m.value}>
