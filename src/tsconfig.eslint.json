@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json", // Hérite des paramètres de base de votre tsconfig principal
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "eslint.config.js" // 👈 AJOUTEZ le fichier de configuration ESLint
+  ],
+  "compilerOptions": {
+    "module": "NodeNext", // Utilisez un module pour les fichiers de config si nécessaire
+    "moduleResolution": "NodeNext",
+    "noEmit": true, // N'a pas besoin de générer de code
+    "allowJs": true // IMPORTANT : Permet d'inclure les fichiers .js comme eslint.config.js
+  }
+}
