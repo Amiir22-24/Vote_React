@@ -4,9 +4,20 @@ import { useNavigate } from "react-router";
 import "./Login.css";
 import { AdminApi } from "../../../Api/Admin/actionAdmin";
 
+// Interface pour typer la réponse de l'API
+interface LoginResponse {
+  success: boolean;
+  message: string;
+  admin: {
+    id: number;
+    name: string;
+    // created_at: string;
+    // updated_at: string;
+  };
+  token: string;
+}
 
 const Login: React.FC = () => {
-  // const { admin } = useParams(); // Récupération du paramètre admin depuis l'URL
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -14,49 +25,62 @@ const Login: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
+const handleSubmit = async (e: FormEvent) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setError("");
 
-    const formdata = {
-      name: username,
-      password: password,
-    };
-
-    try {
-      const response = await AdminApi.Login(formdata);
-      
-      if (response.success) {
-        console.log("Login successful:", response);
-        // Stocker les informations d'authentification
-        localStorage.setItem("authToken", response.token || "");
-        localStorage.setItem("authname", response.admin!.name || "");
-        
-        setError("");
-        navigate("/admin/tableau-de-bord");
-      } else {
-        setError("Nom d'utilisateur ou mot de passe incorrect. Seuls les admins peuvent se connecter.");
-      }
-    } catch (error: any) {
-      console.error("Login error:", error);
-      setError(error.response?.data?.message || "Erreur de connexion au serveur. Veuillez réessayer.");
-    } finally {
-      setIsLoading(false);
-    }
+  const formdata = {
+    name: username,
+    password: password,
   };
+
+  try {
+    const rawResponse = await AdminApi.Login(formdata);
+    console.log("Raw API response:", rawResponse);
+    
+    let response;
+    
+    // Si la réponse est une string avec des commentaires HTML, les nettoyer
+    if (typeof rawResponse === 'string') {
+      const jsonString = rawResponse.replace(/<!--|-->/g, '').trim();
+      response = JSON.parse(jsonString);
+    } else {
+      response = rawResponse;
+    }
+    
+    if (response && response.success) {
+      console.log("Login successful:", response);
+      
+      localStorage.setItem("authToken", response.token);
+      localStorage.setItem("authname", response.admin.name);
+      
+      setError("");
+      navigate("/admin/tableau-de-bord");
+    } else {
+      setError("Nom d'utilisateur ou mot de passe incorrect.");
+    }
+  } catch (error: any) {
+    console.error("Login error:", error);
+    setError("Erreur de connexion au serveur. Veuillez réessayer.");
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   // Optionnel: Afficher le nom de l'admin dans le titre si le paramètre est présent
   const getAdminTitle = () => {
-    if (localStorage.getItem("adminData")) {
-      return `Administration - ${localStorage.getItem("adminData")}`;
+    const authname = localStorage.getItem("authname");
+    if (authname) {
+      return `Administration - ${authname}`;
     }
     return "Administration";
   };
 
   const getWelcomeMessage = () => {
-    if (localStorage.getItem("adminData")) {
-      return `Connectez-vous en tant que ${localStorage.getItem("adminData")} pour gérer la plateforme`;
+    const authname = localStorage.getItem("authname");
+    if (authname) {
+      return `Connectez-vous en tant que ${authname} pour gérer la plateforme`;
     }
     return "Connectez-vous pour gérer la plateforme";
   };
@@ -79,10 +103,10 @@ const Login: React.FC = () => {
         <h2>{getAdminTitle()}</h2>
         <p>{getWelcomeMessage()}</p>
 
-        {/* Afficher le paramètre admin si présent */}
-        {localStorage.getItem("adminData") && (
+        {/* Afficher le nom de l'admin si présent */}
+        {localStorage.getItem("authname") && (
           <div className="admin-badge">
-            Mode: {localStorage.getItem("adminData")}
+            Mode: {localStorage.getItem("authname")}
           </div>
         )}
 

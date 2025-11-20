@@ -65,7 +65,6 @@ const CandidatListPage: React.FC = () => {
             {candidats.length} candidat{candidats.length > 1 ? 's' : ''} au total
           </div>
         </header>
-
         <main className="candidat-list-main">
           {candidats.length === 0 ? (
             <div className="empty-state">

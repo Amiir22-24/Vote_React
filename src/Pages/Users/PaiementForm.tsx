@@ -2,7 +2,9 @@ import React, { useState, type ChangeEvent, type FormEvent, } from "react";
 import axios from "axios";
 import "./PaiementForm.css";
 import type { Candidate } from "../../types/candidat";
-import { type PaymentFormData, type PaymentMode, type PaymentResponse } from "../../types/paiement";
+import type { PaymentFormData, PaymentMode } from "../../types/paiement";
+import { PaiementApi } from "../../Api/Paiement/PaiementApi";
+
 
 interface PaymentFormProps {
   candidat: Candidate;
@@ -63,15 +65,21 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
     setResponseMsg("");
 
     try {
-      const res = await axios.post<PaymentResponse>(
-        "http://localhost:8000/api/do-vote",
-        formData
-      );
-
-      if (res.data.success) {
-        setResponseMsg(`Paiement initié avec succès ! Transaction ID : ${res.data.transaction_id}`);
+      const data = {
+        name: formData.name,
+        email: formData.email,
+        phone_number: formData.phone_number,
+        country: formData.country,
+        amount: formData.amount,
+        currency: formData.currency,
+        description: formData.description,
+        mode: formData.mode,
+      }
+      const response = await PaiementApi.inittransaction(data);
+      if (response.sussess) {
+        setResponseMsg(`Paiement initié avec succès ! Transaction ID : ${response.transaction_id}`);
       } else {
-        setResponseMsg(`Erreur : ${res.data.error || res.data.message}`);
+        setResponseMsg(`Erreur : ${response.error || response.message}`);
       }
     } catch (err: any) {
       setResponseMsg(`Erreur : ${err.response?.data?.error || err.message}`);
@@ -129,7 +137,8 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
           required
         />
 
-        <select name="currency" value={formData.currency} onChange={handleChange}>
+        <label htmlFor="currency">Devise</label>
+        <select id="currency" name="currency" value={formData.currency} onChange={handleChange}>
           <option value="XOF">XOF</option>
           <option value="XAF">XAF</option>
           <option value="GHS">GHS</option>
@@ -145,7 +154,8 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
           required
         />
 
-        <select name="mode" value={formData.mode} onChange={handleChange} required>
+        <label htmlFor="mode">Mode de paiement</label>
+        <select id="mode" name="mode" value={formData.mode} onChange={handleChange} required>
           <option value="">Sélectionner un Mobile Money</option>
           {mobileMoneyModes.map((m) => (
             <option key={m.value} value={m.value}>
@@ -155,11 +165,11 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
         </select>
 
         <div className="payment-buttons">
-          <button type="submit" disabled={loading}>
-            {loading ? "Traitement..." : "Payer maintenant"}
-          </button>
           <button type="button" className="cancel-btn" onClick={onClose}>
             Annuler
+          </button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Traitement..." : "Payer maintenant"}
           </button>
         </div>
       </form>

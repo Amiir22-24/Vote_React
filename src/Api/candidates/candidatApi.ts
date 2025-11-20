@@ -1,4 +1,4 @@
-import type { Candidate, CandidateCreateResponse, CandidateData, CandidateListeResponse } from "../../types/candidat";
+import type { Candidate, CandidateListeResponse } from "../../types/candidat";
 import axiosInstance from "../axios_instance";
 
 export const candidateApi = {

@@ -1,22 +1,18 @@
-<<<<<<< HEAD:src/Components/VoteCard.tsx
 import { useNavigate } from "react-router-dom";
-import VoteCard from "../Components/VoteCard";
-import type { vote } from "../types/vote";
 import React from "react";
 
-const Votepage: React.FC = () => {
-  const [votes, setVotes] = React.useState<vote[]>([]);
+  const [votes, setVotes] = React.useState<Concours[]>([]);
   const navigate = useNavigate();
-=======
+
 import type { Concours, ConcourStatus } from "../types/Concours";
 import "../Pages/VoteList.css"
 
 export interface ConcoursCardProps {
-  vote: Concours;
+  concours: Concours;
   onOpen: (id: number) => void;
 }
 
-export default function ConcoursCard({ vote, onOpen }: ConcoursCardProps) {
+export default function ConcoursCard() {
   const getStatusColor = (status: ConcourStatus) => {
     switch (status) {
       case "en cours": return "green";
@@ -25,14 +21,13 @@ export default function ConcoursCard({ vote, onOpen }: ConcoursCardProps) {
       default: return "gray";
     }
   };
->>>>>>> a0aa71b4a93f886919534b6f5fbfe9ed1c939b36:src/Components/ConcoursCard.tsx
 
   return (
     <div className="vote-list">
       {votes.map(v => (
-        <VoteCard
+        <ConcoursCard
           key={v.id}
-          vote={v}
+          concours={v}
           onOpen={(id) => navigate(`/vote/${id}`)} // <-- redirection ici
         />
       ))}
@@ -40,4 +35,12 @@ export default function ConcoursCard({ vote, onOpen }: ConcoursCardProps) {
   );
 };
 
-export default Votepage;
+export default function ConcoursCard({ concours, onOpen }: ConcoursCardProps) {
+  return (
+    <div className="concours-card" onClick={() => onOpen(concours.id)}>;
+      <h2>{concours.title}</h2>
+      <p>{concours.description}</p>
+      <p style={{ color: getStatusColor(concours.status) }}>{concours.status}</p>
+    </div>
+  );
+} 
