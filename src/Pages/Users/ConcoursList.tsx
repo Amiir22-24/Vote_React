@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./concours.css";
-import { VoteApi } from "../../Api/Admin/actionAdmin";
-import type { Concours as ConcoursList, ConcorsAllResponse, Concours } from "../../types/Concours";
+import type { Concours as ConcoursList, ConcoursAllResponse, Concours } from "../../types/Concours";
 import { useNavigate } from "react-router";
+import { ConcoursApi } from "../../Api/Concours/concoursApi";
 
 // VoteCard local
 const ConcoursCard: React.FC<{ vote: ConcoursList; onOpen: (id: number) => void }> = ({ vote, onOpen }) => {
@@ -36,13 +36,13 @@ const ConcoursList: React.FC = () => {
     const [votes, setVotes] = useState<Concours[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate(); // <- useNavigate au sommet
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVotes = async () => {
       try {
         setLoading(true);
-        const response: ConcorsAllResponse = await VoteApi.getAll();
+        const response: ConcoursAllResponse = await ConcoursApi.getAll();
         setVotes(response.data || []);
       } catch (err: any) {
         setError(err?.message ||  "Erreur lors du chargement des votes");

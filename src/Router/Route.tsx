@@ -8,7 +8,6 @@ import UserPage from "../Pages/Users/UserPage"
 import ConcoursDetailPage from "../Pages/Users/Concoursdetails"
 
 const router = createBrowserRouter([
-    
     {
         path: "/",
         children: [
@@ -22,35 +21,15 @@ const router = createBrowserRouter([
     {
         path: "/admin",
         children: [
-            {
-                path: "login",
-                element: <Login />
-            },
-            {
-                path: "tableau-de-bord",
-                element: <SideBar />
-            },
-            {
-                path: "candidats",
-                element: <Candidats />
-            },
-            {
-                path: "candidats/:id/edit",
-                element: <CandidatUpdate />
-            },
-            {
-                path: "votants",
-                element: <Votant />
-            },
+            { path: "login", element: <Login /> },
+            { path: "tableau-de-bord", element: <SideBar /> },
+            { path: "candidats", element: <Candidats /> },
+            { path: "candidats/:id/edit", element: <CandidatUpdate /> },
+            { path: "votants", element: <Votant /> },
         ]
     }
+]);
 
-])
+const Router = () => <RouterProvider router={router} />;
 
-const Router = () => {
-    return (
-        <RouterProvider router={router} />
-    )
-}
-
-export default Router
+export default Router;

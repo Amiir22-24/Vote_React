@@ -1,70 +1,46 @@
 import type { adminData, AuthResponse } from "../../types/admin";
-import type { Candidate } from "../../types/candidat";
-import type { ConcorsAllResponse, voteData, ConcoursDataResponse } from "../../types/Concours";
+import type { Candidate, CandidateData } from "../../types/candidat";
+import type { ConcoursAllResponse, ConcoursData, ConcoursDataResponse } from "../../types/Concours";
 import axiosInstance from "../axios_instance";
 
 
 export const AdminApi = {
-    Login: async (formData: adminData): Promise<AuthResponse> => {
+  Login: async (formData: adminData): Promise<AuthResponse> => {
     const response = await axiosInstance.post('/login', formData);
     return response.data;
-    },
-    getAll: async (): Promise<Candidate [] > => {
-    const response = await axiosInstance.get('/candidats');
-    return response.data;
-    },
-    create: async (data: FormData) => {
-    return axiosInstance.post("/candidats", data, {
+  },
+  Candidatcreate: async (data: CandidateData): Promise<Candidate> => {
+    const response = await axiosInstance.post("/candidats", data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    },
-    destroy: async (id: number): Promise<Candidate [] > => {
-    const response = await axiosInstance.delete(`/candidates/${id}`);
-    return  response.data;
-    },
-    update: async (id: number, formData:FormData): Promise<Candidate [] > => {
+    return response.data
+  },
+    CandidatUpdate: async (id: number, formData: FormData): Promise<Candidate[]> => {
     const response = await axiosInstance.put(`/candidates/${id}`, formData);
-    return  response.data;
-    },
-    getById: async (id: number): Promise<Candidate> => {
-    const response = await axiosInstance.get(`/candidates/${id}`);
     return response.data;
-    },
-    read: async (id: number): Promise<Candidate> => {
-    const response = await axiosInstance.get(`/candidates/${id}`);
-    return  response.data;
-    },
-}
+  },
 
-export const VoteApi = {
-    getAll: async (): Promise<ConcorsAllResponse> => {
-    const response = await axiosInstance.get('/votes');
+  CandidatDestroy: async (id: number): Promise<Candidate[]> => {
+    const response = await axiosInstance.delete(`/candidates/${id}`);
     return response.data;
-    },
-    create: async (data: voteData): Promise<ConcoursDataResponse> => {
+  },
+    
+  ConconrsCreate: async (data: ConcoursData): Promise<ConcoursDataResponse> => {
     const response = await axiosInstance.post("/votes", data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
-    },
-    destroy: async (id: number): Promise<Candidate [] > => {
+  },
+  ConcoursDestroy: async (id: number): Promise<Candidate[]> => {
     const response = await axiosInstance.delete(`/votes/${id}`);
-    return  response.data;
-    },
-    update: async (id: number, formData:FormData): Promise<Candidate [] > => {
-    const response = await axiosInstance.put(`/votes/${id}`, formData);
-    return  response.data;
-    },
-    getById: async (id: number): Promise<Candidate> => {
-    const response = await axiosInstance.get(`/votes/${id}`);
     return response.data;
-    },
-    read: async (id: number): Promise<Candidate> => {
-    const response = await axiosInstance.get(`/votes/${id}`);
-    return  response.data;
-    },
+  },
+  ConcoursUpdate: async (id: number, formData: FormData): Promise<Candidate[]> => {
+    const response = await axiosInstance.put(`/votes/${id}`, formData);
+    return response.data;
+  },
 }
