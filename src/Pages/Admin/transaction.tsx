@@ -59,16 +59,16 @@ const TransactionPage: React.FC = () => {
         // Transformer les données FedaPay vers votre format PaiementData
         const formattedTransactions = transactionsData.map((transaction: any) => ({
           id: transaction.id,
-          name: transaction.customer?.firstname + ' ' + transaction.customer?.lastname || 'N/A',
-          email: transaction.customer?.email || 'N/A',
-          phone_number: transaction.customer?.phone_number?.number || 'N/A',
-          country: transaction.customer?.phone_number?.country || 'N/A',
+          name: transaction.name || 'N/A',
+          email: transaction.email || 'N/A',
+          phone_number: transaction.phone_number || 'N/A',
+          country: transaction.country || 'N/A',
           amount: transaction.amount,
-          currency: transaction.currency?.iso || 'XOF',
+          currency: transaction.currency|| 'XOF',
           mode: transaction.mode || 'mobile',
-          description: transaction.description,
-          status: transaction.status,
-          reference: transaction.reference
+          description: transaction.description || 'N/A',
+          status: transaction.customer,
+          reference: transaction.transaction_id
         }));
         
         setTransactions(formattedTransactions);
