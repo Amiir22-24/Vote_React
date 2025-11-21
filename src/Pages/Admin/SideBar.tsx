@@ -4,6 +4,7 @@ import Candidats from "./Candidats/Candidats";
 import Concours from "./Concours/Concours";
 import Statistiques from "./Statistique";
 import { useNavigate } from "react-router";
+import Transaction from "./transaction";
 
 type ActiveComponent = "dashboard" | "candidats" | "concours" | "statistiques" | "transactions";
 
@@ -30,7 +31,7 @@ const SideBar: React.FC = () => {
       case "statistiques":
         return <Statistiques />;
       case "transactions":
-        return <div>Contenu Transactions</div>;
+        return <Transaction />;
       default:
         return <Dashboard />;
     }
