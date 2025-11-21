@@ -180,29 +180,33 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
         </div>
       ) : (
         <form className="payment-form" onSubmit={handleSubmit} ref={formRef}>
-          {/* Nom */}
-          <div className="form-group">
-            <label htmlFor="name">Nom complet</label>
-            <input type="text" id="name" name="name" placeholder="Votre nom complet" value={formData.name} onChange={handleChange} required />
-          </div>
-          {/* Email */}
-          <div className="form-group">
-            <label htmlFor="email">Adresse email</label>
-            <input type="email" id="email" name="email" placeholder="votre@email.com" value={formData.email} onChange={handleChange} required />
-          </div>
-          {/* Téléphone */}
-          <div className="form-group">
-            <label htmlFor="phone_number">Numéro de téléphone</label>
-            <input type="tel" id="phone_number" name="phone_number" placeholder="+229771234567" value={formData.phone_number} onChange={handleChange} required pattern="^\+[0-9]{10,15}$" title="Format: +229771234567" />
-            <small>Commencez par l'indicatif pays</small>
-          </div>
+          <div className="row-ligne">
 
-          <div className="form-row">
+            {/* Nom */}
             <div className="form-group">
-              <label htmlFor="amount">Montant</label>
-              <input type="number" id="amount" name="amount" placeholder="100" min={100} step={100} value={formData.amount} onChange={handleChange} required />
-              <small>Minimum: 100 {formData.currency}</small>
+              <label htmlFor="name">Nom complet</label>
+              <input type="text" id="name" name="name" placeholder="Votre nom complet" value={formData.name} onChange={handleChange} required />
             </div>
+            {/* Email */}
+            <div className="form-group">
+              <label htmlFor="email">Adresse email</label>
+              <input type="email" id="email" name="email" placeholder="votre@email.com" value={formData.email} onChange={handleChange} required />
+            </div>
+          </div>
+          <div className="row-ligne">
+
+            {/* Téléphone */}
+            <div className="form-group">
+              <label htmlFor="phone_number">Numéro de téléphone</label>
+              <input type="tel" id="phone_number" name="phone_number" placeholder="+229771234567" value={formData.phone_number} onChange={handleChange} required pattern="^\+[0-9]{10,15}$" title="Format: +229771234567" />
+            </div>
+
+              <div className="form-group">
+                <label htmlFor="amount">Montant</label>
+                <input type="number" id="amount" name="amount" placeholder="100" min={100} step={100} value={formData.amount} onChange={handleChange} required />
+              </div>
+          </div>
+          <div className="row-ligne">
 
             <div className="form-group">
               <label htmlFor="currency">Devise</label>
@@ -211,17 +215,16 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
                 <option value="GNF">GNF (Franc guinéen)</option>
               </select>
             </div>
-          </div>
 
-          <div className="form-group">
-            <label htmlFor="description">Description</label>
-            <input type="text" id="description" name="description" placeholder="Description du paiement" value={formData.description} onChange={handleChange} required />
+            <div className="form-group">
+              <label htmlFor="description">Description</label>
+              <input type="text" id="description" name="description" placeholder="Description du paiement" value={formData.description} onChange={handleChange} required />
+            </div>
           </div>
-
-          <div className="form-row">
+          <div className="row-ligne">
             <div className="form-group">
               <label htmlFor="country">Pays</label>
-              <input type="text" id="country" name="country" value={formData.country} disabled style={{textTransform: "uppercase"}} />
+              <input type="text" id="country" name="country" value={formData.country} disabled style={{ textTransform: "uppercase" }} />
             </div>
 
             <div className="form-group">
