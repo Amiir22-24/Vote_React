@@ -11,5 +11,9 @@ export const PaiementApi = {
         const response = await axiosInstance.post(`/paiements/${formdata.candidatId}`, formdata);
         return response.data;
     },
+    listTransactions: async (): Promise<any> => {
+        const response = await axiosInstance.post('/paiements/list');
+        return response;
+    },
     
 }

@@ -4,19 +4,81 @@ import type { PaiementData, PaiementListeResponse } from "../../types/paiement";
 const TransactionPage: React.FC = () => {
   const [transactions, setTransactions] = useState<PaiementData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchTransactions = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/paiements");
-      const data: PaiementListeResponse = await response.json();
+      const token = localStorage.getItem('authToken');
+      const response = await fetch('http://192.168.0.212/Dzumevi_APi/public/api/paiements/list', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      console.log("Status de la réponse:", response.status);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Erreur HTTP:", response.status, errorText);
+        
+        try {
+          const cleanText = errorText.replace(/<!--|-->/g, '').trim();
+          const errorData = JSON.parse(cleanText);
+          setError(`Erreur serveur: ${errorData.message || response.status}`);
+        } catch (parseError) {
+          setError(`Erreur serveur: ${response.status}`);
+        }
+        
+        setLoading(false);
+        return;
+      }
+
+      const responseText = await response.text();
+      console.log("Réponse brute:", responseText.substring(0, 200));
+
+      let data;
+      try {
+        const cleanText = responseText.replace(/<!--|-->/g, '').trim();
+        data = JSON.parse(cleanText);
+      } catch (parseError) {
+        console.error("Erreur parsing JSON:", parseError);
+        setError("Format de réponse invalide du serveur");
+        setLoading(false);
+        return;
+      }
+
+      console.log("Données reçues:", data);
 
       if (data.success) {
-        setTransactions(data.data);
+        // CORRECTION ICI : Les transactions sont dans data.data.transactions
+        const transactionsData = data.data.transactions || data.data || [];
+        
+        // Transformer les données FedaPay vers votre format PaiementData
+        const formattedTransactions = transactionsData.map((transaction: any) => ({
+          id: transaction.id,
+          name: transaction.customer?.firstname + ' ' + transaction.customer?.lastname || 'N/A',
+          email: transaction.customer?.email || 'N/A',
+          phone_number: transaction.customer?.phone_number?.number || 'N/A',
+          country: transaction.customer?.phone_number?.country || 'N/A',
+          amount: transaction.amount,
+          currency: transaction.currency?.iso || 'XOF',
+          mode: transaction.mode || 'mobile',
+          description: transaction.description,
+          status: transaction.status,
+          reference: transaction.reference
+        }));
+        
+        setTransactions(formattedTransactions);
       } else {
-        console.error("Erreur API :", data.message);
+        console.error("Erreur API:", data.message);
+        setError(data.message || "Erreur inconnue de l'API");
       }
     } catch (error) {
-      console.error("Erreur lors de la requête :", error);
+      console.error("Erreur lors de la requête:", error);
+      setError("Erreur de connexion au serveur");
     } finally {
       setLoading(false);
     }
@@ -38,7 +100,9 @@ const TransactionPage: React.FC = () => {
       "Montant",
       "Devise",
       "Mode de paiement",
-      "Description"
+      "Description",
+      "Statut",
+      "Référence"
     ];
 
     const rows = transactions.map((t) => [
@@ -50,7 +114,9 @@ const TransactionPage: React.FC = () => {
       t.amount,
       t.currency,
       t.mode.toUpperCase(),
-      t.description
+      t.description,
+      t.status || 'N/A',
+      t.reference || 'N/A'
     ]);
 
     const csvContent =
@@ -84,13 +150,14 @@ const TransactionPage: React.FC = () => {
 
         <button
           onClick={exportToCSV}
+          disabled={transactions.length === 0}
           style={{
             padding: "10px 18px",
-            backgroundColor: "#4CAF50",
+            backgroundColor: transactions.length === 0 ? "#ccc" : "#4CAF50",
             color: "white",
             border: "none",
             borderRadius: "6px",
-            cursor: "pointer",
+            cursor: transactions.length === 0 ? "not-allowed" : "pointer",
             fontWeight: "600"
           }}
         >
@@ -98,9 +165,24 @@ const TransactionPage: React.FC = () => {
         </button>
       </div>
 
+      {error && (
+        <div style={{
+          padding: "10px",
+          backgroundColor: "#ffebee",
+          color: "#c62828",
+          border: "1px solid #ef5350",
+          borderRadius: "4px",
+          marginBottom: "20px"
+        }}>
+          <strong>Erreur:</strong> {error}
+          <br />
+          <small>Vérifiez que le serveur Laravel est bien configuré.</small>
+        </div>
+      )}
+
       {loading ? (
         <p>Chargement...</p>
-      ) : transactions.length === 0 ? (
+      ) : transactions.length === 0 && !error ? (
         <p>Aucune transaction trouvée.</p>
       ) : (
         <div
@@ -128,6 +210,7 @@ const TransactionPage: React.FC = () => {
                 <th style={th}>Devise</th>
                 <th style={th}>Mode</th>
                 <th style={th}>Description</th>
+                <th style={th}>Statut</th>
               </tr>
             </thead>
 
@@ -143,6 +226,7 @@ const TransactionPage: React.FC = () => {
                   <td style={td}>{t.currency}</td>
                   <td style={td}>{t.mode.toUpperCase()}</td>
                   <td style={td}>{t.description}</td>
+                  <td style={td}>{t.status || 'N/A'}</td>
                 </tr>
               ))}
             </tbody>
