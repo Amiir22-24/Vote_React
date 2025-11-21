@@ -306,6 +306,7 @@ const CandidatListPage: React.FC = () => {
               {candidats.map((candidat) => (
                 <CandidatCard
                   key={candidat.id}
+                  id={candidat.id}
                   photo={candidat.photo}
                   firstname={candidat.firstname}
                   lastname={candidat.lastname}

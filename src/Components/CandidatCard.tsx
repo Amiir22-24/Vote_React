@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./CandidatCard.css";
 
 export interface CandidatCardProps {
+  id: number;
   photo: File | string;
   firstname: string;
   lastname: string;
@@ -10,6 +11,7 @@ export interface CandidatCardProps {
   // pricePerVote: string;
   votes: number;
   isAdmin: boolean;
+
   onVote: () => void;
   onEdit: () => void;
   onDelete: () => void;
@@ -24,12 +26,14 @@ export default function CandidatCard({
   // pricePerVote,
   votes,
   onVote,
+  isAdmin,
+  onEdit,
+  onDelete,
+
 }: CandidatCardProps) {
-const [imageSrc, setImageSrc] = useState<string>("");
 const [isLoading, setIsLoading] = useState(true);
 const [hasError, setHasError] = useState(false);
 
-const defaultImage = "";
 
 const API_BASE_URL = "http://192.168.0.212/Dzumevi_APi/public/"; // Remplacez par votre URL
 
@@ -93,6 +97,26 @@ const API_BASE_URL = "http://192.168.0.212/Dzumevi_APi/public/"; // Remplacez pa
         <button className="c-card-button" onClick={onVote}>
           Votez maintenant
         </button>
+        <div className="vote-actions">
+        {isAdmin && (
+          <div className="admin-actions">
+            <button
+              className="vote-button edit"
+              onClick={onEdit}
+              title="Modifier le concours"
+            >
+              ✏️
+            </button>
+            <button
+              className="vote-button delete"
+              onClick={onDelete}
+              title="Supprimer le concours"
+            >
+              🗑️
+            </button>
+          </div>
+        )}
+      </div>
       </div>
     </div>
   );
