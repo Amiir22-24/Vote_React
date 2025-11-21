@@ -96,6 +96,12 @@ const CandidatListPage: React.FC = () => {
     }
   };
 
+  const Deconnexion = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authname");
+    window.location.reload();
+  };
+
   // Modal de création/édition
   const CandidatModal: React.FC<{
     isOpen: boolean;
@@ -144,9 +150,8 @@ const CandidatListPage: React.FC = () => {
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files && e.target.files[0]) {
-        setFormData(prev => ({ ...prev, photo: e.target.files![0] }));
-      }
+      const file = e.target.files?.[0] || null;
+      setFormData(prev => ({ ...prev, photo: file }));
     };
 
     if (!isOpen) return null;
@@ -321,7 +326,7 @@ const CandidatListPage: React.FC = () => {
       <footer className="candidat-footer">
         <p>
           {isAdmin ? (
-            <span className="admin-badge">🔑 Mode Administrateur</span>
+            <button onClick={Deconnexion} className="deconnexion-button">Déconnexion</button>
           ) : (
             <Link to="../Admin/Login" className="admin-link">🔑 Espace Administrateur</Link>
           )}
