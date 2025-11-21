@@ -63,9 +63,6 @@ const API_BASE_URL = "http://192.168.0.212/Dzumevi_APi/public/"; // Remplacez pa
     ? photo
     : `${API_BASE_URL}storage/${photo.replace("storage/", "")}`;
 
-
-
-
   return (
     <div className="c-card">
       <div className="c-card-image-wrapper">
