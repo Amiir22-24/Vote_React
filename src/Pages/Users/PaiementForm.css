@@ -4,6 +4,7 @@
   padding: 25px;
   border-radius: 12px;
   width: 100%;
+  height: auto;
   max-width: 400px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   position: relative;
@@ -102,7 +103,7 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
-  padding: 15px;
+  padding: 15px; /* Important pour éviter que la modale touche les bords de l'écran */
 }
 
 /* Contenu de la modal */
@@ -114,6 +115,9 @@
   max-width: 400px;
   position: relative;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+  /* Assurer que le contenu de la modale peut défiler si le formulaire est très long sur petit écran */
+  max-height: 95vh;
+  overflow-y: auto;
 }
 
 /* Bouton de fermeture */
@@ -132,13 +136,39 @@
   color: #007bff;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
+/* --- Responsive Media Queries Améliorées --- */
+
+/* Ajustements pour les écrans de taille moyenne (ex: petites tablettes ou grands téléphones en paysage) */
+@media (max-width: 600px) {
   .payment-form-container {
     padding: 20px;
   }
 
-  .payment-buttons {
-    flex-direction: column;
+  .payment-form-container h3 {
+    font-size: 18px;
   }
 }
+
+/* Réajustements pour les téléphones portables */
+@media (max-width: 480px) {
+  .payment-form-container,
+  .payment-modal-content {
+    max-width: 95%; /* Réduit la largeur max pour laisser une marge visible */
+    padding: 15px;
+  }
+  
+  /* Les boutons s'empilent */
+  .payment-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  /* Tailles des éléments du formulaire */
+  .payment-form input,
+  .payment-form select,
+  .payment-form button {
+    padding: 10px;
+    font-size: 15px;
+  }
+}
+
