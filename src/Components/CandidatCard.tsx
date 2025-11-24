@@ -3,15 +3,13 @@ import "./CandidatCard.css";
 
 export interface CandidatCardProps {
   id: number;
-  photo: File | string;
+  photo: File | string | null; // Allow null
   firstname: string;
   lastname: string;
   description: string;
   categorie: string;
-  // pricePerVote: string;
   votes: number;
   isAdmin: boolean;
-
   onVote: () => void;
   onEdit: () => void;
   onDelete: () => void;
@@ -23,28 +21,30 @@ export default function CandidatCard({
   lastname,
   description,
   categorie,
-  // pricePerVote,
   votes,
   onVote,
   isAdmin,
   onEdit,
   onDelete,
-
 }: CandidatCardProps) {
-const [isLoading, setIsLoading] = useState(true);
-const [hasError, setHasError] = useState(false);
-
-
-const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/public/"; // Remplacez par votre URL
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [fileUrl, setFileUrl] = useState<string>("");
 
-  // Si image échoue, mettre image par défaut
+  const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/public/";
+
+  // Handle image error
   const handleImageError = () => {
     setHasError(true);
+    setIsLoading(false);
   };
 
-  // Si photo est un File, créer un URL utilisable
+  // Handle image load
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
+
+  // If photo is a File, create object URL
   useEffect(() => {
     let url: string | undefined;
 
@@ -54,18 +54,32 @@ const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/public/"; // Remplace
     }
 
     return () => {
-      if (url) URL.revokeObjectURL(url); // Libérer la mémoire
+      if (url) URL.revokeObjectURL(url);
     };
   }, [photo]);
 
-  // Déterminer l'URL finale de l'image
-  const imageUrl = hasError
-    ? "/default-image.jpg" // Image par défaut locale dans public/
-    : photo instanceof File
-    ? fileUrl
-    : photo.startsWith("http://") || photo.startsWith("https://")
-    ? photo
-    : `${API_BASE_URL}storage/${photo.replace("storage/", "")}`;
+  // Determine final image URL with null safety
+  const getImageUrl = (): string => {
+    // If there's an error or no photo, return default image
+    if (hasError || !photo) {
+      return "/default-image.jpg";
+    }
+
+    // If photo is a File object
+    if (photo instanceof File) {
+      return fileUrl;
+    }
+
+    // If photo is already a full URL
+    if (photo.startsWith("http") || photo.startsWith("data:")) {
+      return photo;
+    }
+
+    // If photo is a relative path, construct full URL
+    return `${API_BASE_URL}storage/${photo.replace("storage/", "")}`;
+  };
+
+  const imageUrl = getImageUrl();
 
   return (
     <div className="c-card">
@@ -79,7 +93,7 @@ const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/public/"; // Remplace
           src={imageUrl} 
           alt={`${firstname} ${lastname}`} 
           className={`c-card-image ${isLoading ? "c-card-image-loading" : ""} ${hasError ? "c-card-image-error" : ""}`}
-          onLoad={() => setIsLoading(false)}
+          onLoad={handleImageLoad}
           onError={handleImageError}
         />
         <div className="c-card-votes">
@@ -92,31 +106,30 @@ const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/public/"; // Remplace
         <p className="c-card-description">{description}</p>
         <div className="c-card-info">
           <span>🏆 {categorie}</span>
-          {/* <span>{pricePerVote}</span> */}
         </div>
         <button className="c-card-button" onClick={onVote}>
           Votez maintenant
         </button>
         <div className="vote-actions">
-        {isAdmin && (
-          <div className="admin-actions">
-            <button
-              className="vote-button edit"
-              onClick={onEdit}
-              title="Modifier le concours"
-            >
-              ✏️
-            </button>
-            <button
-              className="vote-button delete"
-              onClick={onDelete}
-              title="Supprimer le concours"
-            >
-              🗑️
-            </button>
-          </div>
-        )}
-      </div>
+          {isAdmin && (
+            <div className="admin-actions">
+              <button
+                className="vote-button edit"
+                onClick={onEdit}
+                title="Modifier le concours"
+              >
+                ✏️
+              </button>
+              <button
+                className="vote-button delete"
+                onClick={onDelete}
+                title="Supprimer le concours"
+              >
+                🗑️
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
