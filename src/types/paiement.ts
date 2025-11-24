@@ -39,6 +39,8 @@ export interface PaiementData {
   callback_url: string;
   mode: PaymentMode;
   customer: string
+  status?: string;
+  reference?: string;
 };
 
 export interface TransactionResponse {

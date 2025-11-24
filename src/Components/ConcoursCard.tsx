@@ -12,7 +12,7 @@ export interface ConcoursCardProps {
   onOpen: (id: number) => void;
 }
 
-export default function ConcoursCard() {
+export function ConcoursCard() {
   const getStatusColor = (status: ConcourStatus) => {
     switch (status) {
       case "en cours": return "green";
@@ -28,19 +28,19 @@ export default function ConcoursCard() {
         <ConcoursCard
           key={v.id}
           concours={v}
-          onOpen={(id) => navigate(`/vote/${id}`)} // <-- redirection ici
+          onOpen={(id:number) => navigate(`/vote/${id}`)} // <-- redirection ici
         />
       ))}
     </div>
   );
 };
 
-export default function ConcoursCard({ concours, onOpen }: ConcoursCardProps) {
-  return (
-    <div className="concours-card" onClick={() => onOpen(concours.id)}>;
-      <h2>{concours.title}</h2>
-      <p>{concours.description}</p>
-      <p style={{ color: getStatusColor(concours.status) }}>{concours.status}</p>
-    </div>
-  );
-} 
+// export default function ConcoursCard({ concours, onOpen }: ConcoursCardProps) {
+//   return (
+//     <div className="concours-card" onClick={() => onOpen(concours.id)}>;
+//       <h2>{concours.name}</h2>
+//       <p>du {concours.date} au {concours.echeance}</p>
+//       <p style={{ color: getStatusColor(concours.status) }}>{concours.status}</p>
+//     </div>
+//   );
+// } 

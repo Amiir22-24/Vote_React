@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# Application Web de Vote
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projet réalisé en équipe : une **application web de vote** avec **React + TypeScript + Vite** pour le front-end et **Laravel** pour le back-end.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Description
 
-## React Compiler
+Cette application permet aux **utilisateurs** de voter pour leurs candidats préférés **sans authentification**, tandis que l’**admin** gère toute la plateforme :  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Gestion des candidats et des concours (CRUD)  
+- Suivi des statistiques et du nombre de votes  
+- Intégration de **FedaPay** pour le système de vote  
 
-## Expanding the ESLint configuration
+Le projet sépare clairement le **front-end** et le **back-end**, et a été développé en équipe.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Fonctionnalités
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Pour l’admin
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Authentification sécurisée  
+- Gestion complète des candidats (CRUD)  
+- Gestion des concours (CRUD)  
+- Visualisation des statistiques et du nombre de votes  
+- Gestion des transactions via FedaPay  
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Pour les utilisateurs
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Vote libre sans création de compte  
+- Paiement via FedaPay pour enregistrer un vote  
+- Consultation des concours et candidats  
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## Technologies utilisées
+
+### Front-end
+
+- [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/) + [Vite](https://vitejs.dev/)  
+- ESLint pour la qualité du code  
+- Plugins React : `@vitejs/plugin-react` ou `@vitejs/plugin-react-swc`  
+
+### Back-end
+
+- [Laravel](https://laravel.com/)  
+- PHP >= 8.x  
+- Base de données : MySQL / PostgreSQL  
+- API REST pour la communication front-end / back-end  
+- Intégration FedaPay pour les paiements  
+
+---
+
+## Installation
+
+### Back-end (Laravel)
+
+1. Cloner le dépôt :  
+   ```bash
+   git clone httpshttps://github.com/Ahoefa12/Dzumevi_APi.git
+   cd Dzumevi_APi
+  
