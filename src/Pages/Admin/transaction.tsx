@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import type { PaiementData, PaiementListeResponse } from "../../types/paiement";
+import type { PaiementData } from "../../types/paiement";
 
 const TransactionPage: React.FC = () => {
   const [transactions, setTransactions] = useState<PaiementData[]>([]);
