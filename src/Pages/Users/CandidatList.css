@@ -1,17 +1,23 @@
 /* CandidatList.css */
 .candidat-list-page {
-  background: linear-gradient(135deg, #93a7ff 0%, #764ba2 100%);
+  /* background: linear-gradient(135deg, #93a7ff 0%, #764ba2 100%); */
+  background-color:#FFC01D;
+  border-radius: 10px;
+  min-height: 100vh;
+  padding: 40px 20px;
 }
 
 /* Navbar Styles */
 .navbar {
-  background: rgba(255, 255, 255, 0.95);
+  /* background-color: #006A4E; */
+  background: #06070A;
   --webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-radius: 10px;
 }
 
 .nav-container {
@@ -25,7 +31,7 @@
 }
 
 .nav-logo h2 {
-  color: #4f46e5;
+  color: white;
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
@@ -73,16 +79,18 @@
   text-align: center;
   /* margin-bottom: 50px; */
   color: white;
+  /* color: #006A4E; */
 }
 
 .page-title {
   font-size: 3rem;
   font-weight: 800;
   margin: 0 0 10px 0;
-  background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
+  /* background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%); 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background-clip: text; */
+  color: black;
 }
 
 .page-subtitle {
@@ -90,6 +98,8 @@
   margin: 0 0 20px 0;
   opacity: 0.9;
   font-weight: 300;
+  color: black;
+  text-align: center;
 }
 
 .stats-badge {
@@ -257,14 +267,14 @@
 .candidat-footer {
   text-align: center;
   padding: 1rem 0;
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
   border-top: 1px solid #ddd;
   margin-top: 2rem;
 }
 
 .candidat-footer .admin-link {
   text-decoration: none;
-  color: #007bff;
+  color:black;
   font-weight: bold;
 }
 
