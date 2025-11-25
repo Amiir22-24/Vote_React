@@ -71,7 +71,7 @@ export default function CandidatCard({
     }
 
     // If photo is already a full URL
-    if (photo.startsWith("http") || photo.startsWith("data:")) {
+    if (photo.startsWith("http://") || photo.startsWith("https://")) {
       return photo;
     }
 
