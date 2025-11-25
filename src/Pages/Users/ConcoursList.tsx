@@ -4,6 +4,7 @@ import type { Concours as ConcoursType } from "../../types/Concours";
 import { useNavigate } from "react-router";
 import { ConcoursApi } from "../../Api/Concours/concoursApi";
 import { AdminApi } from "../../Api/Admin/actionAdmin";
+import { ConcoursCreate } from "../Admin/Concours/ConcoursCreate";
 
 // VoteCard local avec actions CRUD
 const ConcoursCard: React.FC<{ 
@@ -99,72 +100,8 @@ const ConcoursModal: React.FC<{
 
   if (!isOpen) return null;
 
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h2>{isEditing ? "Modifier le concours" : "Créer un nouveau concours"}</h2>
-          <button className="close-button" onClick={onClose}>×</button>
-        </div>
-        
-        <form onSubmit={handleSubmit} className="modal-form">
-          <div className="form-group">
-            <label htmlFor="name">Nom du concours</label>
-            <input
-              type="text"
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="date">Date de début</label>
-            <input
-              type="date"
-              id="date"
-              value={formData.date}
-              onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="echeance">Date d'échéance</label>
-            <input
-              type="date"
-              id="echeance"
-              value={formData.echeance}
-              onChange={(e) => setFormData(prev => ({ ...prev, echeance: e.target.value }))}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="statuts">Statut</label>
-            <select
-              id="statuts"
-              value={formData.statuts}
-              onChange={(e) => setFormData(prev => ({ ...prev, statuts: e.target.value as ConcoursType["statuts"] }))}
-            >
-              <option value="à venir">À venir</option>
-              <option value="en cours">En cours</option>
-              <option value="PASSE">Passé</option>
-            </select>
-          </div>
-
-          <div className="modal-actions">
-            <button type="button" onClick={onClose} className="btn-secondary">
-              Annuler
-            </button>
-            <button type="submit" className="btn-primary">
-              {isEditing ? "Modifier" : "Créer"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+  return( 
+    <ConcoursCreate />
   );
 };
 
