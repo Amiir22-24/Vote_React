@@ -3,7 +3,7 @@ import "./CandidatCard.css";
 
 export interface CandidatCardProps {
   id: number;
-  photo: File | string | null; // Allow null
+  photo: File | string | null;
   firstname: string;
   lastname: string;
   description: string;
@@ -31,8 +31,8 @@ export default function CandidatCard({
   const [hasError, setHasError] = useState(false);
   const [fileUrl, setFileUrl] = useState<string>("");
 
-  const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/public/";
-
+   const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/public/";
+//  const Api: 'http://127.0.0.1:8000/api'
   // Handle image error
   const handleImageError = () => {
     setHasError(true);

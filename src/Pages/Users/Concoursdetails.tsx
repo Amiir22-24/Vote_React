@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import { AdminApi } from "../../Api/Admin/actionAdmin";
 import type { Candidate } from "../../types/candidat";
 import CandidatCard from "../../Components/CandidatCard";
 import { ConcoursApi } from "../../Api/Concours/concoursApi";
+import ConcoursList from "./ConcoursList";
+import "./CandidatList.css";
 
 const ConcoursDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -159,6 +161,7 @@ const ConcoursDetailPage: React.FC = () => {
       <div className="candidat-list-container">
         <header className="page-header">
           <h1 className="page-title">Liste des Candidats</h1>
+          <Link to="/">Retour à la page concours</Link>
           <p className="page-subtitle">
             Découvrez tous les candidats participant au concours
           </p>
