@@ -9,7 +9,7 @@ const TransactionPage: React.FC = () => {
   const fetchTransactions = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://192.168.0.212/Dzumevi_APi/public/api/paiements/list', {
+      const response = await fetch('http://192.168.0.212/Dzumevi_APi/public/api//paiements/list', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
