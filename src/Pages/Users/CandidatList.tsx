@@ -295,7 +295,7 @@ const CandidatListPage: React.FC = () => {
                   photo={candidat.photo}
                   firstname={candidat.firstname}
                   lastname={candidat.lastname}
-                  matricule={candidat.matricule ?? ""}a
+                  matricule={candidat.matricule ?? ""}
                   description={candidat.description}
                   categorie={candidat.categorie ?? ""}
                   votes={candidat.votes}

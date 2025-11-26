@@ -129,6 +129,7 @@
 }
 
 .vote-button {
+  width: auto;
   padding: 8px 16px;
   border: none;
   border-radius: 6px;
