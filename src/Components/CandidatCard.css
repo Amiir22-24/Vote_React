@@ -165,22 +165,22 @@
 }
 
 .vote-button.edit {
-  background: linear-gradient(135deg, #f6e05e 0%, #ecc94b 100%);
-  color: #744210;
+  background: darkblue;
+  color: white;
 }
 
 .vote-button.edit:hover {
-  background: linear-gradient(135deg, #ecc94b 0%, #d69e2e 100%);
+  background: darkorange;
   transform: translateY(-2px);
 }
 
 .vote-button.delete {
-  background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
-  color: #742a2a;
+  background: darkblue;
+  color: white;
 }
 
 .vote-button.delete:hover {
-  background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+  background: darkorange;
   transform: translateY(-2px);
 }
 

@@ -104,25 +104,25 @@ const Dashboard: React.FC = () => {
         { 
           title: "Total des votes", 
           value: dashboardData.totalVotes.toLocaleString(), 
-          icon: "❤️",
+          icon: "",
           trend: { value: 12, isPositive: true }
         },
         { 
           title: "Revenus totaux", 
           value: `${(dashboardData.totalRevenue / 1000).toLocaleString()}K FCFA`, 
-          icon: "💵",
+          icon: "",
           trend: { value: 8, isPositive: true }
         },
         { 
           title: "Candidats actifs", 
           value: dashboardData.activeCandidates, 
-          icon: "👤",
+          icon: "",
           trend: { value: 5, isPositive: true }
         },
         { 
           title: "Concours en cours", 
           value: dashboardData.activeConcours, 
-          icon: "🏆",
+          icon: "",
           trend: { value: 0, isPositive: true }
         },
       ];
@@ -329,7 +329,7 @@ const Dashboard: React.FC = () => {
           </div>
         ) : (
           <div className="empty-activities">
-            <div className="empty-icon">📊</div>
+            <div className="empty-icon"></div>
             <p>Aucune activité récente</p>
           </div>
         )}

@@ -13,11 +13,11 @@ const SideBar: React.FC = () => {
   const navigate = useNavigate();
 
   const menuItems: { key: ActiveComponent; label: string; icon: string }[] = [
-    { key: "dashboard", label: "Vue d'ensemble", icon: "📊" },
-    { key: "concours", label: "Concours", icon: "🏆" },
-    { key: "candidats", label: "Candidats", icon: "👥" },
-    { key: "statistiques", label: "Statistiques", icon: "📈" },
-    { key: "transactions", label: "Transactions", icon: "💰" },
+    { key: "dashboard", label: "Vue d'ensemble", icon: "" },
+    { key: "concours", label: "Concours", icon: "" },
+    { key: "candidats", label: "Candidats", icon: "" },
+    { key: "statistiques", label: "Statistiques", icon: "" },
+    { key: "transactions", label: "Transactions", icon: "" },
   ];
 
   const renderActiveComponent = () => {
@@ -54,7 +54,7 @@ const SideBar: React.FC = () => {
 
         <h1>Administration</h1>
         <div className="user-profile" title="Administrateur">
-          <span className="user-icon" aria-hidden="true">👤</span>
+          <span className="user-icon" aria-hidden="true"></span>
           <span className="user-name">{localStorage.getItem("authname") || "Admin"}</span>
         </div>
       </header>

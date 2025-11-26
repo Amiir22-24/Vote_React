@@ -7,7 +7,7 @@
   margin: 0 auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
-  background-color: #ffc107;
+  background-color: #ee8606;
   min-height: 100vh;
   border-radius: 12px;
 }
@@ -120,13 +120,18 @@
 /* ----------------------
   Actions carte
 ------------------------*/
-.vote-actions {
+.vote-actions { 
   display: flex;
-  justify-content: space-between;
-
+  justify-content: center;
   align-items: center;
+  flex-wrap: wrap;       /* IMPORTANT : empêche les boutons de sortir */
+  gap: 12px;
   margin-top: 15px;
+
+  width: 100%;           /* s’adapte au container */
+  box-sizing: border-box;
 }
+
 
 .vote-button {
   width: auto;
@@ -147,13 +152,13 @@
 }
 
 .vote-button.edit {
-  background-color: #ffc107;
-  color: #333;
+  background-color: darkblue;
+  color: white;
   margin: 8px 16px;
 }
 
 .vote-button.delete {
-  background-color: #e010b3;
+  background-color: darkblue;
   color: white;
     margin: 8px 16px;
  
