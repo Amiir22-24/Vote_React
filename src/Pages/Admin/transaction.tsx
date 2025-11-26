@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./transaction.css";
+import { PaiementApi } from "../../Api/Paiement/PaiementApi";
 
 interface Transaction {
   id: number;
@@ -29,60 +30,29 @@ const TransactionPage: React.FC = () => {
       setLoading(true);
       setError(null);
       
-      const token = localStorage.getItem('authToken');
-      const response = await fetch('http://192.168.0.212/Dzumevi_APi/public/api/paiements/list', {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      const response = await PaiementApi.listAll();
 
-      console.log("Status de la réponse:", response.status);
+      console.log("Status de la réponse:", response.success);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Erreur HTTP:", response.status, errorText);
-        
-        try {
-          const cleanText = errorText.replace(/<!--|-->/g, '').trim();
-          const errorData = JSON.parse(cleanText);
-          setError(`Erreur serveur: ${errorData.message || response.status}`);
-        } catch (parseError) {
-          setError(`Erreur serveur: ${response.status}`);
-        }
-        
-        setLoading(false);
-        return;
-      }
-
-      const responseText = await response.text();
-      console.log("Réponse brute:", responseText.substring(0, 200));
+      const responseText = await response;
+      console.log("Réponse brute:", responseText);
 
       let data;
-      try {
-        const cleanText = responseText.replace(/<!--|-->/g, '').trim();
-        data = JSON.parse(cleanText);
-      } catch (parseError) {
-        console.error("Erreur parsing JSON:", parseError);
-        setError("Format de réponse invalide du serveur");
-        setLoading(false);
-        return;
-      }
+      
+      
 
       console.log("Données reçues:", data);
 
-      if (data.success) {
+      if (response.success) {
         // Gestion flexible de la structure de réponse
-        const transactionsData = data.data?.transactions || data.data || data.transactions || [];
+        const transactionsData = response.data ||  [];
         
         const formattedTransactions = transactionsData.map((transaction: any) => ({
           id: transaction.id || transaction.transaction_id,
-          name: transaction.name || transaction.customer_name || 'N/A',
-          email: transaction.email || transaction.customer_email || 'N/A',
-          phone_number: transaction.phone_number || transaction.customer_phone || 'N/A',
-          country: transaction.country || 'BJ',
+          name: transaction.name || transaction.customer_name || 'Null',
+          email: transaction.email || transaction.customer_email || 'Null',
+          phone_number: transaction.phone_number || transaction.customer_phone || 'Null',
+          country: transaction.country || 'TG',
           amount: transaction.amount || 0,
           currency: transaction.currency || 'XOF',
           mode: transaction.mode || transaction.payment_method || 'mobile',

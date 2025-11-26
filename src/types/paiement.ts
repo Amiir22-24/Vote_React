@@ -30,19 +30,20 @@ export interface PaymentFormProps {
 }
 export interface PaiementData {
 
-  id: number;
-  name: string;
-  email: string;
-  phone_number: string;
-  country: string;
-  description: string;
-  amount: number | string;
-  currency: string;
-  callback_url: string;
-  mode: PaymentMode;
-  customer: string
-  status?: string;
-  reference?: string;
+   transaction_id: string;
+        user_id: string;
+        candidate_id: string;
+        name: string;
+        email: string;
+        phone_number: string;
+        country: string;
+        reference: string;
+        currency: string;
+        amount: number;
+        votes: number;
+        status: string;
+        paid_at: string;
+        fedapay_transaction_id: string;
 };
 
 export interface TransactionResponse {

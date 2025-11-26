@@ -17,7 +17,7 @@ export interface CandidateData {
   photo?: File;
   votes?: number;
   categorie?: string;
-  vote_id: number;
+  concours_id: number;
 }
 export interface CandidateCreateResponse{
   success: boolean,

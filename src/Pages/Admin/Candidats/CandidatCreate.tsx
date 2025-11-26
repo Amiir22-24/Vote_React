@@ -13,7 +13,7 @@ export const CandidatCreate: React.FC = () => {
     photo: undefined,
     categorie: "",
     matricule: "",
-    vote_id: 0,
+    concours_id: 0,
   });
 
   const [loading, setLoading] = useState(false);
@@ -113,9 +113,10 @@ export const CandidatCreate: React.FC = () => {
       photo: formData.photo,
       categorie: formData.categorie,
       matricule: formData.matricule,
-      vote_id: parseInt(selectedContestId),
+      concours_id: parseInt(selectedContestId),
     };
-
+    console.log(submitData.concours_id);
+    
     try {
       const response = await AdminApi.Candidatcreate(submitData);
 
@@ -132,7 +133,7 @@ export const CandidatCreate: React.FC = () => {
           photo: undefined,
           categorie: "",
           matricule: "",
-          vote_id: 0
+          concours_id: "0" as unknown as number,
         });
         if (contests.length > 0) {
           setSelectedContestId(contests[0].id);
@@ -230,7 +231,7 @@ export const CandidatCreate: React.FC = () => {
           <select
             id="contest"
             name="contest"
-            value={selectedContestId}
+            value={formData.concours_id}
             onChange={(e) => setSelectedContestId(e.target.value)}
             className="cc-input"
             required
