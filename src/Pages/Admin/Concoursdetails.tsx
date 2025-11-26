@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import {  } from "../../Api/Admin/actionAdmin";
+import { useParams, useNavigate } from "react-router-dom";
 import type { Candidate } from "../../types/candidat";
 import CandidatCard from "../../Components/CandidatCard";
 import { candidateApi } from "../../Api/candidates/candidatApi";
 
 const ConcoursDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [candidats, setCandidats] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -14,8 +14,9 @@ const ConcoursDetailPage: React.FC = () => {
     const fetchCandidats = async () => {
       try {
         setLoading(true);
-        const response = await candidateApi.getById(Number(id));
-        setCandidats(response ? [response] : []);
+        // On récupère tous les candidats pour le concours
+        const response = await candidateApi.getByConcoursId(Number(id));
+        setCandidats(response || []);
       } catch (err) {
         console.error(err);
       } finally {
@@ -26,6 +27,11 @@ const ConcoursDetailPage: React.FC = () => {
     fetchCandidats();
   }, [id]);
 
+  const handleVote = (candidatId: number) => {
+    // Redirige vers le formulaire de paiement pour ce candidat
+    navigate(`/paiement/${candidatId}`);
+  };
+
   if (loading) return <p>Chargement des candidats...</p>;
 
   return (
@@ -35,7 +41,7 @@ const ConcoursDetailPage: React.FC = () => {
         <p>Aucun candidat pour ce concours.</p>
       ) : (
         <div className="candidat-grid">
-          {candidats.map(c => (
+          {candidats.map((c) => (
             <CandidatCard
               key={c.id}
               photo={c.photo}
@@ -44,7 +50,7 @@ const ConcoursDetailPage: React.FC = () => {
               description={c.description}
               categorie={c.categorie ?? ""}
               votes={c.votes}
-              onVote={() => alert(`Vote enregistré pour ${c.firstname}`)}
+              onVote={() => handleVote(c.id)}
             />
           ))}
         </div>

@@ -1,452 +1,387 @@
 /* ----------------------
-  Navbar
+  Container général
 ------------------------*/
-.navbar {
-  background-color: #007bff;
-  padding: 12px 20px;
-  border-radius: 0 0 10px 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  margin-bottom: 20px;
+.concours-container {
+  padding:150px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background-color: #ffc107;
+  min-height: 100vh;
+  border-radius: 12px;
 }
 
-.nav-container {
+/* ----------------------
+  Header page
+------------------------*/
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid rgba(0,0,0,0.1);
+  flex-wrap: wrap;
 }
 
-.nav-logo h2 {
-  color: white;
+.page-header h1 {
+  font-size: 32px;
+  font-weight: 800;
   margin: 0;
 }
 
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 25px;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-link {
+/* Bouton "Créer" */
+.create-button {
+  background-color: #28a745;
   color: white;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 8px 16px;
-  border-radius: 6px;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.nav-link.active {
-  background-color: rgba(255,255,255,0.3);
-}
-
-/* ----------------------
-  Page header
-------------------------*/
-.page-header {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.page-title {
-  font-size: 28px;
-  margin-bottom: 6px;
-}
-
-.page-subtitle {
-  font-size: 16px;
-  color: #555;
-}
-
-.stats-badge {
-  margin-top: 10px;
-  display: inline-block;
-  background-color: #b700ffc5;
-  color: white;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-/* ----------------------
-  Loading & Error
-------------------------*/
-.loading-container,
-.error-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 60px;
-  color: #555;
-}
-
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 6px solid #ddd;
-  border-top-color: #007bff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 15px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.retry-button {
-  background-color: #007bff;
-  color: white;
+  padding: 12px 20px;
   border: none;
-  padding: 10px 16px;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 16px;
   font-weight: 600;
-  margin-top: 12px;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
 }
 
-.retry-button:hover {
-  background-color: #005fcc;
+.create-button:hover {
+  background-color: #218838;
+  transform: translateY(-3px);
 }
 
 /* ----------------------
-  Empty State
+  Lien retour
 ------------------------*/
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 40px;
-  color: #555;
+.return-link {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 14px;
+  background: white;
+  color: #333;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 2px solid #007bff;
+  transition: all 0.25s ease;
 }
 
-.empty-icon {
-  font-size: 50px;
-  margin-bottom: 10px;
+.return-link:hover {
+  background: #007bff;
+  color: white;
+  transform: translateY(-2px);
 }
 
 /* ----------------------
-  Vote grid
+  Grid des concours
 ------------------------*/
 .vote-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 0 20px;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 25px;
 }
 
 /* ----------------------
-  Vote Card
+  Carte concours
 ------------------------*/
 .vote-card {
   background: white;
-  border-radius: 14px;
-  padding: 18px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  border-radius: 15px;
+  padding: 24px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  gap: 15px;
+  transition: all 0.3s ease;
+  border-left: 6px solid #ffc107;
 }
 
 .vote-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+  transform: translateY(-6px);
+  box-shadow: 0 7px 25px rgba(0,0,0,0.15);
 }
 
 .vote-name {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
-  margin: 0;
-  color: black;
 }
 
-.vote-card p {
-  font-size: 14px;
-  margin: 0;
-  color: #444;
-}
-
+/* Status badge */
 .vote-status {
   display: inline-block;
-  width: fit-content;
-  padding: 6px 12px;
-  border-radius: 20px;
+  padding: 6px 14px;
+  border-radius: 25px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: white;
   text-transform: uppercase;
-  margin-top: 5px;
-}
-
-.vote-button {
-  margin-top: 10px;
-  width: 100%;
-  background: #007bff;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
-  color: white;
-  font-weight: 600;
-  font-size: 15px;
-  cursor: pointer;
-  transition: background 0.25s ease;
-}
-
-.vote-button:hover {
-  background: #005fcc;
 }
 
 /* ----------------------
-  Responsive
+  Actions carte
 ------------------------*/
-@media (max-width: 600px) {
-  .nav-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .nav-links {
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  .vote-grid {
-    grid-template-columns: 1fr;
-  }
-}
-/* Styles pour les actions admin */
 .vote-actions {
   display: flex;
   justify-content: space-between;
+
   align-items: center;
   margin-top: 15px;
 }
 
-.admin-actions {
-  display: flex;
-  gap: 8px;
-}
-
 .vote-button {
   padding: 8px 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.3s ease;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .vote-button.primary {
-  background-color: #007bff;
+  background-color: #ffc107;
   color: white;
+    margin: 8px 16px;
+
 }
 
 .vote-button.edit {
-  background-color: #4907ff;
-  color: white;
-  padding: 8px;
-  font-size: 12px;
+  background-color: #ffc107;
+  color: #333;
+  margin: 8px 16px;
 }
 
 .vote-button.delete {
   background-color: #e010b3;
   color: white;
-  padding: 8px;
-  font-size: 12px;
+    margin: 8px 16px;
+ 
 }
 
 .vote-button:hover {
-  opacity: 0.8;
-  transform: translateY(-1px);
-}
-
-/* Header de la page */
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #e9ecef;
-}
-
-.create-button {
-  background-color: #28a745;
-  color: white;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.create-button:hover {
-  background-color: #218838;
+  opacity: 0.88;
   transform: translateY(-2px);
 }
 
-/* Modals */
+/* ----------------------
+  Modal overlay
+------------------------*/
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0,0,0,0.55);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
+/* ----------------------
+  Modal
+------------------------*/
 .modal-content {
   background: white;
-  padding: 0;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 500px;
+  border-radius: 12px;
+  width: 92%;
+  max-width: 520px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  padding: 0;
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 22px;
   border-bottom: 1px solid #e9ecef;
 }
 
 .modal-header h2 {
   margin: 0;
-  color: #333;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .close-button {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 26px;
   cursor: pointer;
   color: #6c757d;
+  transition: color 0.2s ease;
 }
 
 .close-button:hover {
   color: #333;
 }
 
+/* ----------------------
+  Formulaire modal
+------------------------*/
 .modal-form {
-  padding: 20px;
-}
-
-.form-group {
-  margin-bottom: 20px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 5px;
   font-weight: 600;
-  color: #333;
+  margin-bottom: 6px;
+  display: block;
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
+  border-radius: 7px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
   border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
 }
 
+/* ----------------------
+  Actions modal
+------------------------*/
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 30px;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 .btn-primary {
   background-color: #007bff;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 18px;
+  border-radius: 7px;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
 }
 
 .btn-secondary {
   background-color: #6c757d;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 18px;
+  border-radius: 7px;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
 }
 
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
+
 
 .btn-primary:hover {
   background-color: #0056b3;
 }
-
 .btn-secondary:hover {
   background-color: #545b62;
 }
 
-.btn-danger:hover {
-  background-color: #c82333;
-}
-
+/* ----------------------
+  Messages d'erreur
+------------------------*/
 .error-message {
-  color: #dc3545;
   background-color: #f8d7da;
-  padding: 12px;
-  border-radius: 4px;
-  border: 1px solid #f5c6cb;
+  color: #842029;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #f5c2c7;
+  margin: 20px auto;
+  font-weight: 500;
 }
 
-/* Responsive */
+/* ----------------------
+  Responsive
+------------------------*/
 @media (max-width: 768px) {
   .page-header {
     flex-direction: column;
-    gap: 15px;
     align-items: flex-start;
+    gap: 12px;
   }
-  
+
   .vote-actions {
     flex-direction: column;
-    gap: 10px;
-  }
-  
-  .admin-actions {
-    width: 100%;
-    justify-content: space-around;
+    gap: 12px;
   }
 }
+/* Version moderne */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  padding: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.btn-secondary {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+  min-width: 100px;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+}
+
+.btn-danger {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+  min-width: 100px;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+}
+
+/* Désactiver le style lors du chargement */
+.btn-secondary:disabled,
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+

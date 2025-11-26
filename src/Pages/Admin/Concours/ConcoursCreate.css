@@ -124,7 +124,7 @@
 /* Bouton principal */
 .cc-button-primary {
   padding: 10px 18px;
-  background: linear-gradient(to right, #002da8, #9600c4, #ba00d3);
+  background:  #F6AD55;
   color: #fff;
   font-size: 1rem;
   border: none;
@@ -135,7 +135,7 @@
 }
 
 .cc-button-primary:hover {
-  background: linear-gradient(to right, #002da8, #9600c4, #d30062);
+  background: black;
 }
 
 .cc-button-primary:active {

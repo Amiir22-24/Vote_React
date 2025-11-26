@@ -74,21 +74,21 @@ const handleSubmit = async (e: FormEvent) => {
 
   return (
     <div className="container">
-        <div className="iconWrapper" aria-label="Icône utilisateur">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="#bb86fc"
-            height="40"
-            viewBox="0 0 24 24"
-            width="40"
-            aria-hidden="true"
-          >
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-          </svg>
-        </div>
+      <div className="iconWrapper" aria-label="Icône utilisateur">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#bb86fc"
+          height="40"
+          viewBox="0 0 24 24"
+          width="40"
+          aria-hidden="true"
+        >
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+        </svg>
+      </div>
 
-        <h2>{getAdminTitle()}</h2>
-        <p>{getWelcomeMessage()}</p>
+      <h2>{getAdminTitle()}</h2>
+      <p>{getWelcomeMessage()}</p>
 
         {/* Afficher le nom de l'admin si présent */}
         {localStorage.getItem("authname") && (
@@ -97,40 +97,40 @@ const handleSubmit = async (e: FormEvent) => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} noValidate>
-          <label htmlFor="username">Nom d'utilisateur</label>
-          <input
-            type="text"
-            id="username"
-            placeholder="Entrez votre nom d'utilisateur"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            disabled={isLoading}
-          />
+      <form onSubmit={handleSubmit} noValidate>
+        <label htmlFor="username">Nom d'utilisateur</label>
+        <input
+          type="text"
+          id="username"
+          placeholder="Entrez votre nom d'utilisateur"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          disabled={isLoading}
+        />
 
-          <label htmlFor="password">Mot de passe</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Entrez votre mot de passe"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            disabled={isLoading}
-          />
+        <label htmlFor="password">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Entrez votre mot de passe"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          disabled={isLoading}
+        />
 
-          <button 
-            type="submit" 
-            className={`btn ${isLoading ? 'loading' : ''}`}
-            disabled={isLoading}
-          >
-            {isLoading ? "Connexion..." : "Se connecter"}
-          </button>
+        <button
+          type="submit"
+          className={`btn ${isLoading ? 'loading' : ''}`}
+          disabled={isLoading}
+        >
+          {isLoading ? "Connexion..." : "Se connecter"}
+        </button>
 
-          {error && <p className="error">{error}</p>}
-        </form>
-      </div>
+        {error && <p className="error">{error}</p>}
+      </form>
+    </div>
   );
 };
 

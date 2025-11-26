@@ -29,18 +29,11 @@ body {
 }
 
 .candidat-list-page {
-    background-color: var(--background-page);
-    min-height: 100vh;
-    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; 
-    display: flex;
-    flex-direction: column;
-}
-
-.candidat-list-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px 60px 20px;
-    width: 100%;
+  /* background: linear-gradient(135deg, #93a7ff 0%, #764ba2 100%); */
+  background-color:#FFC01D;
+  border-radius: 10px;
+  min-height: 100vh;
+  padding: 40px 20px;
 }
 
 /* ------------------------------------------------------------------ */
@@ -48,12 +41,15 @@ body {
 /* CORRECTION: Utilisation des sélecteurs .navbar, .nav-container, etc. */
 /* ------------------------------------------------------------------ */
 .navbar {
-    background: var(--header-bg); /* Applique le dégradé vert */
-    color: var(--header-text);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+  /* background-color: #006A4E; */
+  background: #06070A;
+  --webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-radius: 10px;
 }
 
 .nav-container {
@@ -65,11 +61,11 @@ body {
     padding: 15px 20px;
 }
 
-.nav-logo h2 { /* Ancien .logo-text */
-    font-size: 1.8rem;
-    font-weight: 900;
-    margin: 0;
-    color: var(--logo-color); /* Texte Blanc */
+.nav-logo h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .nav-links {
@@ -97,34 +93,44 @@ body {
     border-bottom: 2px solid white;
 }
 
-.nav-links li button:hover:not(.active) {
-    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+.nav-link.active {
+  color: #4f46e5;
+  background: rgba(79, 70, 229, 0.1);
+  font-weight: 600;
 }
 
-/* ------------------------------------------------------------------ */
-/* --- 2. Contenu principal (Titre et Grille) --- */
-/* ------------------------------------------------------------------ */
-.main-content-header {
-    text-align: center;
-    padding: 50px 0 40px 0;
+/* Main Container */
+.candidat-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.main-title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 5px;
+/* Page Header */
+.page-header {
+  text-align: center;
+  /* margin-bottom: 50px; */
+  color: white;
+  /* color: #006A4E; */
 }
 
-.main-subtitle {
-    font-size: 1.1rem;
-    color: var(--text-muted);
+.page-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  /* background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%); 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; */
+  color: black;
 }
 
-.candidat-list-main {
-    padding-bottom: 40px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+.page-subtitle {
+  font-size: 1.2rem;
+  margin: 0 0 20px 0;
+  opacity: 0.9;
+  font-weight: 300;
+  color: black;
+  text-align: center;
 }
 
 .candidat-grid {
@@ -470,12 +476,37 @@ body {
         margin: 0 auto;
     }
 
-    /* Footer */
-    .footer-bottom { 
-        flex-direction: column; 
-        gap: 15px; 
-    }
-    .payment-methods {
-        gap: 10px;
-    }
+@media (max-width: 480px) {
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .nav-link {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+  }
+}
+.candidat-footer {
+  text-align: center;
+  padding: 1rem 0;
+  /* background-color: #f5f5f5; */
+  border-top: 1px solid #ddd;
+  margin-top: 2rem;
+}
+
+.candidat-footer .admin-link {
+  text-decoration: none;
+  color:black;
+  font-weight: bold;
+}
+
+.candidat-footer .admin-link:hover {
+  text-decoration: underline;
+}
 }

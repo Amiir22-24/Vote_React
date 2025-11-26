@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CandidatList.css";
+import "../Admin/Candidats/CandidatCreate.css"
 import type { Candidate } from "../../types/candidat";
 import { candidateApi } from "../../Api/candidates/candidatApi";
 import { AdminApi } from "../../Api/Admin/actionAdmin";
@@ -270,16 +271,7 @@ const CandidatListPage: React.FC = () => {
               <h1 className="page-title">Liste des Candidats</h1>
               <p className="page-subtitle">Découvrez tous les candidats participant au concours</p>
             </div>
-            {isAdmin && (
-              <div className="admin-actions-header">
-                <button 
-                  className="create-button"
-                  onClick={() => setShowCreateModal(true)}
-                >
-                  + Nouveau candidat
-                </button>
-              </div>
-            )}
+            {/* Le bouton de création a été supprimé */}
           </div>
           <div className="stats-badge">
             {candidats.length} candidat{candidats.length > 1 ? 's' : ''} au total
@@ -292,14 +284,7 @@ const CandidatListPage: React.FC = () => {
               <div className="empty-icon">👥</div>
               <h3>Aucun candidat disponible</h3>
               <p>Il n'y a pas de candidats pour le moment.</p>
-              {isAdmin && (
-                <button 
-                  className="create-button"
-                  onClick={() => setShowCreateModal(true)}
-                >
-                  Créer le premier candidat
-                </button>
-              )}
+              {/* Le bouton de création a été supprimé */}
             </div>
           ) : (
             <div className="candidat-grid">
@@ -310,6 +295,7 @@ const CandidatListPage: React.FC = () => {
                   photo={candidat.photo}
                   firstname={candidat.firstname}
                   lastname={candidat.lastname}
+                  matricule={candidat.matricule ?? ""}a
                   description={candidat.description}
                   categorie={candidat.categorie ?? ""}
                   votes={candidat.votes}

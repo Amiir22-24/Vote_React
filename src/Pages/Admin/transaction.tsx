@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import type { PaiementData, PaiementListeResponse } from "../../types/paiement";
+import type { PaiementData } from "../../types/paiement";
 
 const TransactionPage: React.FC = () => {
   const [transactions, setTransactions] = useState<PaiementData[]>([]);
@@ -9,7 +9,7 @@ const TransactionPage: React.FC = () => {
   const fetchTransactions = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://192.168.0.212/Dzumevi_APi/public/api/paiements/list', {
+      const response = await fetch('http://192.168.0.212/Dzumevi_APi/public/api//paiements/list', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -59,16 +59,16 @@ const TransactionPage: React.FC = () => {
         // Transformer les données FedaPay vers votre format PaiementData
         const formattedTransactions = transactionsData.map((transaction: any) => ({
           id: transaction.id,
-          name: transaction.customer?.firstname + ' ' + transaction.customer?.lastname || 'N/A',
-          email: transaction.customer?.email || 'N/A',
-          phone_number: transaction.customer?.phone_number?.number || 'N/A',
-          country: transaction.customer?.phone_number?.country || 'N/A',
+          name: transaction.name || 'N/A',
+          email: transaction.email || 'N/A',
+          phone_number: transaction.phone_number || 'N/A',
+          country: transaction.country || 'N/A',
           amount: transaction.amount,
-          currency: transaction.currency?.iso || 'XOF',
+          currency: transaction.currency|| 'XOF',
           mode: transaction.mode || 'mobile',
-          description: transaction.description,
-          status: transaction.status,
-          reference: transaction.reference
+          description: transaction.description || 'N/A',
+          status: transaction.customer,
+          reference: transaction.transaction_id
         }));
         
         setTransactions(formattedTransactions);

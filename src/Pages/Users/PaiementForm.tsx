@@ -16,6 +16,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
     candidatId: candidat.id,
     name: "",
     email: "",
+    votes: "1",
     phone_number: "",
     country: "BJ",
     amount: 100,
@@ -43,7 +44,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
     { value: "orange_sn", label: "Orange Money (Sénégal)" },
     { value: "wave_sn", label: "Wave (Sénégal)" },
     { value: "moov_tg", label: "MOOV Money (Togo)" },
-    { value: "togocel_tg", label: "TOGOCEL T-Money (Togo)" },
+    { value: "togocel", label: "TOGOCEL T-Money (Togo)" },
     { value: "orange_ml", label: "Orange Money (Mali)" },
     { value: "moov_bf", label: "MOOV Money (Burkina-Faso)" },
     { value: "orange_bf", label: "Orange Money (Burkina-Faso)" },
@@ -106,8 +107,11 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
     }
 
     try {
-      const data = { ...formData, candidatId: candidat.id };
-      const response = await PaiementApi.inittransaction(data);
+      const data = { ...formData, candidatId: candidat.id, votes: `${Math.floor(formData.amount / 100)}`};
+      const response = await PaiementApi.initiate(data);
+
+      console.log(response);
+      
 
       if (response && response.success) {
         setIsSuccess(true);
@@ -115,6 +119,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
         setResponseMsg(`Paiement initié avec succès ! Transaction ID : ${response.transaction_id}`);
         if (response.payment_url) window.open(response.payment_url, "_blank", "noopener,noreferrer");
       } else {
+        console.log("Réponse d'erreur:", response); 
         setResponseMsg(`Erreur : ${response?.error || response?.message || "Erreur inconnue"}`);
       }
     } catch (err: any) {

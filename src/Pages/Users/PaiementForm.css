@@ -295,8 +295,10 @@
   -moz-appearance: none;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
+/* --- Responsive Media Queries Améliorées --- */
+
+/* Ajustements pour les écrans de taille moyenne (ex: petites tablettes ou grands téléphones en paysage) */
+@media (max-width: 600px) {
   .payment-form-container {
     padding: 15px;
     margin: 10px;
@@ -313,6 +315,15 @@
   
   .form-actions {
     flex-direction: column;
+    gap: 8px;
+  }
+  
+  /* Tailles des éléments du formulaire */
+  .payment-form input,
+  .payment-form select,
+  .payment-form button {
+    padding: 10px;
+    font-size: 15px;
   }
   
   .btn-primary,

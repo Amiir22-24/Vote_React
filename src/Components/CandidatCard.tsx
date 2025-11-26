@@ -3,12 +3,12 @@ import "./CandidatCard.css";
 
 export interface CandidatCardProps {
   id: number;
-  photo: File | string;
+  photo: File | string | null;
   firstname: string;
   lastname: string;
   description: string;
+  matricule: string;
   categorie: string;
-  // pricePerVote: string;
   votes: number;
   isAdmin: boolean;
 
@@ -23,28 +23,31 @@ export default function CandidatCard({
   lastname,
   description,
   categorie,
-  // pricePerVote,
+  matricule,
   votes,
   onVote,
   isAdmin,
   onEdit,
   onDelete,
-
 }: CandidatCardProps) {
-const [isLoading, setIsLoading] = useState(true);
-const [hasError, setHasError] = useState(false);
-
-
-const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/public/"; // Remplacez par votre URL
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [fileUrl, setFileUrl] = useState<string>("");
 
-  // Si image échoue, mettre image par défaut
+  const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/storage/app/public/";
+
+  // Handle image error
   const handleImageError = () => {
     setHasError(true);
+    setIsLoading(false);
   };
 
-  // Si photo est un File, créer un URL utilisable
+  // Handle image load
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
+
+  // If photo is a File, create object URL
   useEffect(() => {
     let url: string | undefined;
 
@@ -54,24 +57,41 @@ const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/public/"; // Remplace
     }
 
     return () => {
-      if (url) URL.revokeObjectURL(url); // Libérer la mémoire
+      if (url) URL.revokeObjectURL(url);
     };
   }, [photo]);
 
-  // Déterminer l'URL finale de l'image
-  // Déterminer l'URL finale de l'image
-const imageUrl = hasError
-    ? "/default-image.jpg" // Image par défaut locale dans public/
-    : photo instanceof File
-    ? fileUrl
-    : (typeof photo === 'string' && (photo.startsWith("http://") || photo.startsWith("https://")))
-    ? photo
-    : (typeof photo === 'string'
-        ? `${API_BASE_URL}storage/${photo.replace("storage/", "")}`
-        : "/default-image.jpg" // Image par défaut si photo est null ou undefined
-    );
+  // Determine final image URL with null safety
+  const getImageUrl = (): string => {
+    // If there's an error or no photo, return default image
+    // if (!photo) {
+    //   return "/default-avatar.png"; // Créez cette image dans votre dossier public
+    // }
 
-// Note : Assurez-vous que API_BASE_URL est bien défini ou importé.
+    // If photo is a File object
+    if (photo instanceof File) {
+      return fileUrl;
+    }
+
+    // If photo is already a full URL
+    if (typeof photo === 'string' && (photo.startsWith("http://") || photo.startsWith("https://"))) {
+      return photo;
+    }
+
+    // If photo is a relative path, construct full URL
+    if (typeof photo === 'string') {
+      // Nettoyer le chemin de la photo
+      const cleanPhotoPath = photo.replace("storage/", "").replace(/^\/+/, "");
+      console.log(cleanPhotoPath);
+      
+      return `${API_BASE_URL}${cleanPhotoPath}`;
+    }
+
+    // Fallback to default image
+    return "/default-avatar.png";
+  };
+
+  const imageUrl = getImageUrl();
 
   return (
     <div className="c-card">
@@ -85,11 +105,11 @@ const imageUrl = hasError
           src={imageUrl} 
           alt={`${firstname} ${lastname}`} 
           className={`c-card-image ${isLoading ? "c-card-image-loading" : ""} ${hasError ? "c-card-image-error" : ""}`}
-          onLoad={() => setIsLoading(false)}
+          onLoad={handleImageLoad}
           onError={handleImageError}
         />
         <div className="c-card-votes">
-          <span>❤️</span> {votes}
+          <span>{matricule}</span> {votes}
         </div>
       </div>
 
@@ -97,32 +117,31 @@ const imageUrl = hasError
         <h3 className="c-card-name">{firstname} {lastname}</h3>
         <p className="c-card-description">{description}</p>
         <div className="c-card-info">
-          <span>🏆 {categorie}</span>
-          {/* <span>{pricePerVote}</span> */}
+          <span>{categorie}</span>
         </div>
         <button className="c-card-button" onClick={onVote}>
           Votez maintenant
         </button>
         <div className="vote-actions">
-        {isAdmin && (
-          <div className="admin-actions">
-            <button
-              className="vote-button edit"
-              onClick={onEdit}
-              title="Modifier le concours"
-            >
-              ✏️
-            </button>
-            <button
-              className="vote-button delete"
-              onClick={onDelete}
-              title="Supprimer le concours"
-            >
-              🗑️
-            </button>
-          </div>
-        )}
-      </div>
+          {isAdmin && (
+            <div className="admin-actions">
+              <button
+                className="vote-button edit"
+                onClick={onEdit}
+                title="Modifier le candidat"
+              >
+                ✏️
+              </button>
+              <button
+                className="vote-button delete"
+                onClick={onDelete}
+                title="Supprimer le candidat"
+              >
+                🗑️
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
