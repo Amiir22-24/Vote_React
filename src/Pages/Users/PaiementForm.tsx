@@ -173,7 +173,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ candidat, onClose }) => {
       {isSuccess && transactionData ? (
         <div className="success-container">
           <div className="alert alert-success">
-            <h3>✅ Paiement initialisé avec succès !</h3>
+            <h3>Paiement initialisé avec succès !</h3>
             <p>Transaction ID: {transactionData.transaction_id}</p>
             {transactionData.payment_url && (
               <div className="payment-actions">

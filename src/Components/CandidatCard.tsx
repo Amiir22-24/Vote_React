@@ -130,14 +130,14 @@ export default function CandidatCard({
                 onClick={onEdit}
                 title="Modifier le candidat"
               >
-                ✏️
+                Modifier
               </button>
               <button
                 className="vote-button delete"
                 onClick={onDelete}
                 title="Supprimer le candidat"
               >
-                🗑️
+                Supprimer
               </button>
             </div>
           )}

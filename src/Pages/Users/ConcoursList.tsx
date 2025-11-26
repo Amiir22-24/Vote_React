@@ -41,13 +41,13 @@ const ConcoursCard: React.FC<{
       <h3 className="vote-name">{concours.name}</h3>
       <p className="vote-description">{concours.description}</p>
       <div className="vote-dates">
-        <p>📅 Début : {new Date(concours.date_debut).toLocaleDateString()}</p>
-        <p>⏰ Fin : {new Date(concours.date_fin).toLocaleDateString()}</p>
+        <p>Début : {new Date(concours.date_debut).toLocaleDateString()}</p>
+        <p>Fin : {new Date(concours.date_fin).toLocaleDateString()}</p>
       </div>
       <div className="vote-stats">
-        <span className="stat-item">👥 {concours.nombre_candidats} candidats</span>
-        <span className="stat-item">🗳️ {concours.nombre_votes} votes</span>
-        <span className="stat-item">💰 {concours.total_recettes} FCFA</span>
+        <span className="stat-item"> {concours.nombre_candidats} candidats</span>
+        <span className="stat-item"> {concours.nombre_votes} votes</span>
+        <span className="stat-item"> {concours.total_recettes} FCFA</span>
       </div>
       <span 
         className="vote-status" 
@@ -68,14 +68,14 @@ const ConcoursCard: React.FC<{
               onClick={() => onEdit(concours)}
               title="Modifier le concours"
             >
-              ✏️
+              Modifier
             </button>
             <button 
               className="vote-button delete" 
               onClick={() => onDelete(concours.id)}
               title="Supprimer le concours"
             >
-              🗑️
+              Supprimer
             </button>
           </div>
         )}
@@ -434,7 +434,7 @@ const ConcoursList: React.FC = () => {
           ))
         ) : (
           <div className="empty-state">
-            <div className="empty-icon">🏆</div>
+            <div className="empty-icon"></div>
             <h3>Aucun concours trouvé</h3>
             <p>Aucun concours ne correspond aux critères sélectionnés.</p>
           </div>
