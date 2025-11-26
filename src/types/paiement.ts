@@ -1,24 +1,15 @@
 import type { Candidate } from "./candidat";
 
 // Tous les modes Mobile Money d’Afrique de l’Ouest
-export type PaymentMode =
-  | "mtn_tg" | "moov_tg"
-  | "mtn_bj" | "moov_bj"
-  | "orange_ci" | "mtn_ci" | "moov_ci"
-  | "orange_bf" | "airtel_bf" | "moov_bf"
-  | "mtn_gh" | "vodafone_gh" | "airteltigo_gh"
-  | "airtel_ne" | "moov_ne"
-  | "orange_sn" | "wave_sn" | "free_sn" | "emoney_sn"
-  | "orange_gn" | "mtn_gn" | "cellcom_gn"
-  | "orange_ml" | "moov_ml" | "telecel_ml";
-
+export type PaymentMode = "mtn_bj" | "moov_bj" | "celtiis_bj" | "coris_bj" | "bmo_bj" | "mtn_ci" | "moov_ci" | "orange_ci" | "wave_ci" | "airtel_ne" | "orange_sn" | "wave_sn" | "moov_tg" | "togocel_tg" | "orange_ml" | "moov_bf" | "orange_bf" | "mtn_gn";
 // Type pour les données du formulaire de paiement
 export interface PaymentFormData {
+  candidatId: number;
   name: string;
   email: string;
   phone_number: string;
   country: string; // Code pays, ex: TG, BJ, CI
-  amount: number | string;
+  amount: number;
   currency: string; // XOF, XAF, GHS, GNF
   description: string;
   mode: PaymentMode; // Mobile Money sélectionné
@@ -48,11 +39,14 @@ export interface PaiementData {
   callback_url: string;
   mode: PaymentMode;
   customer: string
+  status?: string;
+  reference?: string;
 };
 
 export interface TransactionResponse {
-  sussess: boolean;
+  success: boolean;
   transaction_id?: string;
+  payment_url: URL
   message: string;
   error: string;
 }

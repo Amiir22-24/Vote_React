@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
                 <p className="card-title">Total des votes</p>
                 <p className="card-value">1,247</p>
               </div>
-              <div className="card-icon" aria-hidden="true">❤️</div>
+              <div className="card-icon" aria-hidden="true"></div>
             </article>
             <article className="card">
               <div className="card-content">
@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
                 <p className="card-title">Concours en cours</p>
                 <p className="card-value">1</p>
               </div>
-              <div className="card-icon" aria-hidden="true">🏆</div>
+              <div className="card-icon" aria-hidden="true"></div>
             </article>
           </div>
         </section>

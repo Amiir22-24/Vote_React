@@ -3,6 +3,7 @@ export interface Candidate {
   firstname: string;
   lastname: string
   description: string;
+  matricule: string;
   photo: File;
   votes: number;
   categorie?: CategoryType;

@@ -19,12 +19,13 @@
   font-size: 20px;
   font-weight: 700;
   margin: 0;
+  color: black;
 }
 
 .vote-card p {
   font-size: 14px;
   margin: 0;
-  color: #444;
+  color: black;
 }
 
 .vote-status {
@@ -37,13 +38,14 @@
   color: white;
   text-transform: uppercase;
   margin-top: 5px;
+  align-items: center;
 }
 
 /* Bouton principal */
 .vote-card button {
   margin-top: 10px;
   width: 100%;
-  background: #007bff;
+  background: linear-gradient(to right, #002da8, #9600c4, #ba00d3);
   border: none;
   padding: 10px;
   border-radius: 8px;
@@ -55,7 +57,7 @@
 }
 
 .vote-card button:hover {
-  background: #005fcc;
+  background: linear-gradient(to right, #002da8, #9600c4, #ba00d3);;
 }
 
 /* Responsive */

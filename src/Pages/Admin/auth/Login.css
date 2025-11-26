@@ -76,7 +76,7 @@ input[type="password"]:focus {
 }
 
 .btn {
-  background: linear-gradient(90deg, #7b1fa2 0%, #d81b60 100%);
+  background: linear-gradient(to right, #002da8, #9600c4, #ba00d3);
   color: white;
   padding: 14px 0;
   border-radius: 12px;
@@ -88,7 +88,7 @@ input[type="password"]:focus {
 }
 
 .btn:hover {
-  background: linear-gradient(90deg, #9c27b0, #e91e63);
+  background: linear-gradient(to right, #002da8, #9600c4, #ba00d3);
 }
 
 .demoText {

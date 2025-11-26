@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./CandidatCard.css";
 
 export interface CandidatCardProps {
+  id: number;
   photo: File | string;
   firstname: string;
   lastname: string;
@@ -9,7 +10,11 @@ export interface CandidatCardProps {
   categorie: string;
   // pricePerVote: string;
   votes: number;
+  isAdmin: boolean;
+
   onVote: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
 export default function CandidatCard({
@@ -21,88 +26,53 @@ export default function CandidatCard({
   // pricePerVote,
   votes,
   onVote,
+  isAdmin,
+  onEdit,
+  onDelete,
+
 }: CandidatCardProps) {
-const [imageSrc, setImageSrc] = useState<string>("");
 const [isLoading, setIsLoading] = useState(true);
 const [hasError, setHasError] = useState(false);
 
-const defaultImage = "";
 
-const API_BASE_URL = "http://192.168.0.212/Dzumevi_APi/public/"; // Remplacez par votre URL
+const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/public/"; // Remplacez par votre URL
 
-useEffect(() => {
-  let url: string | undefined;
-  let mounted = true;
+  const [fileUrl, setFileUrl] = useState<string>("");
 
-  const processImage = async () => {
-    setIsLoading(true);
-    setHasError(false);
-
-    try {
-      if (typeof photo === "string" && photo.trim()) {
-        if (photo.startsWith("http://") || photo.startsWith("https://")) {
-          setImageSrc(photo);
-        } 
-        else {
-          const apiImageUrl = `${API_BASE_URL}/storage/${photo.replace('storage/', '')}`;
-          
-          setImageSrc(apiImageUrl);
-          
-          await checkImageExists(apiImageUrl);
-        }
-      } else if (photo instanceof File) {
-        url = URL.createObjectURL(photo);
-        if (mounted) {
-          setImageSrc(url);
-        }
-      } else {
-        if (mounted) {
-          setImageSrc(defaultImage);
-        }
-      }
-    } catch (err) {
-      console.error("Erreur lors du traitement de l'image:", err);
-      if (mounted) {
-        setHasError(true);
-        setImageSrc(defaultImage);
-      }
-    } finally {
-      if (mounted) {
-        setIsLoading(false);
-      }
-    }
+  // Si image échoue, mettre image par défaut
+  const handleImageError = () => {
+    setHasError(true);
   };
 
-  const checkImageExists = async (imageUrl: string) => {
-    try {
-      const response = await fetch(imageUrl, { method: 'HEAD' });
-      if (response.ok && mounted) {
-        setImageSrc(imageUrl);
-      } else {
-        throw new Error('Image non trouvée');
-      }
-    } catch (error) {
-      if (mounted) {
-        setHasError(true);
-        setImageSrc(defaultImage);
-      }
+  // Si photo est un File, créer un URL utilisable
+  useEffect(() => {
+    let url: string | undefined;
+
+    if (photo instanceof File) {
+      url = URL.createObjectURL(photo);
+      setFileUrl(url);
     }
-  };
 
-  processImage();
+    return () => {
+      if (url) URL.revokeObjectURL(url); // Libérer la mémoire
+    };
+  }, [photo]);
 
-  return () => {
-    mounted = false;
-    if (url) {
-      URL.revokeObjectURL(url);
-    }
-  };
-}, [photo]);
+  // Déterminer l'URL finale de l'image
+  // Déterminer l'URL finale de l'image
+const imageUrl = hasError
+    ? "/default-image.jpg" // Image par défaut locale dans public/
+    : photo instanceof File
+    ? fileUrl
+    : (typeof photo === 'string' && (photo.startsWith("http://") || photo.startsWith("https://")))
+    ? photo
+    : (typeof photo === 'string'
+        ? `${API_BASE_URL}storage/${photo.replace("storage/", "")}`
+        : "/default-image.jpg" // Image par défaut si photo est null ou undefined
+    );
 
-const handleImageError = () => {
-  setImageSrc(defaultImage);
-  setHasError(true);
-};
+// Note : Assurez-vous que API_BASE_URL est bien défini ou importé.
+
   return (
     <div className="c-card">
       <div className="c-card-image-wrapper">
@@ -112,7 +82,7 @@ const handleImageError = () => {
           </div>
         )}
         <img 
-          src={imageSrc} 
+          src={imageUrl} 
           alt={`${firstname} ${lastname}`} 
           className={`c-card-image ${isLoading ? "c-card-image-loading" : ""} ${hasError ? "c-card-image-error" : ""}`}
           onLoad={() => setIsLoading(false)}
@@ -133,6 +103,26 @@ const handleImageError = () => {
         <button className="c-card-button" onClick={onVote}>
           Votez maintenant
         </button>
+        <div className="vote-actions">
+        {isAdmin && (
+          <div className="admin-actions">
+            <button
+              className="vote-button edit"
+              onClick={onEdit}
+              title="Modifier le concours"
+            >
+              ✏️
+            </button>
+            <button
+              className="vote-button delete"
+              onClick={onDelete}
+              title="Supprimer le concours"
+            >
+              🗑️
+            </button>
+          </div>
+        )}
+      </div>
       </div>
     </div>
   );

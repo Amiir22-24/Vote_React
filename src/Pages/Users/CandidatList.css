@@ -1,273 +1,481 @@
-/* CandidatList.css */
-.candidat-list-page {
-  background: linear-gradient(135deg, #93a7ff 0%, #764ba2 100%);
+/* CandidatList.css - Version Corrigée */
+
+/* --- Variables de Design Établies --- */
+:root {
+    /* Couleurs de la barre de navigation et des boutons "Voter" */
+    --header-bg: linear-gradient(to right, #002da8, #9600c4, #ba00d3); /* Dégradé vert/bleu-vert */
+    --header-text: #FFFFFF;
+    --button-gradient: linear-gradient(to right, #00A896, #00C4A7); /* Dégradé des boutons Voter */
+    --logo-color: #FFFFFF;
+    
+    /* Couleurs générales */
+    --background-page: #F8F9FA; /* Gris très clair */
+    --background-card: #FFFFFF;
+    --text-dark: #212529;
+    --text-muted: #6C757D;
+    --danger-color: #DC3545;
+    --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08); /* Légère ombre pour les cartes */
+    --shadow-elevated: 0 10px 20px rgba(0, 0, 0, 0.15); /* Ombre pour les modales */
+    --shadow-footer-badge: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Navbar Styles */
+/* --- Généralités et Conteneur Principal --- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.candidat-list-page {
+    background-color: var(--background-page);
+    min-height: 100vh;
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; 
+    display: flex;
+    flex-direction: column;
+}
+
+.candidat-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 60px 20px;
+    width: 100%;
+}
+
+/* ------------------------------------------------------------------ */
+/* --- 1. En-tête (Navbar de UserPage.tsx) --- */
+/* CORRECTION: Utilisation des sélecteurs .navbar, .nav-container, etc. */
+/* ------------------------------------------------------------------ */
 .navbar {
-  background: rgba(255, 255, 255, 0.95);
-  --webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+    background: var(--header-bg); /* Applique le dégradé vert */
+    color: var(--header-text);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 70px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between; /* ALIGNE LOGO à GAUCHE, NAV à DROITE */
+    align-items: center;
+    padding: 15px 20px;
 }
 
-.nav-logo h2 {
-  color: #4f46e5;
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 700;
+.nav-logo h2 { /* Ancien .logo-text */
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin: 0;
+    color: var(--logo-color); /* Texte Blanc */
 }
 
 .nav-links {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: 30px;
+    list-style: none;
+    display: flex;
+    gap: 25px; /* Espacement entre les liens */
+    margin: 0;
+    padding: 0;
 }
 
-.nav-link {
-  text-decoration: none;
-  color: #6b7280;
-  font-weight: 500;
-  padding: 10px 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.nav-links li button { /* Cible le bouton dans le <li> */
+    color: var(--header-text); /* Texte Blanc */
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.2s;
 }
 
-.nav-link:hover {
-  color: #4f46e5;
-  background: rgba(79, 70, 229, 0.1);
+.nav-links li.active button { /* Style pour l'élément actif */
+    font-weight: 700;
+    border-bottom: 2px solid white;
 }
 
-.nav-link.active {
-  color: #4f46e5;
-  background: rgba(79, 70, 229, 0.1);
-  font-weight: 600;
+.nav-links li button:hover:not(.active) {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
 }
 
-/* Main Container */
-.candidat-list-container {
-  max-width: 1200px;
-  margin: 0 auto;
+/* ------------------------------------------------------------------ */
+/* --- 2. Contenu principal (Titre et Grille) --- */
+/* ------------------------------------------------------------------ */
+.main-content-header {
+    text-align: center;
+    padding: 50px 0 40px 0;
 }
 
-/* Page Header */
-.page-header {
-  text-align: center;
-  /* margin-bottom: 50px; */
-  color: white;
+.main-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 5px;
 }
 
-.page-title {
-  font-size: 3rem;
-  font-weight: 800;
-  margin: 0 0 10px 0;
-  background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.main-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
 }
 
-.page-subtitle {
-  font-size: 1.2rem;
-  margin: 0 0 20px 0;
-  opacity: 0.9;
-  font-weight: 300;
-}
-
-.stats-badge {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.2);
-  --webkit-backdrop-filter: blur(10px);
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-/* Loading Styles */
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  color: white;
-}
-
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 20px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Error Styles */
-.error-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  color: white;
-  text-align: center;
-}
-
-.error-icon {
-  font-size: 4rem;
-  margin-bottom: 20px;
-}
-
-.error-container h3 {
-  font-size: 1.5rem;
-  margin: 0 0 10px 0;
-}
-
-.error-container p {
-  opacity: 0.8;
-  margin-bottom: 20px;
-}
-
-.retry-button {
-  background: white;
-  color: #4f46e5;
-  border: none;
-  padding: 12px 30px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.retry-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Empty State */
-.empty-state {
-  text-align: center;
-  color: white;
-  padding: 60px 20px;
-}
-
-.empty-icon {
-  font-size: 4rem;
-  margin-bottom: 20px;
-  opacity: 0.7;
-}
-
-.empty-state h3 {
-  font-size: 1.5rem;
-  margin: 0 0 10px 0;
-}
-
-.empty-state p {
-  opacity: 0.8;
-  margin: 0;
-}
-
-/* Candidat Grid */
 .candidat-list-main {
-  background: rgba(255, 255, 255, 0.1);
-  --webkit-backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .candidat-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .nav-container {
-    flex-direction: column;
-    height: auto;
-    padding: 15px 20px;
-    gap: 15px;
-  }
-
-  .nav-links {
-    gap: 15px;
-  }
-
-  .page-title {
-    font-size: 2rem;
-  }
-
-  .candidat-list-container {
-    /* padding: 20px 15px; */
-  }
-
-  .candidat-list-main {
-    /* padding: 20px; */
-  }
-
-  .candidat-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
+/* Style du bouton "Ajouter un Candidat" (Admin) */
+.create-button, .retry-button {
+    background: linear-gradient(to right, #002da8, #9600c4, #ba00d3);
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.3s, box-shadow 0.3s;
+    font-size: 1rem;
+    margin-top: 15px; /* Assure un espacement sous le titre */
 }
 
-@media (max-width: 480px) {
-  .nav-links {
+.create-button:hover, .retry-button:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Candidat Card --- */
+.candidat-card {
+    background: var(--background-card);
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    display: flex;
     flex-direction: column;
-    gap: 10px;
+    transition: transform 0.3s ease;
+}
+
+.candidat-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-image-container {
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-image {
     width: 100%;
-  }
+    height: 100%;
+    object-fit: cover;
+}
 
-  .nav-link {
+.card-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 5px 0;
+}
+
+.card-categorie {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.card-description {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    line-height: 1.5;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.card-votes {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #00A896;
+}
+
+/* Bouton Voter sur la carte */
+.vote-button { 
+    width: 100%;
+    /* Utilisation des variables de vote, mais le style a été déplacé pour englober toute la largeur de la carte */
+    /* REMARQUE: Si le bouton est à l'extérieur de card-content, l'arrondi doit être appliqué là. */
+    background: var(--button-gradient);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 0 0 12px 12px; /* Arrondi seulement en bas */
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    margin-top: auto; /* Pousse le bouton vers le bas */
+}
+
+/* Actions Admin sur la carte */
+.admin-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.admin-action-btn {
+    background: none;
+    border: 1px solid #D1D5DB;
+    color: var(--text-muted);
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.admin-action-btn.edit:hover {
+    background-color: #3B82F6;
+    color: white;
+    border-color: #3B82F6;
+}
+
+.admin-action-btn.delete:hover {
+    background-color: var(--danger-color);
+    color: white;
+    border-color: var(--danger-color);
+}
+
+/* ------------------------------------------------------------------ */
+/* --- 3. Pied de Page (Footer) --- */
+/* ------------------------------------------------------------------ */
+.app-footer {
+    background-color: #1F2937;
+    color: white;
+    padding: 40px 20px 20px 20px;
+    margin-top: auto; /* Assure que le footer reste en bas */
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
     text-align: center;
-  }
-
-  .page-title {
-    font-size: 1.75rem;
-  }
-}
-.candidat-footer {
-  text-align: center;
-  padding: 1rem 0;
-  background-color: #f5f5f5;
-  border-top: 1px solid #ddd;
-  margin-top: 2rem;
 }
 
-.candidat-footer .admin-link {
-  text-decoration: none;
-  color: #007bff;
-  font-weight: bold;
+.footer-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 25px;
 }
 
-.candidat-footer .admin-link:hover {
-  text-decoration: underline;
+.payment-methods {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex-wrap: wrap; /* Ajout pour le responsive */
+}
+
+.payment-badge {
+    background-color: #374151;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: var(--shadow-footer-badge);
+}
+
+/* Couleurs des icônes de badge (Conservé) */
+.airtel span { color: #E53E3E; }
+.moov span { color: #3B82F6; }
+.orange span { color: #F6AD55; }
+.togocel span { color: #10B981; }
+.mtn span { color: #FBBF24; }
+
+/* --- STYLE POUR LE BOUTON ADMIN DANS LE FOOTER --- */
+.footer-admin-button {
+    background: #4B5563; 
+    color: white;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-bottom: 30px; 
+    display: inline-block; 
+    text-decoration: none; 
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.footer-admin-button:hover {
+    background: #374151;
+}
+
+.footer-logout-button {
+    background: var(--danger-color); /* Rouge pour la déconnexion */
+}
+
+.footer-logout-button:hover {
+    background: #C53030;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #9CA3AF;
+    padding-top: 20px;
+    flex-wrap: wrap; /* Ajout pour le responsive */
+}
+
+.social-links a {
+    color: white;
+    margin: 0 10px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.social-links a:hover {
+    color: #00A896;
+}
+
+/* ------------------------------------------------------------------ */
+/* --- 4. Modals & États de la Page --- */
+/* (Styles des Modals inchangés car ils sont bien définis) */
+/* ------------------------------------------------------------------ */
+.modal-overlay, .payment-modal {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); 
+    display: flex; justify-content: center; align-items: center; z-index: 2000;
+}
+.modal-content, .payment-modal-content {
+    background: var(--background-card);
+    border-radius: 12px;
+    padding: 40px;
+    width: 90%;
+    max-width: 650px;
+    box-shadow: var(--shadow-elevated);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Styles des boutons (Primary, Secondary, Danger) */
+.btn-primary {
+    background: var(--button-gradient); /* Utilisation de la variable */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-muted);
+    border: 1px solid #D1D5DB;
+    padding: 12px 25px; /* Assurer la cohérence du padding */
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-dark);
+}
+
+/* ------------------------------------------------------------------ */
+/* --- Média Queries pour Responsive Design --- */
+/* ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    /* En-tête */
+    .nav-container { 
+        flex-direction: column; 
+        gap: 10px;
+        padding: 15px 20px;
+    }
+    .nav-links { 
+        gap: 15px; 
+        margin-top: 5px;
+    }
+    .nav-links li button {
+        font-size: 0.9rem;
+    }
+
+    /* Contenu */
+    .main-title { font-size: 1.8rem; }
+    .main-subtitle { font-size: 1rem; }
+    .candidat-grid { 
+        grid-template-columns: 1fr; /* Une colonne sur mobile */
+        gap: 20px;
+    }
+    .candidat-card {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    /* Footer */
+    .footer-bottom { 
+        flex-direction: column; 
+        gap: 15px; 
+    }
+    .payment-methods {
+        gap: 10px;
+    }
 }
