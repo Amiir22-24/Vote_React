@@ -201,11 +201,6 @@ const ConcoursList: React.FC = () => {
     }
   };
 
-  const handleCreateNew = () => {
-    setEditingConcours(null);
-    setModalOpen(true);
-  };
-
   if (loading) return <p>Chargement des votes...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
@@ -213,11 +208,6 @@ const ConcoursList: React.FC = () => {
     <div className="concours-container">
       <div className="page-header">
         <h1>Liste des concours</h1>
-        {isAdmin && (
-          <button className="create-button" onClick={handleCreateNew}>
-            + Nouveau concours
-          </button>
-        )}
       </div>
 
       <div className="vote-grid">

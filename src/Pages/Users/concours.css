@@ -123,6 +123,7 @@
 .vote-actions {
   display: flex;
   justify-content: space-between;
+
   align-items: center;
   margin-top: 15px;
 }
@@ -140,16 +141,21 @@
 .vote-button.primary {
   background-color: #007bff;
   color: white;
+    margin: 8px 16px;
+
 }
 
 .vote-button.edit {
   background-color: #ffc107;
   color: #333;
+  margin: 8px 16px;
 }
 
 .vote-button.delete {
   background-color: #dc3545;
   color: white;
+    margin: 8px 16px;
+ 
 }
 
 .vote-button:hover {
@@ -274,23 +280,13 @@
   cursor: pointer;
 }
 
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 7px;
-  border: none;
-  cursor: pointer;
-}
+
 
 .btn-primary:hover {
   background-color: #0056b3;
 }
 .btn-secondary:hover {
   background-color: #545b62;
-}
-.btn-danger:hover {
-  background-color: #c82333;
 }
 
 /* ----------------------
@@ -302,7 +298,7 @@
   padding: 14px;
   border-radius: 8px;
   border: 1px solid #f5c2c7;
-  margin-bottom: 20px;
+  margin: 20px auto;
   font-weight: 500;
 }
 
@@ -321,3 +317,71 @@
     gap: 12px;
   }
 }
+/* Version moderne */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  padding: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.btn-secondary {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+  min-width: 100px;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+}
+
+.btn-danger {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+  min-width: 100px;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+}
+
+/* Désactiver le style lors du chargement */
+.btn-secondary:disabled,
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
