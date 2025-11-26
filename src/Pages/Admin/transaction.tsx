@@ -1,15 +1,36 @@
 import React, { useEffect, useState } from "react";
-import type { PaiementData } from "../../types/paiement";
+import "./transaction.css";
+
+interface Transaction {
+  id: number;
+  name: string;
+  email: string;
+  phone_number: string;
+  country: string;
+  amount: number;
+  currency: string;
+  mode: string;
+  description: string;
+  status: string;
+  reference: string;
+  created_at?: string;
+  updated_at?: string;
+}
 
 const TransactionPage: React.FC = () => {
-  const [transactions, setTransactions] = useState<PaiementData[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
 
   const fetchTransactions = async () => {
     try {
+      setLoading(true);
+      setError(null);
+      
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://192.168.0.212/Dzumevi_APi/public/api//paiements/list', {
+      const response = await fetch('http://192.168.0.212/Dzumevi_APi/public/api/paiements/list', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -53,22 +74,23 @@ const TransactionPage: React.FC = () => {
       console.log("Données reçues:", data);
 
       if (data.success) {
-        // CORRECTION ICI : Les transactions sont dans data.data.transactions
-        const transactionsData = data.data.transactions || data.data || [];
+        // Gestion flexible de la structure de réponse
+        const transactionsData = data.data?.transactions || data.data || data.transactions || [];
         
-        // Transformer les données FedaPay vers votre format PaiementData
         const formattedTransactions = transactionsData.map((transaction: any) => ({
-          id: transaction.id,
-          name: transaction.name || 'N/A',
-          email: transaction.email || 'N/A',
-          phone_number: transaction.phone_number || 'N/A',
-          country: transaction.country || 'N/A',
-          amount: transaction.amount,
-          currency: transaction.currency|| 'XOF',
-          mode: transaction.mode || 'mobile',
-          description: transaction.description || 'N/A',
-          status: transaction.customer,
-          reference: transaction.transaction_id
+          id: transaction.id || transaction.transaction_id,
+          name: transaction.name || transaction.customer_name || 'N/A',
+          email: transaction.email || transaction.customer_email || 'N/A',
+          phone_number: transaction.phone_number || transaction.customer_phone || 'N/A',
+          country: transaction.country || 'BJ',
+          amount: transaction.amount || 0,
+          currency: transaction.currency || 'XOF',
+          mode: transaction.mode || transaction.payment_method || 'mobile',
+          description: transaction.description || 'Transaction de vote',
+          status: transaction.status || transaction.state || 'completed',
+          reference: transaction.reference || transaction.transaction_id || `TXN-${Date.now()}`,
+          created_at: transaction.created_at,
+          updated_at: transaction.updated_at
         }));
         
         setTransactions(formattedTransactions);
@@ -88,11 +110,25 @@ const TransactionPage: React.FC = () => {
     fetchTransactions();
   }, []);
 
+  // Filtrer les transactions
+  const filteredTransactions = transactions.filter(transaction => {
+    const matchesSearch = 
+      transaction.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.phone_number.includes(searchTerm) ||
+      transaction.reference.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesStatus = statusFilter === "all" || transaction.status === statusFilter;
+    
+    return matchesSearch && matchesStatus;
+  });
+
   const exportToCSV = () => {
-    if (transactions.length === 0) return;
+    if (filteredTransactions.length === 0) return;
 
     const header = [
       "ID",
+      "Référence",
       "Nom",
       "Email",
       "Téléphone",
@@ -102,11 +138,12 @@ const TransactionPage: React.FC = () => {
       "Mode de paiement",
       "Description",
       "Statut",
-      "Référence"
+      "Date"
     ];
 
-    const rows = transactions.map((t) => [
+    const rows = filteredTransactions.map((t) => [
       t.id,
+      t.reference,
       t.name,
       t.email,
       t.phone_number,
@@ -115,8 +152,8 @@ const TransactionPage: React.FC = () => {
       t.currency,
       t.mode.toUpperCase(),
       t.description,
-      t.status || 'N/A',
-      t.reference || 'N/A'
+      t.status,
+      t.created_at ? new Date(t.created_at).toLocaleDateString() : 'N/A'
     ]);
 
     const csvContent =
@@ -129,124 +166,249 @@ const TransactionPage: React.FC = () => {
     const link = document.createElement("a");
 
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "transactions.csv");
+    link.setAttribute("download", `transactions_${new Date().toISOString().split('T')[0]}.csv`);
 
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  return (
-    <div style={{ padding: "25px" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "20px",
-          alignItems: "center"
-        }}
-      >
-        <h2>Liste des Transactions</h2>
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'completed':
+      case 'success':
+        return '#10b981';
+      case 'pending':
+        return '#f59e0b';
+      case 'failed':
+      case 'cancelled':
+        return '#ef4444';
+      default:
+        return '#6b7280';
+    }
+  };
 
-        <button
-          onClick={exportToCSV}
-          disabled={transactions.length === 0}
-          style={{
-            padding: "10px 18px",
-            backgroundColor: transactions.length === 0 ? "#ccc" : "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            cursor: transactions.length === 0 ? "not-allowed" : "pointer",
-            fontWeight: "600"
-          }}
-        >
-          Exporter CSV
-        </button>
+  const getStatusText = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'completed':
+      case 'success':
+        return 'Complété';
+      case 'pending':
+        return 'En attente';
+      case 'failed':
+      case 'cancelled':
+        return 'Échoué';
+      default:
+        return status;
+    }
+  };
+
+  const formatAmount = (amount: number, currency: string) => {
+    return `${amount.toLocaleString()} ${currency}`;
+  };
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'N/A';
+    return new Date(dateString).toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  return (
+    <div className="transactions-container">
+      {/* En-tête */}
+      <header className="transactions-header">
+        <div className="header-content">
+          <h1>Transactions</h1>
+          <p className="subtitle">Gestion et suivi des paiements</p>
+        </div>
+        <div className="header-actions">
+          <button
+            onClick={fetchTransactions}
+            className="refresh-button"
+            title="Actualiser"
+          >
+            🔄
+          </button>
+          <button
+            onClick={exportToCSV}
+            disabled={filteredTransactions.length === 0}
+            className="export-button"
+          >
+            📊 Exporter CSV
+          </button>
+        </div>
+      </header>
+
+      {/* Filtres et recherche */}
+      <div className="filters-section">
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Rechercher par nom, email, téléphone ou référence..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+          {/* <span className="search-icon">🔍</span> */}
+        </div>
+        
+        <div className="filter-group">
+          <label htmlFor="status-filter">Statut:</label>
+          <select
+            id="status-filter"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="filter-select"
+          >
+            <option value="all">Tous les statuts</option>
+            <option value="completed">Complété</option>
+            <option value="pending">En attente</option>
+            <option value="failed">Échoué</option>
+          </select>
+        </div>
+
+        <div className="stats-badge">
+          {filteredTransactions.length} transaction{filteredTransactions.length !== 1 ? 's' : ''}
+        </div>
       </div>
 
+      {/* Message d'erreur */}
       {error && (
-        <div style={{
-          padding: "10px",
-          backgroundColor: "#ffebee",
-          color: "#c62828",
-          border: "1px solid #ef5350",
-          borderRadius: "4px",
-          marginBottom: "20px"
-        }}>
-          <strong>Erreur:</strong> {error}
-          <br />
-          <small>Vérifiez que le serveur Laravel est bien configuré.</small>
+        <div className="error-message">
+          <div className="error-icon">⚠️</div>
+          <div className="error-content">
+            <strong>Erreur de chargement</strong>
+            <p>{error}</p>
+            <button onClick={fetchTransactions} className="retry-button">
+              Réessayer
+            </button>
+          </div>
         </div>
       )}
 
+      {/* Contenu principal */}
       {loading ? (
-        <p>Chargement...</p>
-      ) : transactions.length === 0 && !error ? (
-        <p>Aucune transaction trouvée.</p>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Chargement des transactions...</p>
+        </div>
+      ) : filteredTransactions.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-icon">💳</div>
+          <h3>Aucune transaction trouvée</h3>
+          <p>
+            {searchTerm || statusFilter !== "all" 
+              ? "Aucune transaction ne correspond aux critères de recherche."
+              : "Aucune transaction n'a été enregistrée pour le moment."
+            }
+          </p>
+          {(searchTerm || statusFilter !== "all") && (
+            <button 
+              onClick={() => {
+                setSearchTerm("");
+                setStatusFilter("all");
+              }}
+              className="clear-filters-button"
+            >
+              Effacer les filtres
+            </button>
+          )}
+        </div>
       ) : (
-        <div
-          style={{
-            borderRadius: "8px",
-            overflow: "hidden",
-            boxShadow: "0 0 10px rgba(0,0,0,0.1)"
-          }}
-        >
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              backgroundColor: "white"
-            }}
-          >
-            <thead style={{ backgroundColor: "#f0f0f0", display: "table-header-group" }}>
+        <div className="transactions-table-container">
+          <table className="transactions-table">
+            <thead>
               <tr>
-                <th style={th}>ID</th>
-                <th style={th}>Nom</th>
-                <th style={th}>Email</th>
-                <th style={th}>Téléphone</th>
-                <th style={th}>Pays</th>
-                <th style={th}>Montant</th>
-                <th style={th}>Devise</th>
-                <th style={th}>Mode</th>
-                <th style={th}>Description</th>
-                <th style={th}>Statut</th>
+                <th>Référence</th>
+                <th>Client</th>
+                <th>Contact</th>
+                <th>Montant</th>
+                <th>Mode</th>
+                <th>Statut</th>
+                <th>Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
-
             <tbody>
-              {transactions.map((t) => (
-                <tr key={t.id}>
-                  <td style={td}>{t.id}</td>
-                  <td style={td}>{t.name}</td>
-                  <td style={td}>{t.email}</td>
-                  <td style={td}>{t.phone_number}</td>
-                  <td style={td}>{t.country}</td>
-                  <td style={td}>{t.amount}</td>
-                  <td style={td}>{t.currency}</td>
-                  <td style={td}>{t.mode.toUpperCase()}</td>
-                  <td style={td}>{t.description}</td>
-                  <td style={td}>{t.status || 'N/A'}</td>
+              {filteredTransactions.map((transaction) => (
+                <tr key={transaction.id} className="transaction-row">
+                  <td className="reference-cell">
+                    <div className="reference-code">{transaction.reference}</div>
+                    <small className="transaction-id">ID: {transaction.id}</small>
+                  </td>
+                  <td className="client-cell">
+                    <div className="client-name">{transaction.name}</div>
+                    <div className="client-email">{transaction.email}</div>
+                  </td>
+                  <td className="contact-cell">
+                    <div className="phone-number">{transaction.phone_number}</div>
+                    <div className="country">{transaction.country}</div>
+                  </td>
+                  <td className="amount-cell">
+                    <div className="amount">{formatAmount(transaction.amount, transaction.currency)}</div>
+                    <div className="description">{transaction.description}</div>
+                  </td>
+                  <td className="mode-cell">
+                    <span className={`mode-badge mode-${transaction.mode}`}>
+                      {transaction.mode.toUpperCase()}
+                    </span>
+                  </td>
+                  <td className="status-cell">
+                    <span 
+                      className="status-badge"
+                      style={{ backgroundColor: getStatusColor(transaction.status) }}
+                    >
+                      {getStatusText(transaction.status)}
+                    </span>
+                  </td>
+                  <td className="date-cell">
+                    {formatDate(transaction.created_at)}
+                  </td>
+                  <td className="actions-cell">
+                    <button 
+                      className="action-button"
+                      title="Voir les détails"
+                      onClick={() => console.log('Détails:', transaction)}
+                    >
+                      👁️
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       )}
+
+      {/* Résumé */}
+      {!loading && filteredTransactions.length > 0 && (
+        <div className="transactions-summary">
+          <div className="summary-item">
+            <span className="summary-label">Total des transactions:</span>
+            <span className="summary-value">{filteredTransactions.length}</span>
+          </div>
+          <div className="summary-item">
+            <span className="summary-label">Montant total:</span>
+            <span className="summary-value">
+              {formatAmount(
+                filteredTransactions.reduce((sum, t) => sum + t.amount, 0),
+                filteredTransactions[0]?.currency || 'XOF'
+              )}
+            </span>
+          </div>
+          <div className="summary-item">
+            <span className="summary-label">Dernière mise à jour:</span>
+            <span className="summary-value">{new Date().toLocaleTimeString('fr-FR')}</span>
+          </div>
+        </div>
+      )}
     </div>
   );
-};
-
-const th: React.CSSProperties = {
-  padding: "10px",
-  borderBottom: "1px solid #ddd",
-  textAlign: "left",
-  fontWeight: "600"
-};
-
-const td: React.CSSProperties = {
-  padding: "10px",
-  borderBottom: "1px solid #eee"
 };
 
 export default TransactionPage;
