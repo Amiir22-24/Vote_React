@@ -11,6 +11,7 @@ export interface CandidatCardProps {
   categorie: string;
   votes: number;
   isAdmin: boolean;
+
   onVote: () => void;
   onEdit: () => void;
   onDelete: () => void;

@@ -315,7 +315,7 @@ const CandidatListPage: React.FC = () => {
           {isAdmin ? (
             <button onClick={Deconnexion} className="deconnexion-button">Déconnexion</button>
           ) : (
-            <Link to="../Admin/Login" className="admin-link">🔑 Espace Administrateur</Link>
+            <Link to="../Admin/Login" className="footer-admin-button"> Administrateur</Link>
           )}
         </p>
       </footer>

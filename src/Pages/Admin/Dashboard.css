@@ -80,6 +80,7 @@
   grid-area: main;
   padding: 0 16px;
   overflow-y: auto;
+  color: black;
 }
 
 .summary-cards {

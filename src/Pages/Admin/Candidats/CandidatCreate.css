@@ -86,7 +86,7 @@
     font-size: 0.875rem;
     font-weight: 500;
     color: white;
-    background-color: #3498db; /* Bleu */
+    background-color: linear-gradient(to right, #002da8, #9600c4, #ba00d3);; /* Bleu */
     cursor: pointer;
     transition: background-color 0.3s ease;
 }

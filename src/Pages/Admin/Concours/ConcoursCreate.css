@@ -77,7 +77,7 @@
   font-size: 1rem;
   font-weight: 600;
   color: #ffffff;
-  background-color: #4a90e2;
+  background-color: linear-gradient(to right, #002da8, #9600c4, #ba00d3);
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -85,11 +85,11 @@
 }
 
 .vc-submit-button:hover:not(:disabled) {
-  background-color: #357ab7;
+  background-color: linear-gradient(to right, #002da8, #9600c4, #d30062);
 }
 
 .vc-submit-button:disabled {
-  background-color: #a0c4f7;
+  background-color: linear-gradient(to right, #002da8, #9600c4, #ba00d3);
   cursor: not-allowed;
 }
 
@@ -124,7 +124,7 @@
 /* Bouton principal */
 .cc-button-primary {
   padding: 10px 18px;
-  background: #4a90e2;
+  background:  #F6AD55;
   color: #fff;
   font-size: 1rem;
   border: none;
@@ -135,7 +135,7 @@
 }
 
 .cc-button-primary:hover {
-  background: #357ab7;
+  background: black;
 }
 
 .cc-button-primary:active {
