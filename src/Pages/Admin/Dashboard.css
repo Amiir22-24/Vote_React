@@ -12,7 +12,7 @@
   height: 100vh; /* ✅ prend 100% de la hauteur de l’écran */
   width: 100%;  
   /* overflow: hidden; */
-  background: #f8f9fb;
+  /* background: #f8f9fb; */
   font-family: "Poppins", sans-serif;
 }
 
@@ -91,7 +91,7 @@
 }
 
 .card {
-  background: white;
+  /* background: white; */
   border-radius: 10px;
   padding: 1.2rem;
   display: flex;
