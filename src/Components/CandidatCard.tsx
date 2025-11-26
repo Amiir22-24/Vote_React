@@ -7,6 +7,7 @@ export interface CandidatCardProps {
   firstname: string;
   lastname: string;
   description: string;
+  matricule: string;
   categorie: string;
   votes: number;
   isAdmin: boolean;
@@ -21,6 +22,7 @@ export default function CandidatCard({
   lastname,
   description,
   categorie,
+  matricule,
   votes,
   onVote,
   isAdmin,
@@ -31,8 +33,8 @@ export default function CandidatCard({
   const [hasError, setHasError] = useState(false);
   const [fileUrl, setFileUrl] = useState<string>("");
 
-   const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/public/";
-//  const Api: 'http://127.0.0.1:8000/api'
+  const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/storage/app/public/";
+
   // Handle image error
   const handleImageError = () => {
     setHasError(true);
@@ -61,9 +63,9 @@ export default function CandidatCard({
   // Determine final image URL with null safety
   const getImageUrl = (): string => {
     // If there's an error or no photo, return default image
-    if (hasError || !photo) {
-      return "/default-image.jpg";
-    }
+    // if (!photo) {
+    //   return "/default-avatar.png"; // Créez cette image dans votre dossier public
+    // }
 
     // If photo is a File object
     if (photo instanceof File) {
@@ -71,12 +73,21 @@ export default function CandidatCard({
     }
 
     // If photo is already a full URL
-    if (photo.startsWith("http://") || photo.startsWith("https://")) {
+    if (typeof photo === 'string' && (photo.startsWith("http://") || photo.startsWith("https://"))) {
       return photo;
     }
 
     // If photo is a relative path, construct full URL
-    return `${API_BASE_URL}storage/${photo.replace("storage/", "")}`;
+    if (typeof photo === 'string') {
+      // Nettoyer le chemin de la photo
+      const cleanPhotoPath = photo.replace("storage/", "").replace(/^\/+/, "");
+      console.log(cleanPhotoPath);
+      
+      return `${API_BASE_URL}${cleanPhotoPath}`;
+    }
+
+    // Fallback to default image
+    return "/default-avatar.png";
   };
 
   const imageUrl = getImageUrl();
@@ -97,7 +108,7 @@ export default function CandidatCard({
           onError={handleImageError}
         />
         <div className="c-card-votes">
-          <span>❤️</span> {votes}
+          <span>{matricule}</span> {votes}
         </div>
       </div>
 
@@ -105,7 +116,7 @@ export default function CandidatCard({
         <h3 className="c-card-name">{firstname} {lastname}</h3>
         <p className="c-card-description">{description}</p>
         <div className="c-card-info">
-          <span>🏆 {categorie}</span>
+          <span>{categorie}</span>
         </div>
         <button className="c-card-button" onClick={onVote}>
           Votez maintenant
@@ -116,14 +127,14 @@ export default function CandidatCard({
               <button
                 className="vote-button edit"
                 onClick={onEdit}
-                title="Modifier le concours"
+                title="Modifier le candidat"
               >
                 ✏️
               </button>
               <button
                 className="vote-button delete"
                 onClick={onDelete}
-                title="Supprimer le concours"
+                title="Supprimer le candidat"
               >
                 🗑️
               </button>
