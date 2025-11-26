@@ -23,7 +23,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  background-color: #2d3e50;
+  background-color: darkblue;
   color: white;
 }
 
@@ -44,7 +44,7 @@
 /* ----- SIDEBAR ----- */
 .dashboard-sidebar {
   grid-area: sidebar;
-  background-color: #1c2733;
+  background-color: black;
   color: white;
   padding-top: 1rem;
 }
