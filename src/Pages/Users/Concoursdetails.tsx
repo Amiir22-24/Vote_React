@@ -4,7 +4,6 @@ import { AdminApi } from "../../Api/Admin/actionAdmin";
 import type { Candidate } from "../../types/candidat";
 import CandidatCard from "../../Components/CandidatCard";
 import { ConcoursApi } from "../../Api/Concours/concoursApi";
-import ConcoursList from "./ConcoursList";
 import "./CandidatList.css";
 
 const ConcoursDetailPage: React.FC = () => {
@@ -37,7 +36,7 @@ const ConcoursDetailPage: React.FC = () => {
         return;
       }
 
-      const rawResponse = await ConcoursApi.getCandidatsByConcours(idNum);
+      const rawResponse = await ConcoursApi.getCandidats(idNum);
       let response;
       if (typeof rawResponse === 'string') {
         const jsonString = (rawResponse as string).replace(/<!--|-->/g, '').trim();
