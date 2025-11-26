@@ -17,9 +17,13 @@ export interface Concours {
 }
 export interface ConcoursData{
     name:string;
-    date:Date;
-    echeance: Date;
-    statuts?: ConcourStatus;
+    date_debut:Date;
+    description: string;
+    date_fin: Date;
+    statut?: ConcourStatus;
+    image_url: string;
+    prix_par_vote: number;
+    is_active?: boolean;
 }
 export interface ConcoursDataResponse{
     success: boolean;

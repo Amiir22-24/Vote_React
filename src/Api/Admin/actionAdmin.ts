@@ -27,8 +27,8 @@ export const AdminApi = {
     return response.data;
   },
     
-  ConcoursCreate: async (data: ConcoursData): Promise<ConcoursDataResponse> => {
-    const response = await axiosInstance.post("/votes", data, {
+  ConcoursCreate: async (data: ConcoursData): Promise<any> => {
+    const response = await axiosInstance.post("/concours", data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
