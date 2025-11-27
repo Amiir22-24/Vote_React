@@ -18,12 +18,12 @@ export const AdminApi = {
     return response.data
   },
     CandidatUpdate: async (id: number, formData: FormData): Promise<Candidate[]> => {
-    const response = await axiosInstance.put(`/candidates/${id}`, formData);
+    const response = await axiosInstance.put(`/candidats/${id}`, formData);
     return response.data;
   },
 
   CandidatDestroy: async (id: number): Promise<Candidate[]> => {
-    const response = await axiosInstance.delete(`/candidates/${id}`);
+    const response = await axiosInstance.delete(`/candidats/${id}`);
     return response.data;
   },
     
@@ -36,11 +36,11 @@ export const AdminApi = {
     return response.data;
   },
   ConcoursDestroy: async (id: number): Promise<Candidate[]> => {
-    const response = await axiosInstance.delete(`/votes/${id}`);
+    const response = await axiosInstance.delete(`/concours/${id}`);
     return response.data;
   },
   ConcoursUpdate: async (id: number, formData: FormData): Promise<Candidate[]> => {
-    const response = await axiosInstance.put(`/votes/${id}`, formData);
+    const response = await axiosInstance.put(`/concours/${id}`, formData);
     return response.data;
   },
 }

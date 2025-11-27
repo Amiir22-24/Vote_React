@@ -185,6 +185,7 @@ const ConcoursDetailPage: React.FC = () => {
                   photo={candidat.photo}
                   firstname={candidat.firstname}
                   lastname={candidat.lastname}
+                  matricule={candidat.matricule}
                   description={candidat.description}
                   categorie={candidat.categorie ?? ""}
                   // pricePerVote={(candidat as any).pricePerVote}

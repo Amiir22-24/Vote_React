@@ -34,7 +34,9 @@ export default function CandidatCard({
   const [hasError, setHasError] = useState(false);
   const [fileUrl, setFileUrl] = useState<string>("");
 
-  const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/storage/app/public/";
+  // const API_BASE_URL = "http://192.168.0.41:8080/Dzumevi_APi/storage/app/public/";
+  const API_BASE_URL = "http://192.168.56.1:8080/Dzumevi_APi/storage/app/public/";
+  // const API_BASE_URL = "http://127.0.0.1:8000/storage/app/public/";
 
   // Handle image error
   const handleImageError = () => {
@@ -64,9 +66,9 @@ export default function CandidatCard({
   // Determine final image URL with null safety
   const getImageUrl = (): string => {
     // If there's an error or no photo, return default image
-    // if (!photo) {
-    //   return "/default-avatar.png"; // Créez cette image dans votre dossier public
-    // }
+    if (!photo) {
+      return "/1.jpg"; // Créez cette image dans votre dossier public
+    }
 
     // If photo is a File object
     if (photo instanceof File) {

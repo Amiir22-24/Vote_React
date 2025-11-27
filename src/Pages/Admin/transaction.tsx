@@ -32,7 +32,7 @@ const TransactionPage: React.FC = () => {
       
       const response = await PaiementApi.listAll();
 
-      console.log("Status de la réponse:", response.success);
+      console.log("Status de la réponse:", response);
 
       const responseText = await response;
       console.log("Réponse brute:", responseText);
@@ -45,7 +45,7 @@ const TransactionPage: React.FC = () => {
 
       if (response.success) {
         // Gestion flexible de la structure de réponse
-        const transactionsData = response.data ||  [];
+        const transactionsData = response.data.data ||  [];
         
         const formattedTransactions = transactionsData.map((transaction: any) => ({
           id: transaction.id || transaction.transaction_id,
@@ -65,8 +65,8 @@ const TransactionPage: React.FC = () => {
         
         setTransactions(formattedTransactions);
       } else {
-        console.error("Erreur API:", data.message);
-        setError(data.message || "Erreur inconnue de l'API");
+        console.error("Erreur API:", response.message);
+        setError(response.message || "Erreur inconnue de l'API");
       }
     } catch (error) {
       console.error("Erreur lors de la requête:", error);
