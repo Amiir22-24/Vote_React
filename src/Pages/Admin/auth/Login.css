@@ -79,7 +79,7 @@ input[type="password"]:focus {
 .btn {
   /* background: linear-gradient(90deg, #7b1fa2 0%, #d81b60 100%); */
   color: white;
-  background-color: darkgreen;
+  background-color: darkblue;
   padding: 14px 0;
   border-radius: 12px;
   font-weight: 700;
