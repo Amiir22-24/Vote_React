@@ -316,7 +316,9 @@ const ConcoursList: React.FC = () => {
     if (!isAdmin) return;
     
     try {
-      await AdminApi.ConcoursDestroy(id);
+      const response = await AdminApi.ConcoursDestroy(id);
+      console.log(response);
+      
       setConcours(prev => prev.filter(concours => concours.id !== id));
       setDeleteConfirm(null);
     } catch (err: any) {

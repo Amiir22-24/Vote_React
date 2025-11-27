@@ -10,7 +10,7 @@ import axiosInstance from "../axios_instance";
 export const PaiementApi = {
 
   // Lister toutes les transactions (admin)
-  listAll: async (): Promise<PaiementListeResponse> => {
+  listAll: async (): Promise<any> => {
     const response = await axiosInstance.get('/paiements/list');
     return response.data;
   },
